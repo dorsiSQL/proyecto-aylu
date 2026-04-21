@@ -1,3 +1,5 @@
+
+
 :root {
   --bg: #111111;
   --bg-soft: #1a1a1a;
@@ -22,9 +24,13 @@
 
 html { scroll-behavior: smooth; }
 
+h1, h2, h3, .card-title {
+  font-family: 'Oswald', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Oswald', sans-serif;
   background:
     radial-gradient(circle at top right, rgba(200, 47, 47, 0.14), transparent 30%),
     radial-gradient(circle at left center, rgba(244, 197, 66, 0.1), transparent 32%),
