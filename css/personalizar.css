@@ -7,25 +7,38 @@
   gap: 1.2rem;
 }
 
+/* ── Design grid (now product grid) ─────────── */
 .design-grid {
   display: grid;
-  gap: 1rem;
+  gap: .85rem;
 }
 
 .design-card {
-  border: 1px solid rgba(244,197,66,.14);
+  position: relative;
+  border: 1.5px solid rgba(244,197,66,.14);
   border-radius: 20px;
   overflow: hidden;
   background: rgba(255,255,255,.02);
   cursor: pointer;
-  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  text-align: left;
+  transition: transform .25s, border-color .25s, box-shadow .25s;
 }
 
-.design-card:hover,
-.design-card.is-selected {
+.design-card:hover {
   transform: translateY(-3px);
-  border-color: rgba(244,197,66,.3);
+  border-color: rgba(244,197,66,.28);
   box-shadow: var(--shadow);
+}
+
+.design-card.is-selected {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 2px rgba(244,197,66,.2), var(--shadow);
+}
+
+.design-card-visual {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0;
 }
 
 .design-card img {
@@ -35,24 +48,26 @@
 }
 
 .design-card-content {
-  padding: .95rem;
+  padding: .85rem .95rem .95rem;
 }
 
+/* ── Swatches ────────────────────────────── */
 .swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: .75rem;
+  gap: .65rem;
 }
 
 .swatch {
   display: inline-flex;
   align-items: center;
   gap: .55rem;
-  padding: .75rem .9rem;
+  padding: .65rem .85rem;
   border-radius: 999px;
-  border: 1px solid rgba(244,197,66,.15);
+  border: 1.5px solid rgba(244,197,66,.15);
   cursor: pointer;
   background: rgba(255,255,255,.02);
+  transition: border-color .2s, background .2s;
 }
 
 .swatch input,
@@ -62,9 +77,8 @@
   pointer-events: none;
 }
 
-.swatch.is-selected,
-.size-option.is-selected {
-  border-color: rgba(244,197,66,.35);
+.swatch.is-selected {
+  border-color: rgba(244,197,66,.5);
   background: rgba(244,197,66,.08);
 }
 
@@ -73,26 +87,36 @@
   height: 18px;
   border-radius: 999px;
   border: 1px solid rgba(255,255,255,.25);
+  flex-shrink: 0;
 }
 
+/* ── Size grid ───────────────────────────── */
 .size-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: .75rem;
+  gap: .65rem;
 }
 
 .size-option {
-  min-width: 62px;
+  min-width: 56px;
   display: inline-grid;
   place-items: center;
-  padding: .9rem 1rem;
-  border-radius: 16px;
-  border: 1px solid rgba(244,197,66,.14);
+  padding: .8rem .95rem;
+  border-radius: 14px;
+  border: 1.5px solid rgba(244,197,66,.14);
   background: rgba(255,255,255,.02);
   cursor: pointer;
   font-weight: 800;
+  transition: border-color .2s, background .2s;
 }
 
+.size-option.is-selected {
+  border-color: rgba(244,197,66,.5);
+  background: rgba(244,197,66,.08);
+  color: var(--yellow);
+}
+
+/* ── Summary card ────────────────────────── */
 .summary-card {
   display: grid;
   gap: 1rem;
@@ -100,7 +124,7 @@
 
 .summary-list {
   display: grid;
-  gap: .75rem;
+  gap: .65rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -111,51 +135,63 @@
   align-items: center;
   justify-content: space-between;
   gap: .8rem;
-  padding-bottom: .75rem;
+  padding-bottom: .65rem;
   border-bottom: 1px dashed rgba(244,197,66,.16);
+  font-size: .95rem;
 }
 
+.summary-list li span { color: var(--muted); }
+
+/* ── Shirt preview ───────────────────────── */
 .preview-shirt {
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 280px;
+  min-height: 260px;
   padding: 1rem;
   border-radius: 22px;
   background:
-    radial-gradient(circle at top, rgba(244,197,66,.12), transparent 36%),
+    radial-gradient(circle at top, rgba(244,197,66,.1), transparent 36%),
     rgba(255,255,255,.02);
   border: 1px solid rgba(244,197,66,.14);
 }
 
 .shirt-shape {
-  width: min(280px, 100%);
+  width: min(260px, 100%);
   aspect-ratio: 1 / 1.08;
   clip-path: polygon(24% 8%, 37% 8%, 42% 2%, 58% 2%, 63% 8%, 76% 8%, 92% 22%, 82% 34%, 82% 92%, 18% 92%, 18% 34%, 8% 22%);
   background: var(--shirt-color, #111111);
-  border: 4px solid rgba(255,255,255,.18);
+  border: 3px solid rgba(255,255,255,.16);
   box-shadow: inset 0 -10px 40px rgba(0,0,0,.28);
   display: grid;
   place-items: center;
-  padding: 2.2rem;
+  padding: 2rem;
+  transition: background .35s;
 }
 
 .shirt-text {
   text-align: center;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   color: var(--shirt-text-color, #f5ead4);
-  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.7rem);
   line-height: 1.1;
   letter-spacing: .04em;
 }
 
+/* ── Responsive ──────────────────────────── */
 @media (min-width: 900px) {
   .personalizar-grid {
-    grid-template-columns: 1.15fr .85fr;
+    grid-template-columns: 1.2fr .8fr;
     align-items: start;
   }
 
   .design-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .design-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
