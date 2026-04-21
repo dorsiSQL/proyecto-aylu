@@ -80,7 +80,7 @@ button, input, select { font: inherit; }
 h1, h2, h3, h4 {
   margin: 0 0 .8rem;
   line-height: 1.12;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: 'Oswald', sans-serif;
   letter-spacing: .02em;
 }
 
@@ -308,7 +308,7 @@ h1, h2, h3, h4 {
 
 .cat-visual__bg-label {
   position: absolute;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: clamp(4rem, 10vw, 7rem);
   color: rgba(255,255,255,.04);
   letter-spacing: .12em;
@@ -341,7 +341,7 @@ h1, h2, h3, h4 {
 .cat-visual__shirt--sm { width: 55%; }
 
 .cat-visual__shirt-text {
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: clamp(.7rem, 1.5vw, 1rem);
   color: rgba(255,255,255,.7);
   text-align: center;
@@ -534,4 +534,12 @@ h1, h2, h3, h4 {
   .poster-stack { grid-template-columns: 1fr; }
   .poster-side { grid-template-columns: repeat(2, 1fr); }
   .poster-side .poster-main { min-height: 150px; }
+}
+
+
+.product-title,
+.card-title {
+  font-family: 'Oswald', sans-serif !important;
+  color: #f5f5f5 !important;
+  font-weight: 600;
 }
