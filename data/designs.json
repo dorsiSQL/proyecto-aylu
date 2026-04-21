@@ -1,0 +1,26 @@
+[
+  {
+    "id": "diseno-01",
+    "nombre": "Tipografía Retro Remeras",
+    "thumb": "assets/img/design-retro.svg",
+    "descripcion": "Logo vintage de la marca con look desgastado."
+  },
+  {
+    "id": "diseno-02",
+    "nombre": "Rayos & Cassette",
+    "thumb": "assets/img/design-cassette.svg",
+    "descripcion": "Composición con cassette, rayos y textura rockera."
+  },
+  {
+    "id": "diseno-03",
+    "nombre": "Arcade Nights",
+    "thumb": "assets/img/design-arcade.svg",
+    "descripcion": "Diseño gamer con inspiración 8-bit."
+  },
+  {
+    "id": "diseno-04",
+    "nombre": "Custom Full",
+    "thumb": "assets/img/design-custom.svg",
+    "descripcion": "Para quienes quieren pedir una idea totalmente a medida."
+  }
+]

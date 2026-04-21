@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111111">
+<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
+<link rel="preload" href="assets/logo/logo-retro-remeras.svg" as="image">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Retro Remeras">
+<meta property="og:image" content="assets/img/preview.png">
+<meta property="og:locale" content="es_AR">
+<link rel="stylesheet" href="css/style.css">
+
+<link rel="stylesheet" href="css/personalizar.css">
+<title>Personalizar remera | Retro Remeras</title>
+<meta name="description" content="Elegí un diseño, color y talle para tu remera. Confirmá el pedido por WhatsApp en segundos.">
+<meta property="og:title" content="Personalizar remera | Retro Remeras">
+<meta property="og:description" content="Armá tu remera y enviá el pedido por WhatsApp con el mensaje generado automáticamente.">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container navbar">
+    <a class="brand" href="index.html" aria-label="Ir al inicio de Retro Remeras">
+      <img src="assets/logo/logo-retro-remeras.svg" alt="Logo Retro Remeras">
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+      <span></span>
+    </button>
+
+    <nav class="nav-links" aria-label="Navegación principal" data-nav-links>
+      <a href="index.html">Inicio</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="personalizar.html">Personalizar</a>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="index.html#beneficios">Beneficios</a>
+    </nav>
+
+    <div class="nav-cta" data-nav-cta>
+      <a class="btn btn-secondary" href="catalogo.html">Ver catálogo</a>
+      <a class="btn btn-primary" href="personalizar.html">Personalizar</a>
+    </div>
+  </div>
+</header>
+
+
+<main class="personalizar-main">
+  <section class="container">
+    <div class="section-header">
+      <span class="section-kicker">Personalización</span>
+      <h1 class="section-title">Armá tu remera en pocos pasos</h1>
+      <p class="section-subtitle">
+        Elegí un diseño base, combiná color y talle, revisá el resumen y confirmá por WhatsApp.
+      </p>
+    </div>
+
+    <div class="notice" data-design-hint style="margin-bottom: 1rem;">
+      Podés tomar uno de los diseños sugeridos o usar esta misma página como punto de partida para un pedido personalizado.
+    </div>
+
+    <div class="personalizar-grid">
+      <section class="panel">
+        <div class="form-group">
+          <span class="form-label">1. Elegí un diseño</span>
+          <div class="design-grid" data-design-grid></div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.25rem;">
+          <span class="form-label">2. Elegí color de remera</span>
+          <div class="swatches" data-color-swatches></div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1.25rem;">
+          <span class="form-label">3. Elegí talle</span>
+          <div class="size-grid" data-size-grid></div>
+        </div>
+      </section>
+
+      <aside class="panel summary-card">
+        <div>
+          <h2 style="font-size: 2.1rem;">Resumen de selección</h2>
+          <p class="section-subtitle">La vista es simple a propósito: clara para el usuario y fácil de mantener después.</p>
+        </div>
+
+        <div class="preview-shirt">
+          <div class="shirt-shape" data-shirt-preview>
+            <div class="shirt-text" data-shirt-text>Diseño</div>
+          </div>
+        </div>
+
+        <ul class="summary-list">
+          <li><span>Diseño</span><strong data-summary-design>—</strong></li>
+          <li><span>Color</span><strong data-summary-color>—</strong></li>
+          <li><span>Talle</span><strong data-summary-size>—</strong></li>
+        </ul>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#" target="_blank" rel="noopener" data-whatsapp-link>Confirmar por WhatsApp</a>
+          <button class="btn btn-secondary" type="button" data-reset-selection>Reiniciar selección</button>
+        </div>
+
+        <div class="notice">
+          ¿Querés una idea totalmente distinta? También podés pedir una remera 100% personalizada.
+        </div>
+
+        <button class="btn btn-ghost" type="button" data-custom-request>Quiero una remera personalizada</button>
+      </aside>
+    </div>
+  </section>
+</main>
+
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="brand" href="index.html" aria-label="Retro Remeras">
+        <img src="assets/logo/logo-retro-remeras.svg" alt="Logo Retro Remeras">
+      </a>
+      <p>Remeras con estilo, nostalgia y personalidad. Diseños temáticos, atención cercana y pedidos simples por WhatsApp.</p>
+      <small>© <span data-year></span> Retro Remeras. Todos los derechos reservados.</small>
+    </div>
+
+    <div>
+      <div class="footer-links">
+        <span class="tag">Instagram: @retroremeras</span>
+        <span class="tag">TikTok: @retroremeras</span>
+        <span class="tag">WhatsApp: +54 9 11 5659-2963</span>
+      </div>
+      <p style="margin-top: 1rem;">Hecho para verse profesional, sentirse claro y ser fácil de editar.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script type="module" src="js/personalizar.js"></script>
+</body>
+</html>
