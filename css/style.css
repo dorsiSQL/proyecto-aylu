@@ -110,8 +110,27 @@ h1, h2, h3, h4 {
   gap: 1rem;
 }
 
-.brand { display: inline-flex; align-items: center; gap: .75rem; min-width: 0; }
-.brand img { width: 176px; height: auto; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .75rem;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.brand img {
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 839px) {
+  .brand img {
+    width: 72px;
+    height: 72px;
+  }
+}
 
 .nav-links { display: flex; align-items: center; gap: 1rem; }
 .nav-links a { color: var(--cream); opacity: .88; transition: opacity .25s, transform .25s; }
