@@ -32,11 +32,9 @@ async function initCarousel() {
       return;
     }
 
-    const featured = products.filter((product) => product.destacado).length
-      ? products.filter((product) => product.destacado)
-      : products;
+    const carouselProducts = products;
 
-    track.innerHTML = featured.map((product) => {
+    track.innerHTML = carouselProducts.map((product) => {
       const message = `Hola! Me interesa la remera ${product.nombre}. ¿Está disponible?`;
 
       return `
@@ -82,21 +80,22 @@ async function initCarousel() {
     let timer = null;
 
     function perView() {
-      if (window.innerWidth >= 980) return 3;
-      if (window.innerWidth >= 640) return 2;
+      if (window.innerWidth >= 1100) return 3;
+      if (window.innerWidth >= 700) return 2;
       return 1;
     }
 
     function maxIndex() {
-      return Math.max(0, featured.length - perView());
+      return Math.max(0, carouselProducts.length - perView());
     }
 
     function setWidths() {
       const visible = perView();
+      const gap = 12;
       const items = track.querySelectorAll('.carousel-item');
 
       items.forEach((item) => {
-        item.style.flex = `0 0 calc(${100 / visible}% - 8px)`;
+        item.style.flex = `0 0 calc((100% - ${(visible - 1) * gap}px) / ${visible})`;
       });
     }
 
@@ -104,7 +103,7 @@ async function initCarousel() {
       if (!dotsWrap) return;
 
       const visible = perView();
-      const pages = Math.ceil(featured.length / visible);
+      const pages = Math.max(1, Math.ceil(carouselProducts.length / visible));
 
       dotsWrap.innerHTML = '';
 
@@ -121,9 +120,11 @@ async function initCarousel() {
       index = Math.max(0, Math.min(nextIndex, maxIndex()));
 
       const visible = perView();
-      const offsetPercent = index * (100 / visible);
+      const gap = 12;
+      const itemWidth = track.querySelector('.carousel-item')?.offsetWidth || 0;
+      const offset = index * (itemWidth + gap);
 
-      track.style.transform = `translateX(-${offsetPercent}%)`;
+      track.style.transform = `translateX(-${offset}px)`;
 
       if (dotsWrap) {
         const currentPage = Math.floor(index / visible);

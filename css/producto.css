@@ -5,7 +5,7 @@
 .product-shell {
   display: grid;
   gap: 1rem;
-  width: min(1320px, calc(100% - 2rem));
+  width: min(1380px, calc(100% - 2rem));
   margin-inline: auto;
 }
 
@@ -23,7 +23,7 @@
 
 .product-layout {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.6rem;
   align-items: start;
 }
 
@@ -37,7 +37,7 @@
   border: 1px solid rgba(244, 197, 66, 0.12);
   background: rgba(255, 255, 255, 0.02);
   box-shadow: var(--shadow);
-  min-height: 620px;
+  min-height: 640px;
 }
 
 .product-gallery-main img {
@@ -50,7 +50,7 @@
 .product-buybox {
   display: grid;
   gap: 1.1rem;
-  padding: 1.25rem 1.3rem;
+  padding: 1.35rem 1.35rem;
   border-radius: 30px;
   border: 1px solid rgba(244, 197, 66, 0.12);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.01));
@@ -90,7 +90,7 @@
   margin: 0;
   color: var(--muted);
   font-size: 1.02rem;
-  max-width: 55ch;
+  max-width: 58ch;
 }
 
 .product-config {
@@ -251,33 +251,13 @@
   flex-shrink: 0;
 }
 
-.swatch-dot--negro {
-  background: #111111;
-}
-
-.swatch-dot--blanco {
-  background: #efefef;
-}
-
-.swatch-dot--rojo {
-  background: #b22525;
-}
-
-.swatch-dot--amarillo {
-  background: #e2b022;
-}
-
-.swatch-dot--gris {
-  background: #787878;
-}
-
-.swatch-dot--azul {
-  background: #1a3a6b;
-}
-
-.swatch-dot--verde {
-  background: #1a4a28;
-}
+.swatch-dot--negro { background: #111111; }
+.swatch-dot--blanco { background: #efefef; }
+.swatch-dot--rojo { background: #b22525; }
+.swatch-dot--amarillo { background: #e2b022; }
+.swatch-dot--gris { background: #787878; }
+.swatch-dot--azul { background: #1a3a6b; }
+.swatch-dot--verde { background: #1a4a28; }
 
 .swatch-name {
   color: var(--cream);
@@ -555,19 +535,38 @@
   cursor: pointer;
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1180px) {
   .product-layout {
-    grid-template-columns: minmax(0, 1.55fr) minmax(430px, 0.95fr);
-    gap: 1.7rem;
+    grid-template-columns: minmax(0, 1.15fr) minmax(560px, 0.95fr);
+    gap: 1.8rem;
   }
 
   .product-buybox {
     position: sticky;
     top: calc(var(--header-height) + 1rem);
   }
+
+  .product-config {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1rem;
+  }
+
+  .product-config .config-block:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .product-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-action-btn {
+    min-width: 0;
+    width: 100%;
+  }
 }
 
-@media (max-width: 1099px) {
+@media (max-width: 1179px) {
   .product-gallery-main {
     min-height: 520px;
   }
