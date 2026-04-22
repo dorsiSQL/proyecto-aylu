@@ -2,7 +2,7 @@
   {
     "id": 1,
     "nombre": "Remera Maradona 86",
-    "categoria": "Fútbol",
+    "categoria": "Gaming",
     "precio": 18990,
     "imagen": "assets/catalogo/ejemplo-gaming.jpg",
     "descripcion": "Diseño inspirado en la mística del '86, con impronta retro y gráfica gastada.",
@@ -12,7 +12,7 @@
   {
     "id": 2,
     "nombre": "Remera Espíritu Shonen",
-    "categoria": "Anime",
+    "categoria": "Vintage",
     "precio": 19990,
     "imagen": "assets/catalogo/ejemplo-vintage.jpg",
     "descripcion": "Tipografía intensa y estética anime con aire urbano.",
@@ -22,7 +22,7 @@
   {
     "id": 3,
     "nombre": "Remera Motel Sunset",
-    "categoria": "Vintage",
+    "categoria": "Anime",
     "precio": 20400,
     "imagen": "assets/catalogo/remera-goku.jpg",
     "descripcion": "Una postal retro convertida en remera, con look gastado.",
@@ -32,7 +32,7 @@
   {
     "id": 4,
     "nombre": "Remera Motel Sunset",
-    "categoria": "Vintage",
+    "categoria": "Anime",
     "precio": 20400,
     "imagen": "assets/catalogo/remera-goku.jpg",
     "descripcion": "Una postal retro convertida en remera, con look gastado.",
@@ -42,7 +42,7 @@
   {
     "id": 5,
     "nombre": "Remera Motel Sunset",
-    "categoria": "Vintage",
+    "categoria": "Anime",
     "precio": 20400,
     "imagen": "assets/catalogo/remera-goku.jpg",
     "descripcion": "Una postal retro convertida en remera, con look gastado.",
