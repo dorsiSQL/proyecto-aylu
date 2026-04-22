@@ -1,20 +1,28 @@
 import { loadProducts, formatPrice, createWhatsAppLink } from './data-loader.js';
 
 const COLORS = [
-  { name: 'Negro',    hex: '#111111', text: '#f5ead4' },
-  { name: 'Blanco',   hex: '#efefef', text: '#111111' },
-  { name: 'Rojo',     hex: '#b22525', text: '#f5ead4' },
+  { name: 'Negro', hex: '#111111', text: '#f5ead4' },
+  { name: 'Blanco', hex: '#efefef', text: '#111111' },
+  { name: 'Rojo', hex: '#b22525', text: '#f5ead4' },
   { name: 'Amarillo', hex: '#e2b022', text: '#111111' },
-  { name: 'Gris',     hex: '#787878', text: '#f5ead4' },
-  { name: 'Azul',     hex: '#1a3a6b', text: '#f5ead4' },
-  { name: 'Verde',    hex: '#1a4a28', text: '#f5ead4' }
+  { name: 'Gris', hex: '#787878', text: '#f5ead4' },
+  { name: 'Azul', hex: '#1a3a6b', text: '#f5ead4' },
+  { name: 'Verde', hex: '#1a4a28', text: '#f5ead4' }
 ];
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-const SIZE_GROUPS = [
-  { key: 'regular', label: 'Talles' },
-  { key: 'oversize', label: 'Oversize' }
+const FITS = [
+  {
+    key: 'regular',
+    label: 'Regular',
+    note: 'Calce clásico'
+  },
+  {
+    key: 'oversize',
+    label: 'Oversize',
+    note: 'Más amplio y relajado'
+  }
 ];
 
 const state = {
@@ -32,8 +40,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyQueryParams();
   renderCategoryFilters();
   renderProductGrid();
-  renderColors();
+  renderFitSelector();
   renderSizes();
+  renderColors();
   updateSummary();
   setupActions();
 });
@@ -61,27 +70,23 @@ function renderCategoryFilters() {
   const wrap = document.querySelector('[data-design-category-filters]');
   if (!wrap) return;
 
-  const cats = ['Todos', ...new Set(state.products.map((p) => p.categoria))];
+  const categories = ['Todos', ...new Set(state.products.map((p) => p.categoria))];
 
-  wrap.innerHTML = cats.map((cat) => `
-    <button class="filter-pill ${cat === state.activeCategory ? 'is-active' : ''}"
-            type="button"
-            data-cat-filter="${cat}">
+  wrap.innerHTML = categories.map((cat) => `
+    <button
+      class="filter-pill ${cat === state.activeCategory ? 'is-active' : ''}"
+      type="button"
+      data-cat-filter="${cat}">
       ${cat}
     </button>
   `).join('');
 
-  wrap.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-cat-filter]');
-    if (!btn) return;
-
-    state.activeCategory = btn.getAttribute('data-cat-filter');
-
-    wrap.querySelectorAll('[data-cat-filter]').forEach((b) => {
-      b.classList.toggle('is-active', b.getAttribute('data-cat-filter') === state.activeCategory);
+  wrap.querySelectorAll('[data-cat-filter]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      state.activeCategory = btn.getAttribute('data-cat-filter');
+      renderCategoryFilters();
+      renderProductGrid();
     });
-
-    renderProductGrid();
   });
 }
 
@@ -89,18 +94,19 @@ function renderProductGrid() {
   const container = document.querySelector('[data-design-grid]');
   if (!container) return;
 
-  const visible = state.activeCategory === 'Todos'
+  const visibleProducts = state.activeCategory === 'Todos'
     ? state.products
     : state.products.filter((p) => p.categoria === state.activeCategory);
 
-  container.innerHTML = visible.map((product) => {
+  container.innerHTML = visibleProducts.map((product) => {
     const isSelected = state.selectedProduct?.id === product.id;
 
     return `
-      <button class="design-card ${isSelected ? 'is-selected' : ''}"
-              type="button"
-              data-product-id="${product.id}"
-              aria-pressed="${isSelected}">
+      <button
+        class="design-card ${isSelected ? 'is-selected' : ''}"
+        type="button"
+        data-product-id="${product.id}"
+        aria-pressed="${isSelected}">
         <div class="design-card-visual">
           <img src="${product.imagen}" alt="${product.nombre}">
         </div>
@@ -127,13 +133,86 @@ function renderProductGrid() {
   });
 }
 
+function renderFitSelector() {
+  const wrap = document.querySelector('[data-fit-selector]');
+  if (!wrap) return;
+
+  wrap.innerHTML = FITS.map((fit) => `
+    <label class="fit-option ${state.selectedFit === fit.key ? 'is-selected' : ''}">
+      <input
+        type="radio"
+        name="shirt-fit"
+        value="${fit.key}"
+        ${state.selectedFit === fit.key ? 'checked' : ''}>
+      <span class="fit-option-title">${fit.label}</span>
+      <span class="fit-option-note">${fit.note}</span>
+    </label>
+  `).join('');
+
+  wrap.querySelectorAll('input[name="shirt-fit"]').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.selectedFit = input.value || 'regular';
+      renderFitSelector();
+      renderSizes();
+      updateSummary();
+    });
+  });
+}
+
+function renderSizes() {
+  const wrap = document.querySelector('[data-size-groups]');
+  const banner = document.querySelector('[data-selected-fit-banner]');
+  const stepHint = document.querySelector('[data-size-step-hint]');
+  if (!wrap) return;
+
+  const currentFit = FITS.find((fit) => fit.key === state.selectedFit) || FITS[0];
+
+  if (banner) {
+    banner.innerHTML = `Estás viendo talles para: <strong>${currentFit.label}</strong>`;
+  }
+
+  if (stepHint) {
+    stepHint.textContent = `Seleccioná el talle disponible para tu remera ${currentFit.label.toLowerCase()}.`;
+  }
+
+  wrap.innerHTML = `
+    <div class="size-group-card is-single-fit">
+      <div class="size-group-title">${currentFit.label}</div>
+      <div class="size-grid">
+        ${SIZES.map((size) => `
+          <label class="size-option ${state.selectedSize === size ? 'is-selected' : ''}">
+            <input
+              type="radio"
+              name="shirt-size-choice"
+              value="${size}"
+              ${state.selectedSize === size ? 'checked' : ''}>
+            <span>${size}</span>
+          </label>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  wrap.querySelectorAll('input[name="shirt-size-choice"]').forEach((input) => {
+    input.addEventListener('change', () => {
+      state.selectedSize = input.value;
+      renderSizes();
+      updateSummary();
+    });
+  });
+}
+
 function renderColors() {
   const wrap = document.querySelector('[data-color-swatches]');
   if (!wrap) return;
 
   wrap.innerHTML = COLORS.map((color) => `
     <label class="swatch ${state.selectedColor.name === color.name ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-color" value="${color.name}" ${state.selectedColor.name === color.name ? 'checked' : ''}>
+      <input
+        type="radio"
+        name="shirt-color"
+        value="${color.name}"
+        ${state.selectedColor.name === color.name ? 'checked' : ''}>
       <span class="swatch-dot" style="background:${color.hex}; border-color:rgba(255,255,255,.2);"></span>
       <span>${color.name}</span>
     </label>
@@ -148,78 +227,50 @@ function renderColors() {
   });
 }
 
-function renderSizes() {
-  const wrap = document.querySelector('[data-size-groups]');
-  if (!wrap) return;
-
-  wrap.innerHTML = SIZE_GROUPS.map((group) => `
-    <div class="size-group-card">
-      <div class="size-group-title">${group.label}</div>
-      <div class="size-grid">
-        ${SIZES.map((size) => `
-          <label class="size-option ${state.selectedFit === group.key && state.selectedSize === size ? 'is-selected' : ''}">
-            <input
-              type="radio"
-              name="shirt-size-choice"
-              value="${size}"
-              data-fit="${group.key}"
-              ${state.selectedFit === group.key && state.selectedSize === size ? 'checked' : ''}>
-            <span>${size}</span>
-          </label>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-
-  wrap.querySelectorAll('input[name="shirt-size-choice"]').forEach((input) => {
-    input.addEventListener('change', () => {
-      state.selectedSize = input.value;
-      state.selectedFit = input.dataset.fit || 'regular';
-      renderSizes();
-      updateSummary();
-    });
-  });
-}
-
 function updateSummary() {
-  const designNode  = document.querySelector('[data-summary-design]');
-  const colorNode   = document.querySelector('[data-summary-color]');
-  const sizeNode    = document.querySelector('[data-summary-size]');
-  const catNode     = document.querySelector('[data-summary-category]');
-  const priceNode   = document.querySelector('[data-summary-price]');
-  const shirtImage  = document.querySelector('[data-shirt-preview-image]');
-  const waLinks     = document.querySelectorAll('[data-whatsapp-link]');
-  const mobileName  = document.querySelector('[data-mobile-cta-product]');
+  const designNode = document.querySelector('[data-summary-design]');
+  const colorNode = document.querySelector('[data-summary-color]');
+  const sizeNode = document.querySelector('[data-summary-size]');
+  const fitNode = document.querySelector('[data-summary-fit]');
+  const catNode = document.querySelector('[data-summary-category]');
+  const priceNode = document.querySelector('[data-summary-price]');
+  const shirtImage = document.querySelector('[data-shirt-preview-image]');
+  const waLinks = document.querySelectorAll('[data-whatsapp-link]');
+  const mobileName = document.querySelector('[data-mobile-cta-product]');
 
-  const p = state.selectedProduct;
-  const cleanName = p ? p.nombre.replace(/^Remera\s+/i, '') : 'Sin seleccionar';
+  const product = state.selectedProduct;
   const fitLabel = state.selectedFit === 'oversize' ? 'Oversize' : 'Regular';
-  const fullSizeLabel = `${fitLabel} ${state.selectedSize}`;
 
-  if (designNode) designNode.textContent = p ? p.nombre : '—';
-  if (catNode) catNode.textContent = p ? p.categoria : '—';
+  if (designNode) designNode.textContent = product ? product.nombre : '—';
+  if (catNode) catNode.textContent = product ? product.categoria : '—';
+  if (fitNode) fitNode.textContent = fitLabel;
   if (colorNode) colorNode.textContent = state.selectedColor.name;
-  if (sizeNode) sizeNode.textContent = fullSizeLabel;
-  if (priceNode) priceNode.textContent = p ? formatPrice(p.precio) : '';
+  if (sizeNode) sizeNode.textContent = state.selectedSize;
+  if (priceNode) priceNode.textContent = product ? formatPrice(product.precio) : '';
 
-  if (shirtImage && p) {
-    shirtImage.src = p.imagen;
-    shirtImage.alt = p.nombre;
+  if (shirtImage && product) {
+    shirtImage.src = product.imagen;
+    shirtImage.alt = product.nombre;
   }
 
   if (mobileName) {
-    mobileName.textContent = p ? p.nombre : 'Elegí un diseño para comenzar';
+    mobileName.textContent = product
+      ? `${product.nombre} · ${fitLabel} ${state.selectedSize}`
+      : 'Elegí un diseño para comenzar';
   }
 
-  if (p) {
-    const msg = `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${p.nombre}\n🏷️ Categoría: ${p.categoria}\n🎨 Color: ${state.selectedColor.name}\n📏 Talle: ${state.selectedSize}\n🧵 Calce: ${fitLabel}\n💰 Precio de referencia: ${formatPrice(p.precio)}\n\n¿Podés confirmar disponibilidad?`;
+  if (product) {
+    const msg = `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${product.nombre}\n🏷️ Categoría: ${product.categoria}\n🧵 Tipo: ${fitLabel}\n📏 Talle: ${state.selectedSize}\n🎨 Color: ${state.selectedColor.name}\n💰 Precio de referencia: ${formatPrice(product.precio)}\n\n¿Podés confirmar disponibilidad?`;
+
     waLinks.forEach((link) => {
       link.href = createWhatsAppLink(msg);
       link.target = '_blank';
       link.rel = 'noopener';
     });
   } else {
-    waLinks.forEach((link) => { link.href = '#'; });
+    waLinks.forEach((link) => {
+      link.href = '#';
+    });
   }
 }
 
@@ -237,8 +288,9 @@ function setupActions() {
 
       renderCategoryFilters();
       renderProductGrid();
-      renderColors();
+      renderFitSelector();
       renderSizes();
+      renderColors();
       updateSummary();
     });
   }

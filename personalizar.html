@@ -4,23 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
-<!-- FIX: tipo correcto del favicon -->
 <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
 <link rel="preload" href="assets/logo/icono-banner.png" as="image">
-<!-- FIX: preconnect antes de cargar Google Fonts para reducir latencia -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Retro Remeras">
-<!-- FIX: OG image con URL absoluta -->
 <meta property="og:image" content="https://proyecto-aylu.vercel.app/assets/img/preview.png">
 <meta property="og:locale" content="es_AR">
 <meta name="robots" content="index, follow">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/personalizar.css">
 <title>Personalizar remera | Retro Remeras</title>
-<meta name="description" content="Elegí un diseño, color y talle para tu remera. Confirmá el pedido por WhatsApp en segundos.">
+<meta name="description" content="Elegí un diseño, color, tipo y talle para tu remera. Confirmá el pedido por WhatsApp en segundos.">
 <meta property="og:title" content="Personalizar remera | Retro Remeras">
 <meta property="og:description" content="Armá tu remera y enviá el pedido por WhatsApp con el mensaje generado automáticamente.">
 <meta property="og:url" content="https://proyecto-aylu.vercel.app/personalizar.html">
@@ -32,9 +29,11 @@
     <a class="brand" href="index.html" aria-label="Ir al inicio de Retro Remeras">
       <img src="assets/logo/icono-banner.png" alt="Retro Remeras">
     </a>
+
     <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
       <span></span>
     </button>
+
     <nav class="nav-links" aria-label="Navegación principal" data-nav-links>
       <a href="index.html">Inicio</a>
       <a href="catalogo.html">Catálogo</a>
@@ -42,6 +41,7 @@
       <a href="index.html#como-funciona">Cómo funciona</a>
       <a href="index.html#beneficios">Beneficios</a>
     </nav>
+
     <div class="nav-cta" data-nav-cta>
       <a class="btn btn-secondary" href="catalogo.html">Ver catálogo</a>
       <a class="btn btn-primary" href="personalizar.html">Personalizar</a>
@@ -49,25 +49,23 @@
   </div>
 </header>
 
-
 <main class="personalizar-main">
   <section class="container">
     <div class="section-header">
       <span class="section-kicker">Personalización</span>
       <h1 class="section-title">Armá tu remera en pocos pasos</h1>
       <p class="section-subtitle">
-        Elegí cualquier diseño del catálogo, combiná color y talle, y confirmá el pedido directo por WhatsApp.
+        Elegí cualquier diseño del catálogo, definí el tipo de remera, el color y el talle, y confirmá el pedido directo por WhatsApp.
       </p>
     </div>
 
     <div class="notice" data-design-hint>
-      Seleccioná cualquier producto del catálogo, elegí el color y talle, y el mensaje se arma solo.
+      Seleccioná cualquier producto del catálogo, elegí el tipo de remera, color y talle, y el mensaje se arma solo.
     </div>
 
     <div class="personalizar-grid">
 
-      <!-- Panel izquierdo: selector de diseño + color + talle -->
-      <section class="panel">
+      <section class="panel personalizar-builder">
 
         <div class="form-group">
           <div class="step-header">
@@ -78,10 +76,7 @@
             </div>
           </div>
 
-          <!-- Filtro de categoría inline -->
           <div class="filter-pills" data-design-category-filters></div>
-
-          <!-- Grid de productos -->
           <div class="design-grid" data-design-grid></div>
         </div>
 
@@ -89,10 +84,12 @@
           <div class="step-header">
             <div class="step-number">2</div>
             <div class="step-header-text">
-              <span class="form-label">Elegí color de remera</span>
+              <span class="form-label">Elegí tipo de remera</span>
+              <p class="inline-note">Definí primero el calce para evitar confusiones con el talle.</p>
             </div>
           </div>
-          <div class="swatches" data-color-swatches></div>
+
+          <div class="fit-selector" data-fit-selector></div>
         </div>
 
         <div class="form-group size-groups-section">
@@ -100,18 +97,36 @@
             <div class="step-number">3</div>
             <div class="step-header-text">
               <span class="form-label">Elegí talle</span>
+              <p class="inline-note" data-size-step-hint>Talles disponibles para el tipo de remera elegido.</p>
             </div>
           </div>
+
+          <div class="selected-fit-banner" data-selected-fit-banner>
+            Estás viendo talles para: <strong>Regular</strong>
+          </div>
+
           <div class="size-groups" data-size-groups></div>
+        </div>
+
+        <div class="form-group">
+          <div class="step-header">
+            <div class="step-number">4</div>
+            <div class="step-header-text">
+              <span class="form-label">Elegí color de remera</span>
+            </div>
+          </div>
+
+          <div class="swatches" data-color-swatches></div>
         </div>
 
       </section>
 
-      <!-- Panel derecho: resumen -->
       <aside class="panel summary-card">
-        <div>
-          <h2>Resumen de selección</h2>
-          <p class="section-subtitle">Revisá tu elección antes de confirmar.</p>
+        <div class="summary-card-head">
+          <div>
+            <h2>Resumen de selección</h2>
+            <p class="section-subtitle">Revisá tu elección antes de confirmar.</p>
+          </div>
         </div>
 
         <div class="preview-shirt">
@@ -121,19 +136,20 @@
         <ul class="summary-list">
           <li><span>Producto</span><strong data-summary-design>—</strong></li>
           <li><span>Categoría</span><strong data-summary-category>—</strong></li>
+          <li><span>Tipo</span><strong data-summary-fit>—</strong></li>
           <li><span>Color</span><strong data-summary-color>—</strong></li>
           <li><span>Talle elegido</span><strong data-summary-size>—</strong></li>
           <li><span>Precio ref.</span><strong data-summary-price>—</strong></li>
         </ul>
 
-        <div class="hero-actions">
+        <div class="hero-actions summary-actions">
           <a class="btn btn-primary" href="#" target="_blank" rel="noopener" data-whatsapp-link>
             Confirmar por WhatsApp
           </a>
           <button class="btn btn-secondary" type="button" data-reset-selection>Reiniciar</button>
         </div>
 
-        <div class="notice">
+        <div class="notice summary-note">
           ¿Tenés una idea distinta? Pedí una remera 100% a medida y te cotizamos al toque.
         </div>
 
@@ -145,7 +161,6 @@
     </div>
   </section>
 
-  <!-- Barra sticky mobile: siempre visible al hacer scroll -->
   <div class="mobile-cta-bar" aria-label="Tu selección actual">
     <div class="mobile-cta-info">
       <span class="mobile-cta-label">Tu selección</span>
@@ -155,9 +170,7 @@
       Confirmar
     </a>
   </div>
-
 </main>
-
 
 <footer class="footer">
   <div class="container footer-grid">
