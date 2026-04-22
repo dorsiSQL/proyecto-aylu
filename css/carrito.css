@@ -35,6 +35,37 @@
   margin-top: 1rem;
 }
 
+.summary-list {
+  display: grid;
+  gap: .7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.summary-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: .55rem;
+  border-bottom: 1px dashed rgba(244,197,66,.14);
+  font-size: .95rem;
+}
+
+.summary-list li span {
+  color: var(--muted);
+  flex: 0 0 auto;
+  padding-right: .75rem;
+}
+
+.summary-list li strong {
+  color: var(--cream);
+  text-align: right;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
 .cart-summary-actions .btn + .notice,
 .cart-summary .notice {
   margin-top: .35rem;
