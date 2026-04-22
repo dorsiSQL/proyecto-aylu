@@ -1,0 +1,5 @@
+  { name: 'Rojo',      hex: '#b22525', text: '#f5ead4' },
+  { name: 'Amarillo',  hex: '#e2b022', text: '#111111' },
+  { name: 'Gris',      hex: '#787878', text: '#f5ead4' },
+  { name: 'Azul',      hex: '#1a3a6b', text: '#f5ead4' },
+  { name: 'Verde',     hex: '#1a4a28', text: '#f5ead4' },
