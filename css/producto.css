@@ -5,7 +5,7 @@
 .product-shell {
   display: grid;
   gap: 0.75rem;
-  width: min(1500px, calc(100% - 2rem));
+  width: min(1540px, calc(100% - 2rem));
   margin-inline: auto;
 }
 
@@ -23,7 +23,7 @@
 
 .product-layout {
   display: grid;
-  gap: 1.1rem;
+  gap: 1.25rem;
   align-items: start;
 }
 
@@ -37,14 +37,15 @@
   border: 1px solid rgba(244, 197, 66, 0.12);
   background: rgba(255, 255, 255, 0.02);
   box-shadow: var(--shadow);
-  min-height: 680px;
-  height: min(82vh, 860px);
+  min-height: 720px;
+  height: min(84vh, 920px);
 }
 
 .product-gallery-main img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center center;
   display: block;
 }
 
@@ -57,6 +58,7 @@
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0.01));
   box-shadow: var(--shadow);
   align-self: stretch;
+  height: 100%;
 }
 
 .product-meta {
@@ -105,14 +107,14 @@
   gap: 0.6rem;
   padding-top: 0.5rem;
   border-top: 1px solid rgba(244, 197, 66, 0.08);
-  align-content: start; /* importante */
+  align-content: start;
 }
 
 .config-head {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  min-height: 28px; /* fuerza alineación */
+  min-height: 28px;
 }
 
 .config-label {
@@ -171,6 +173,7 @@
   opacity: 0;
   pointer-events: none;
 }
+
 .fit-option-title {
   color: var(--cream);
   font-weight: 800;
@@ -193,13 +196,12 @@
   color: #e6d6a8;
 }
 
-.product-size-grid {
+.product-fit-selector {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.9rem;
 }
 
-.product-swatches {
+.product-size-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.55rem;
@@ -218,7 +220,18 @@
   font-weight: 900;
   font-size: 1rem;
   letter-spacing: 0.02em;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.size-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .size-option.is-selected {
@@ -229,12 +242,6 @@
     0 0 0 1px rgba(244, 197, 66, 0.12),
     0 8px 20px rgba(244, 197, 66, 0.08);
   transform: translateY(-1px) scale(1.02);
-}
-
-.size-option input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
 }
 
 .product-swatches {
@@ -288,7 +295,6 @@
   box-shadow: 0 0 10px rgba(244, 197, 66, 0.35);
 }
 
-/* ocultamos el texto dentro del botón */
 .swatch-name {
   display: none;
 }
@@ -306,9 +312,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   align-items: stretch;
-}
-
-.product-actions {
   margin-top: 0.4rem;
 }
 
@@ -318,23 +321,17 @@
   justify-content: center;
 }
 
-.product-fit-selector {
-  display: grid;
-  gap: 0.9rem;
-}
-
 .product-order-box {
   display: grid;
   gap: 0.75rem;
-  padding: 0.9rem 0.95rem;
+  padding: 0.95rem 1rem;
   border-radius: 20px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.008));
   border: 1px solid rgba(244, 197, 66, 0.1);
-
-  /* 👇 esto es lo que lo expande */
   height: 100%;
   align-content: space-between;
 }
+
 .product-order-box.is-pulsing {
   animation: productOrderPulse 0.65s ease;
 }
@@ -611,22 +608,22 @@
 
 @media (min-width: 1260px) {
   .product-layout {
-    grid-template-columns: minmax(580px, 1.2fr) minmax(780px, 1fr);
-    gap: 1.4rem;
+    grid-template-columns: minmax(640px, 1.28fr) minmax(820px, 1fr);
+    gap: 1.5rem;
     align-items: stretch;
-    }
+  }
 
   .product-buybox {
-     position: sticky;
-     top: calc(var(--header-height) + 0.8rem);
-      grid-template-columns: minmax(0, 1.55fr) minmax(250px, 0.9fr);
-     gap: 0.8rem;
-     align-items: start;
-    }
+    position: sticky;
+    top: calc(var(--header-height) + 0.8rem);
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.95fr);
+    gap: 0.95rem;
+    align-items: stretch;
+  }
 
   .product-meta {
-        grid-column: 1 / -1;
-    }
+    grid-column: 1 / -1;
+  }
 
   .product-config {
     grid-column: 1 / 2;
@@ -639,9 +636,10 @@
     grid-column: 1 / -1;
   }
 
-  .product-config {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    }
+  .product-actions {
+    grid-column: 1 / 2;
+    align-self: end;
+  }
 
   .product-order-box {
     grid-column: 2 / 3;
