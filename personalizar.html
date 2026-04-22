@@ -70,7 +70,13 @@
       <section class="panel">
 
         <div class="form-group">
-          <span class="form-label">1. Elegí un diseño del catálogo</span>
+          <div class="step-header">
+            <div class="step-number">1</div>
+            <div class="step-header-text">
+              <span class="form-label">Elegí un diseño</span>
+              <p class="inline-note">Filtrá por categoría o elegí el que más te guste.</p>
+            </div>
+          </div>
 
           <!-- Filtro de categoría inline -->
           <div class="filter-pills" data-design-category-filters></div>
@@ -80,12 +86,22 @@
         </div>
 
         <div class="form-group">
-          <span class="form-label">2. Elegí color de remera</span>
+          <div class="step-header">
+            <div class="step-number">2</div>
+            <div class="step-header-text">
+              <span class="form-label">Elegí color de remera</span>
+            </div>
+          </div>
           <div class="swatches" data-color-swatches></div>
         </div>
 
         <div class="form-group size-groups-section">
-          <span class="form-label">3. Elegí talle</span>
+          <div class="step-header">
+            <div class="step-number">3</div>
+            <div class="step-header-text">
+              <span class="form-label">Elegí talle</span>
+            </div>
+          </div>
           <div class="size-groups" data-size-groups></div>
         </div>
 
@@ -128,6 +144,18 @@
 
     </div>
   </section>
+
+  <!-- Barra sticky mobile: siempre visible al hacer scroll -->
+  <div class="mobile-cta-bar" aria-label="Tu selección actual">
+    <div class="mobile-cta-info">
+      <span class="mobile-cta-label">Tu selección</span>
+      <strong class="mobile-cta-product" data-mobile-cta-product>Elegí un diseño para comenzar</strong>
+    </div>
+    <a class="btn btn-primary mobile-cta-btn" href="#" target="_blank" rel="noopener" data-whatsapp-link>
+      Confirmar
+    </a>
+  </div>
+
 </main>
 
 

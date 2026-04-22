@@ -259,3 +259,120 @@
 [data-summary-price] {
   color: var(--yellow);
 }
+
+
+/* ── Inline styles removidos del JS ── */
+.design-card-content .product-category {
+  font-size: .8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.design-card-content h3 {
+  font-size: 1.05rem;
+  margin: .2rem 0 .1rem;
+}
+.design-card-content .section-subtitle {
+  font-size: .85rem;
+}
+
+/* ── Step headers ── */
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  margin-bottom: .85rem;
+}
+.step-header .step-number {
+  margin-bottom: 0;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  font-size: .95rem;
+}
+.step-header-text {
+  display: grid;
+  gap: .1rem;
+}
+.step-header-text .inline-note {
+  margin: 0;
+}
+
+/* ── Design grid: altura máxima con scroll interno ── */
+.design-grid {
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: .35rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244,197,66,.3) transparent;
+}
+.design-grid::-webkit-scrollbar { width: 4px; }
+.design-grid::-webkit-scrollbar-track { background: transparent; }
+.design-grid::-webkit-scrollbar-thumb {
+  background: rgba(244,197,66,.3);
+  border-radius: 999px;
+}
+
+/* ── Summary card sticky en desktop ── */
+@media (min-width: 900px) {
+  .summary-card {
+    position: sticky;
+    top: calc(var(--header-height) + 1rem);
+  }
+}
+
+/* ── Mobile sticky CTA bar ── */
+.mobile-cta-bar {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .personalizar-main {
+    padding-bottom: 5.5rem; /* espacio para la barra fija */
+  }
+
+  .mobile-cta-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    padding: .85rem 1.25rem;
+    background: rgba(14, 14, 14, .97);
+    border-top: 1px solid rgba(244,197,66,.15);
+    backdrop-filter: blur(12px);
+  }
+
+  .mobile-cta-info {
+    display: grid;
+    gap: .1rem;
+    min-width: 0;
+  }
+
+  .mobile-cta-label {
+    font-size: .75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+
+  .mobile-cta-product {
+    font-size: .9rem;
+    color: var(--cream);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-cta-btn {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: .7rem 1.1rem;
+    font-size: .9rem;
+  }
+}

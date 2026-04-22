@@ -106,9 +106,9 @@ function renderProductGrid() {
         </div>
 
         <div class="design-card-content">
-          <span class="product-category" style="font-size:.8rem;">${product.categoria}</span>
-          <h3 style="font-size:1.1rem; margin:.2rem 0 .1rem;">${product.nombre}</h3>
-          <p class="section-subtitle" style="font-size:.85rem;">${product.descripcion}</p>
+          <span class="product-category">${product.categoria}</span>
+          <h3>${product.nombre}</h3>
+          <p class="section-subtitle">${product.descripcion}</p>
           <span class="design-card-price">${formatPrice(product.precio)}</span>
         </div>
 
@@ -182,13 +182,14 @@ function renderSizes() {
 }
 
 function updateSummary() {
-  const designNode = document.querySelector('[data-summary-design]');
-  const colorNode = document.querySelector('[data-summary-color]');
-  const sizeNode = document.querySelector('[data-summary-size]');
-  const catNode = document.querySelector('[data-summary-category]');
-  const priceNode = document.querySelector('[data-summary-price]');
-  const shirtImage = document.querySelector('[data-shirt-preview-image]');
-  const waLink = document.querySelector('[data-whatsapp-link]');
+  const designNode  = document.querySelector('[data-summary-design]');
+  const colorNode   = document.querySelector('[data-summary-color]');
+  const sizeNode    = document.querySelector('[data-summary-size]');
+  const catNode     = document.querySelector('[data-summary-category]');
+  const priceNode   = document.querySelector('[data-summary-price]');
+  const shirtImage  = document.querySelector('[data-shirt-preview-image]');
+  const waLinks     = document.querySelectorAll('[data-whatsapp-link]');
+  const mobileName  = document.querySelector('[data-mobile-cta-product]');
 
   const p = state.selectedProduct;
   const cleanName = p ? p.nombre.replace(/^Remera\s+/i, '') : 'Sin seleccionar';
@@ -202,17 +203,23 @@ function updateSummary() {
   if (priceNode) priceNode.textContent = p ? formatPrice(p.precio) : '';
 
   if (shirtImage && p) {
-  shirtImage.src = p.imagen;
-  shirtImage.alt = p.nombre;
-}
+    shirtImage.src = p.imagen;
+    shirtImage.alt = p.nombre;
+  }
 
-  if (waLink && p) {
+  if (mobileName) {
+    mobileName.textContent = p ? p.nombre : 'Elegí un diseño para comenzar';
+  }
+
+  if (p) {
     const msg = `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${p.nombre}\n🏷️ Categoría: ${p.categoria}\n🎨 Color: ${state.selectedColor.name}\n📏 Talle: ${state.selectedSize}\n🧵 Calce: ${fitLabel}\n💰 Precio de referencia: ${formatPrice(p.precio)}\n\n¿Podés confirmar disponibilidad?`;
-    waLink.href = createWhatsAppLink(msg);
-    waLink.target = '_blank';
-    waLink.rel = 'noopener';
-  } else if (waLink) {
-    waLink.href = '#';
+    waLinks.forEach((link) => {
+      link.href = createWhatsAppLink(msg);
+      link.target = '_blank';
+      link.rel = 'noopener';
+    });
+  } else {
+    waLinks.forEach((link) => { link.href = '#'; });
   }
 }
 
