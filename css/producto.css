@@ -211,24 +211,21 @@
 
 .product-swatches {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.45rem;
-  align-items: stretch;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.6rem;
 }
 
 .swatch-card {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  min-height: 40px;
-  padding: 0.55rem 0.65rem;
-  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  height: 52px;
+  border-radius: 14px;
   border: 1.5px solid rgba(244, 197, 66, 0.15);
   cursor: pointer;
   background: rgba(255, 255, 255, 0.02);
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  min-width: 0;
+  transition: all 0.2s ease;
+  padding: 0;
 }
 
 .swatch-card input {
@@ -238,22 +235,26 @@
 }
 
 .swatch-card:hover {
-  border-color: rgba(244, 197, 66, 0.28);
+  border-color: rgba(244, 197, 66, 0.35);
   transform: translateY(-1px);
 }
 
 .swatch-card.is-selected {
-  border-color: rgba(244, 197, 66, 0.5);
+  border-color: rgba(244, 197, 66, 0.6);
   background: rgba(244, 197, 66, 0.08);
-  box-shadow: 0 0 0 1px rgba(244, 197, 66, 0.08);
+  box-shadow: 0 0 0 1px rgba(244, 197, 66, 0.12);
 }
 
 .swatch-dot-lg {
-  width: 14px;
-  height: 14px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  flex-shrink: 0;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+/* ocultamos el texto dentro del botón */
+.swatch-name {
+  display: none;
 }
 
 .swatch-dot--negro { background: #111111; }
@@ -263,16 +264,6 @@
 .swatch-dot--gris { background: #787878; }
 .swatch-dot--azul { background: #1a3a6b; }
 .swatch-dot--verde { background: #1a4a28; }
-
-.swatch-name {
-  color: var(--cream);
-  font-size: 0.78rem;
-  font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .product-actions {
   display: grid;
