@@ -17,7 +17,7 @@
     "imagen": "assets/catalogo/ejemplo-vintage.jpg",
     "descripcion": "Una remera vintage",
     "disponible": true,
-    "destacado": true
+    "destacado": false
   },
   {
     "id": 3,
@@ -27,6 +27,6 @@
     "imagen": "assets/catalogo/remera-goku.jpg",
     "descripcion": "Una remera de Goku",
     "disponible": true,
-    "destacado": true
+    "destacado": false
   }
 ]
