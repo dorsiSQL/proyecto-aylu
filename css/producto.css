@@ -320,6 +320,11 @@
   justify-content: center;
 }
 
+.product-actions .btn-outline {
+  max-width: 260px;
+  justify-self: start;
+}
+
 .product-order-box {
   display: grid;
   gap: 0.75rem;
