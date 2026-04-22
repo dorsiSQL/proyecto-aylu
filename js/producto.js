@@ -1,5 +1,7 @@
 import { loadProducts, formatPrice, createWhatsAppLink } from './data-loader.js';
 
+const STORAGE_KEY = 'retro_remeras_cart';
+
 const COLORS = [
   { name: 'Negro', hex: '#111111', text: '#f5ead4' },
   { name: 'Blanco', hex: '#efefef', text: '#111111' },
@@ -34,6 +36,8 @@ const state = {
 
 document.addEventListener('DOMContentLoaded', async () => {
   state.products = await loadProducts();
+  state.cart = loadCart();
+
   setProductFromQuery();
 
   if (!state.selectedProduct) {
@@ -229,12 +233,14 @@ function addCurrentSelectionToCart() {
     });
   }
 
+  saveCart();
   renderCart();
   updateOrderLink();
 }
 
 function clearCart() {
   state.cart = [];
+  saveCart();
   renderCart();
   updateOrderLink();
 }
@@ -316,6 +322,7 @@ function handleCartAction(action, id) {
     state.cart = state.cart.filter((entry) => entry.id !== id);
   }
 
+  saveCart();
   renderCart();
   updateOrderLink();
 }
@@ -350,10 +357,24 @@ function buildWhatsAppMessage() {
 
   const product = state.selectedProduct;
   if (!product) {
-    return 'Hola! Quiero consultar por una remera personalizada.';
+    return 'Hola! Quiero consultar por una remera.';
   }
 
   return `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${product.nombre}\n🏷️ Categoría: ${product.categoria}\n🧵 Tipo: ${getFitLabel(state.selectedFit)}\n📏 Talle: ${state.selectedSize}\n🎨 Color: ${state.selectedColor.name}\n💰 Precio de referencia: ${formatPrice(product.precio)}\n\n¿Podés confirmar disponibilidad?`;
+}
+
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCart() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.cart));
 }
 
 function getFitLabel(fit) {

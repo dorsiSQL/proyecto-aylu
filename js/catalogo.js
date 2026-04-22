@@ -40,6 +40,7 @@ function setupCategoryPills() {
 function setupSearch() {
   const input = document.querySelector('[data-search-input]');
   if (!input) return;
+
   input.addEventListener('input', (e) => {
     state.search = e.target.value;
     filterProducts();
@@ -120,15 +121,23 @@ function renderProductCard(product) {
   const waMsg = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
 
   return `
-    <article class="product-card">
-      <div class="product-media">
-        <img src="${product.imagen}" alt="${product.nombre}">
-        ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
-      </div>
+    <article class="product-card product-card--linked">
+      <a class="product-card-link" href="producto.html?id=${product.id}" aria-label="Ver ${product.nombre}">
+        <div class="product-media">
+          <img src="${product.imagen}" alt="${product.nombre}">
+          ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
+        </div>
+      </a>
 
       <div class="product-content">
         <div class="product-category">${product.categoria}</div>
-        <h3 class="product-title">${product.nombre}</h3>
+
+        <h3 class="product-title">
+          <a class="product-title-link" href="producto.html?id=${product.id}">
+            ${product.nombre}
+          </a>
+        </h3>
+
         <p class="product-description">${product.descripcion}</p>
 
         <div class="price-row">
@@ -138,10 +147,10 @@ function renderProductCard(product) {
 
         <div class="product-actions" style="margin-top:1rem;">
           <a class="btn btn-secondary" href="producto.html?id=${product.id}">
-            Ver detalle
+            Ver producto
           </a>
           <a class="btn btn-primary" href="${createWhatsAppLink(waMsg)}" target="_blank" rel="noopener">
-            Pedir por WhatsApp
+            WhatsApp
           </a>
         </div>
       </div>
