@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "nombre": "Remera Maradona 86",
+    "nombre": "Remera Atari",
     "categoria": "Videojuegos",
     "precio": 18990,
     "imagen": "assets/catalogo/ejemplo-gaming.jpg",
@@ -11,21 +11,21 @@
   },
   {
     "id": 2,
-    "nombre": "Remera Espíritu Shonen",
+    "nombre": "Remera Espíritu de Carretera",
     "categoria": "Vintage",
     "precio": 19990,
     "imagen": "assets/catalogo/ejemplo-vintage.jpg",
-    "descripcion": "Tipografía intensa y estética anime con aire urbano.",
+    "descripcion": "Una remera vintage",
     "disponible": true,
     "destacado": false
   },
   {
     "id": 3,
-    "nombre": "Remera Motel Sunset",
+    "nombre": "Remera goku",
     "categoria": "Anime",
     "precio": 20400,
     "imagen": "assets/catalogo/remera-goku.jpg",
-    "descripcion": "Una postal retro convertida en remera, con look gastado.",
+    "descripcion": "Una remera de Goku",
     "disponible": true,
     "destacado": false
   }
