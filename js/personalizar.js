@@ -29,7 +29,7 @@ const state = {
   selectedProduct: null,
   selectedColor: DEFAULTS.color,
   selectedSize: DEFAULTS.size,
-  selectedFit: null,
+  selectedFit: DEFAULTS.fit,
   activeCategory: DEFAULTS.category,
   cart: []
 };
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   state.products = await loadProducts();
 
   applyQueryParams();
+
   if (!state.selectedProduct) {
     state.selectedProduct = state.products[0] || null;
   }
@@ -410,15 +411,16 @@ function addCurrentSelectionToCart() {
   }
 
   renderCart();
+  updateSummary();
 }
 
 function clearCartAndSelection() {
   state.cart = [];
-  state.selectedProduct = null;
+  state.activeCategory = DEFAULTS.category;
+  state.selectedProduct = state.products[0] || null;
   state.selectedColor = DEFAULTS.color;
   state.selectedSize = DEFAULTS.size;
-  state.selectedFit = null;
-  state.activeCategory = DEFAULTS.category;
+  state.selectedFit = DEFAULTS.fit;
 
   renderCategoryFilters();
   renderProductGrid();
