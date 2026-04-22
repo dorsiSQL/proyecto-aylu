@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
+  <link rel="preload" href="assets/logo/icono-banner.png" as="image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Retro Remeras">
+  <meta property="og:image" content="https://proyecto-aylu.vercel.app/assets/img/preview.png">
+  <meta property="og:locale" content="es_AR">
+  <meta name="robots" content="index, follow">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/carrito.css">
+
+  <title>Carrito | Retro Remeras</title>
+  <meta name="description" content="Revisá tu pedido, modificá cantidades y confirmá todo por WhatsApp.">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container navbar">
+    <a class="brand" href="index.html" aria-label="Ir al inicio de Retro Remeras">
+      <img src="assets/logo/icono-banner.png" alt="Retro Remeras">
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+      <span></span>
+    </button>
+
+    <nav class="nav-links" aria-label="Navegación principal" data-nav-links>
+      <a href="index.html">Inicio</a>
+      <a href="catalogo.html">Catálogo</a>
+      <a href="carrito.html" class="nav-cart-link is-active">
+        Carrito
+        <span class="nav-cart-badge" data-global-cart-count>0</span>
+      </a>
+      <a href="index.html#como-funciona">Cómo funciona</a>
+      <a href="index.html#beneficios">Beneficios</a>
+    </nav>
+
+    <div class="nav-cta" data-nav-cta>
+      <a class="btn btn-secondary nav-cart-btn" href="carrito.html">
+        Carrito
+        <span class="nav-cart-badge" data-global-cart-count>0</span>
+      </a>
+      <a class="btn btn-primary" href="catalogo.html">Ver catálogo</a>
+    </div>
+  </div>
+</header>
+
+<main class="cart-page">
+  <section class="container cart-shell">
+    <div class="section-header">
+      <span class="section-kicker">Tu pedido</span>
+      <h1 class="section-title">Carrito de compras</h1>
+      <p class="section-subtitle">
+        Revisá tu pedido, ajustá cantidades y confirmalo por WhatsApp.
+      </p>
+    </div>
+
+    <div class="cart-layout">
+      <section class="cart-main panel">
+        <div class="cart-list cart-page-list" data-cart-list>
+          <div class="cart-empty-state">
+            Todavía no agregaste productos al pedido.
+          </div>
+        </div>
+      </section>
+
+      <aside class="cart-summary panel">
+        <h2>Resumen</h2>
+
+        <ul class="summary-list">
+          <li><span>Productos</span><strong data-cart-items-count>0</strong></li>
+          <li><span>Total estimado</span><strong data-cart-total>$0</strong></li>
+        </ul>
+
+        <div class="cart-summary-actions">
+          <a class="btn btn-primary" href="#" target="_blank" rel="noopener" data-whatsapp-order>
+            Confirmar pedido por WhatsApp
+          </a>
+          <a class="btn btn-secondary" href="catalogo.html">
+            Seguir comprando
+          </a>
+          <button class="btn btn-ghost" type="button" data-clear-cart>
+            Vaciar pedido
+          </button>
+        </div>
+
+        <div class="notice">
+          El pedido se envía por WhatsApp con todos los productos, talles, colores y cantidades.
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <a class="brand" href="index.html" aria-label="Retro Remeras">
+        <img src="assets/logo/icono-banner.png" alt="Retro Remeras" loading="lazy">
+      </a>
+      <p>Remeras con estilo, nostalgia y personalidad. Diseños temáticos, atención cercana y pedidos simples por WhatsApp.</p>
+      <small>© <span data-year></span> Retro Remeras. Todos los derechos reservados.</small>
+    </div>
+    <div>
+      <div class="footer-links">
+        <span class="tag">Instagram: @retroremeras</span>
+        <span class="tag">TikTok: @retroremeras</span>
+        <span class="tag">WhatsApp: +54 9 11 5659-2963</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+<script type="module" src="js/carrito.js"></script>
+</body>
+</html>

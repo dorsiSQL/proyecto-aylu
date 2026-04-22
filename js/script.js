@@ -1,7 +1,11 @@
+const CART_STORAGE_KEY = 'retro_remeras_cart';
+
 document.addEventListener('DOMContentLoaded', () => {
   setupMobileMenu();
   setupDynamicYear();
   setupCategoryLinks();
+  updateGlobalCartBadge();
+  window.addEventListener('storage', updateGlobalCartBadge);
 });
 
 function setupMobileMenu() {
@@ -42,4 +46,22 @@ function setupCategoryLinks() {
       link.setAttribute('href', `catalogo.html?categoria=${encodeURIComponent(category)}`);
     });
   });
+}
+
+function updateGlobalCartBadge() {
+  const count = getStoredCartCount();
+  document.querySelectorAll('[data-global-cart-count]').forEach((node) => {
+    node.textContent = count;
+  });
+}
+
+function getStoredCartCount() {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(parsed)) return 0;
+    return parsed.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0);
+  } catch {
+    return 0;
+  }
 }

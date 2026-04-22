@@ -560,6 +560,33 @@ h1, h2, h3, h4 {
   transform: scale(1.03);
 }
 
+.nav-cart-link,
+.nav-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.nav-cart-badge {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 .45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(244,197,66,.12);
+  border: 1px solid rgba(244,197,66,.24);
+  color: var(--yellow);
+  font-size: .78rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.nav-cart-link.is-active {
+  color: var(--yellow);
+}
+
 /* ── Responsive ──────────────────────────── */
 @media (min-width: 760px) {
   .hero-grid { grid-template-columns: 1.1fr .9fr; }
