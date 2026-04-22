@@ -10,33 +10,38 @@ const CATEGORY_META = {
 };
 
 function buildCardHTML(product) {
-  const meta = CATEGORY_META[product.categoria] || { bg: '#111', accent: '#f4c542', label: '???' };
   const waMsg = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
-  const cleanName = product.nombre.replace(/^Remera\s+/i, '');
+
   return `
     <article class="product-card">
-      <div class="product-media cat-visual" style="background:${meta.bg};">
-        <span class="cat-visual__bg-label">${meta.label}</span>
-        <div class="cat-visual__shirt">
-          <span class="cat-visual__shirt-text">${cleanName}</span>
-        </div>
+      <div class="product-media">
+        <img src="${product.imagen}" alt="${product.nombre}">
+        ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
       </div>
+
       <div class="product-content">
         <div class="product-category">${product.categoria}</div>
         <h3 class="product-title">${product.nombre}</h3>
         <p class="product-description">${product.descripcion}</p>
+
         <div class="price-row">
           <span class="product-price">${formatPrice(product.precio)}</span>
           ${product.destacado ? '<span class="tag tag--gold">Destacado</span>' : ''}
         </div>
+
         <div class="product-actions" style="margin-top:.85rem;">
-          <a class="btn btn-primary" href="personalizar.html?producto=${product.id}">Personalizar</a>
+          <a class="btn btn-primary" href="personalizar.html?producto=${product.id}">
+            Personalizar
+          </a>
           <a class="btn btn-secondary"
              href="${createWhatsAppLink(waMsg)}"
-             target="_blank" rel="noopener">WhatsApp</a>
+             target="_blank" rel="noopener">
+            WhatsApp
+          </a>
         </div>
       </div>
-    </article>`;
+    </article>
+  `;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

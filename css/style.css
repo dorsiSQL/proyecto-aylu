@@ -527,6 +527,7 @@ h1, h2, h3, h4 {
   display: block;
 }
 
+
 /* ── Responsive ──────────────────────────── */
 @media (min-width: 760px) {
   .hero-grid { grid-template-columns: 1.1fr .9fr; }
