@@ -138,6 +138,12 @@
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.fit-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .fit-option-title {
   color: var(--cream);
   font-weight: 800;
@@ -170,6 +176,12 @@
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
+.size-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .product-swatches {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -190,17 +202,17 @@
   padding: 0;
 }
 
+.swatch-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .swatch-dot-lg {
   width: 22px;
   height: 22px;
   border-radius: 999px;
   border: 2px solid rgba(255, 255, 255, 0.25);
-}
-
-.swatch-card input {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
 }
 
 .swatch-card:hover {
