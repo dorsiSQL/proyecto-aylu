@@ -1,71 +1,9 @@
-cconst WA_NUMBER = '5491156592963';
+const WA_NUMBER = '5491156592963';
 const CACHE_PREFIX = 'retro_remeras_cache_v1';
 
-const fallbackProducts = [
- {
-    "id": 1,
-    "nombre": "Remera Atari",
-    "categoria": "Videojuegos",
-    "precio": 18990,
-    "imagen": "assets/catalogo/ejemplo-gaming.jpg",
-    "descripcion": "Diseño inspirado en la mística del '86, con impronta retro y gráfica gastada.",
-    "disponible": true,
-    "destacado": true
-  },
-  {
-    "id": 2,
-    "nombre": "Remera Espíritu de Carretera",
-    "categoria": "Vintage",
-    "precio": 19990,
-    "imagen": "assets/catalogo/ejemplo-vintage.jpg",
-    "descripcion": "Una remera vintage",
-    "disponible": true,
-    "destacado": false
-  },
-  {
-    "id": 3,
-    "nombre": "Remera goku",
-    "categoria": "Anime",
-    "precio": 20400,
-    "imagen": "assets/catalogo/remera-goku.jpg",
-    "descripcion": "Una remera de Goku",
-    "disponible": true,
-    "destacado": false
-  }
-];
+const fallbackProducts = [];
 
-const fallbackDesigns = [
- {
-    "id": 1,
-    "nombre": "Remera Atari",
-    "categoria": "Videojuegos",
-    "precio": 18990,
-    "imagen": "assets/catalogo/ejemplo-gaming.jpg",
-    "descripcion": "Diseño inspirado en la mística del '86, con impronta retro y gráfica gastada.",
-    "disponible": true,
-    "destacado": true
-  },
-  {
-    "id": 2,
-    "nombre": "Remera Espíritu de Carretera",
-    "categoria": "Vintage",
-    "precio": 19990,
-    "imagen": "assets/catalogo/ejemplo-vintage.jpg",
-    "descripcion": "Una remera vintage",
-    "disponible": true,
-    "destacado": false
-  },
-  {
-    "id": 3,
-    "nombre": "Remera goku",
-    "categoria": "Anime",
-    "precio": 20400,
-    "imagen": "assets/catalogo/remera-goku.jpg",
-    "descripcion": "Una remera de Goku",
-    "disponible": true,
-    "destacado": false
-  }
-];
+const fallbackDesigns = [];
 
 const resourceStatus = {
   products: { source: 'idle', error: null },
@@ -141,6 +79,15 @@ export async function loadProducts() {
 
 export async function loadDesigns() {
   return loadJson('data/designs.json', fallbackDesigns, 'designs');
+}
+
+export function clearDataCache() {
+  try {
+    sessionStorage.removeItem(getCacheKey('products'));
+    sessionStorage.removeItem(getCacheKey('designs'));
+  } catch (error) {
+    // no-op
+  }
 }
 
 export function getDataStatus(resourceName) {
