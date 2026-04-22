@@ -9,6 +9,8 @@ const CATEGORY_META = {
   'Vintage':         { bg: 'linear-gradient(145deg,#221508,#1a1005)', accent: '#dcb450', label: 'VIN' },
 };
 
+const SIZE_LIST = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
 const state = {
   products: [],
   filteredProducts: [],
@@ -27,6 +29,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   applyQueryParams();
   filterProducts();
 });
+
+function renderSizeShowcase() {
+  const chips = SIZE_LIST.map(size => `<span class="size-mini-chip">${size}</span>`).join('');
+  return `
+    <div class="size-showcase">
+      <div class="size-showcase-group">
+        <span class="size-showcase-label">Talles</span>
+        <div class="size-mini-row">${chips}</div>
+      </div>
+      <div class="size-showcase-group">
+        <span class="size-showcase-label">Oversize</span>
+        <div class="size-mini-row">${chips}</div>
+      </div>
+    </div>
+  `;
+}
 
 function setupCategoryPills() {
   const pills = document.querySelector('[data-category-pills]');
@@ -109,8 +127,8 @@ function renderStats() {
 }
 
 function renderProductCard(product) {
-  const meta     = CATEGORY_META[product.categoria] || { bg: '#111', accent: '#f4c542', label: '???' };
-  const waMsg    = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
+  const meta      = CATEGORY_META[product.categoria] || { bg: '#111', accent: '#f4c542', label: '???' };
+  const waMsg     = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
   const cleanName = product.nombre.replace(/^Remera\s+/i, '');
 
   return `
@@ -142,7 +160,6 @@ function renderProductCard(product) {
     </article>`;
 }
 
-/* ── Modal ────────────────────────────────────────── */
 function setupModal() {
   const modal = document.querySelector('[data-product-modal]');
   if (!modal) return;
@@ -161,7 +178,7 @@ function openDetail(productId) {
   if (!product) return;
 
   const meta      = CATEGORY_META[product.categoria] || { bg: '#111', accent: '#f4c542', label: '???' };
-  const waMsg     = `Hola! Me interesa la remera *${product.nombre}*. ¿Me podés dar info de talles y colores disponibles?`;
+  const waMsg     = `Hola! Me interesa la remera *${product.nombre}*. ¿Me podés dar info de talles regulares, oversize y colores disponibles?`;
   const cleanName = product.nombre.replace(/^Remera\s+/i, '');
 
   body.innerHTML = `
@@ -181,9 +198,12 @@ function openDetail(productId) {
             <span class="product-price">${formatPrice(product.precio)}</span>
             <span class="tag">${product.disponible ? 'Stock disponible' : 'Consultar disponibilidad'}</span>
           </div>
+          <div style="margin-top:1rem;">
+            ${renderSizeShowcase()}
+          </div>
         </div>
         <div class="notice" style="margin-top:1rem;">
-          Este diseño se puede adaptar a distintos colores y talles. Pasá a personalización para armar tu pedido completo.
+          Este diseño se puede pedir en talles regulares y oversize. Pasá a personalización para armar tu pedido completo.
         </div>
         <div class="hero-actions" style="margin-top:1rem;">
           <a class="btn btn-primary"
