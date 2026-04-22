@@ -12,7 +12,6 @@ const categories = ['Todos', 'Fútbol', 'Anime', 'Cine / Películas', 'Videojueg
 document.addEventListener('DOMContentLoaded', async () => {
   setupCategoryPills();
   setupSearch();
-  setupModal();
 
   state.products = await loadProducts();
   applyQueryParams();
@@ -102,10 +101,6 @@ function renderCatalog() {
   }
 
   grid.innerHTML = state.filteredProducts.map(renderProductCard).join('');
-
-  grid.querySelectorAll('[data-open-detail]').forEach((btn) => {
-    btn.addEventListener('click', () => openDetail(btn.getAttribute('data-open-detail')));
-  });
 }
 
 function renderStats() {
@@ -142,9 +137,9 @@ function renderProductCard(product) {
         </div>
 
         <div class="product-actions" style="margin-top:1rem;">
-          <button class="btn btn-secondary" type="button" data-open-detail="${product.id}">
+          <a class="btn btn-secondary" href="producto.html?id=${product.id}">
             Ver detalle
-          </button>
+          </a>
           <a class="btn btn-primary" href="${createWhatsAppLink(waMsg)}" target="_blank" rel="noopener">
             Pedir por WhatsApp
           </a>
@@ -152,73 +147,4 @@ function renderProductCard(product) {
       </div>
     </article>
   `;
-}
-
-function setupModal() {
-  const modal = document.querySelector('[data-product-modal]');
-  if (!modal) return;
-
-  modal.addEventListener('click', (e) => {
-    if (e.target.matches('[data-close-modal], .modal-backdrop')) closeModal();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
-}
-
-function openDetail(productId) {
-  const modal = document.querySelector('[data-product-modal]');
-  const body = document.querySelector('[data-modal-body]');
-  if (!modal || !body) return;
-
-  const product = state.products.find((p) => String(p.id) === String(productId));
-  if (!product) return;
-
-  const waMsg = `Hola! Me interesa la remera *${product.nombre}*. ¿Me podés dar info de talles y colores disponibles?`;
-
-  body.innerHTML = `
-    <div class="modal-grid">
-      <div class="product-media cat-visual--modal">
-        <img src="${product.imagen}" alt="${product.nombre}">
-      </div>
-
-      <div class="modal-copy">
-        <div class="product-category">${product.categoria}</div>
-        <h3 class="section-title" style="font-size:2.3rem;">${product.nombre}</h3>
-        <p class="section-subtitle">${product.descripcion}</p>
-
-        <div class="panel" style="margin-top:1rem;">
-          <div class="price-row">
-            <span class="product-price">${formatPrice(product.precio)}</span>
-            <span class="tag">${product.disponible ? 'Stock disponible' : 'Consultar disponibilidad'}</span>
-          </div>
-        </div>
-
-        <div class="notice" style="margin-top:1rem;">
-          Este diseño se puede adaptar a distintos colores y talles. Pasá a personalización para armar tu pedido completo.
-        </div>
-
-        <div class="hero-actions" style="margin-top:1rem;">
-          <a class="btn btn-primary" href="${createWhatsAppLink(waMsg)}" target="_blank" rel="noopener">
-            Pedir por WhatsApp
-          </a>
-          <a class="btn btn-secondary" href="personalizar.html?producto=${product.id}">
-            Personalizar
-          </a>
-          <button class="btn btn-ghost" type="button" data-close-modal>Cerrar</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  modal.hidden = false;
-  document.body.style.overflow = 'hidden';
-}
-
-function closeModal() {
-  const modal = document.querySelector('[data-product-modal]');
-  if (!modal) return;
-  modal.hidden = true;
-  document.body.style.overflow = '';
 }
