@@ -187,8 +187,7 @@ function updateSummary() {
   const sizeNode = document.querySelector('[data-summary-size]');
   const catNode = document.querySelector('[data-summary-category]');
   const priceNode = document.querySelector('[data-summary-price]');
-  const shirt = document.querySelector('[data-shirt-preview]');
-  const shirtText = document.querySelector('[data-shirt-text]');
+  const shirtImage = document.querySelector('[data-shirt-preview-image]');
   const waLink = document.querySelector('[data-whatsapp-link]');
 
   const p = state.selectedProduct;
@@ -202,14 +201,10 @@ function updateSummary() {
   if (sizeNode) sizeNode.textContent = fullSizeLabel;
   if (priceNode) priceNode.textContent = p ? formatPrice(p.precio) : '';
 
-  if (shirt) {
-    shirt.style.setProperty('--shirt-color', state.selectedColor.hex);
-    shirt.style.setProperty('--shirt-text-color', state.selectedColor.text);
-  }
-
-  if (shirtText) {
-    shirtText.innerHTML = cleanName.split(' ').slice(0, 3).join('<br>');
-  }
+  if (shirtImage && p) {
+  shirtImage.src = p.imagen;
+  shirtImage.alt = p.nombre;
+}
 
   if (waLink && p) {
     const msg = `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${p.nombre}\n🏷️ Categoría: ${p.categoria}\n🎨 Color: ${state.selectedColor.name}\n📏 Talle: ${state.selectedSize}\n🧵 Calce: ${fitLabel}\n💰 Precio de referencia: ${formatPrice(p.precio)}\n\n¿Podés confirmar disponibilidad?`;

@@ -155,28 +155,16 @@
     radial-gradient(circle at top, rgba(244,197,66,.1), transparent 36%),
     rgba(255,255,255,.02);
   border: 1px solid rgba(244,197,66,.14);
+  overflow: hidden;
 }
 
-.shirt-shape {
-  width: min(260px, 100%);
-  aspect-ratio: 1 / 1.08;
-  clip-path: polygon(24% 8%, 37% 8%, 42% 2%, 58% 2%, 63% 8%, 76% 8%, 92% 22%, 82% 34%, 82% 92%, 18% 92%, 18% 34%, 8% 22%);
-  background: var(--shirt-color, #111111);
-  border: 3px solid rgba(255,255,255,.16);
-  box-shadow: inset 0 -10px 40px rgba(0,0,0,.28);
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  transition: background .35s;
-}
-
-.shirt-text {
-  text-align: center;
-  font-family: 'Oswald', sans-serif;
-  color: var(--shirt-text-color, #f5ead4);
-  font-size: clamp(1.1rem, 2.5vw, 1.7rem);
-  line-height: 1.1;
-  letter-spacing: .04em;
+.preview-shirt img {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
 }
 
 /* ── Responsive ──────────────────────────── */
