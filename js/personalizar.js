@@ -17,13 +17,20 @@ const FITS = [
   { key: 'oversize', label: 'Oversize', note: 'Más amplio y relajado' }
 ];
 
+const DEFAULTS = {
+  color: COLORS[0],
+  size: 'M',
+  fit: 'regular',
+  category: 'Todos'
+};
+
 const state = {
   products: [],
   selectedProduct: null,
-  selectedColor: COLORS[0],
-  selectedSize: 'M',
-  selectedFit: 'regular',
-  activeCategory: 'Todos',
+  selectedColor: DEFAULTS.color,
+  selectedSize: DEFAULTS.size,
+  selectedFit: DEFAULTS.fit,
+  activeCategory: DEFAULTS.category,
   cart: []
 };
 
@@ -127,7 +134,6 @@ function renderProductGrid() {
       state.selectedProduct = state.products.find((p) => String(p.id) === String(id)) || null;
       renderProductGrid();
       updateSummary();
-      animateSummaryCard();
     });
   });
 }
@@ -150,11 +156,10 @@ function renderFitSelector() {
 
   wrap.querySelectorAll('input[name="shirt-fit"]').forEach((input) => {
     input.addEventListener('change', () => {
-      state.selectedFit = input.value || 'regular';
+      state.selectedFit = input.value || DEFAULTS.fit;
       renderFitSelector();
       renderSizes();
       updateSummary();
-      animateSummaryCard();
     });
   });
 }
@@ -198,7 +203,6 @@ function renderSizes() {
       state.selectedSize = input.value;
       renderSizes();
       updateSummary();
-      animateSummaryCard();
     });
   });
 }
@@ -221,10 +225,9 @@ function renderColors() {
 
   wrap.querySelectorAll('input[name="shirt-color"]').forEach((input) => {
     input.addEventListener('change', () => {
-      state.selectedColor = COLORS.find((c) => c.name === input.value) || COLORS[0];
+      state.selectedColor = COLORS.find((c) => c.name === input.value) || DEFAULTS.color;
       renderColors();
       updateSummary();
-      animateSummaryCard();
     });
   });
 }
@@ -339,7 +342,6 @@ function handleCartAction(action, id) {
   }
 
   renderCart();
-  animateSummaryCard();
 }
 
 function addCurrentSelectionToCart() {
@@ -374,7 +376,21 @@ function addCurrentSelectionToCart() {
   }
 
   renderCart();
-  animateSummaryCard();
+}
+
+function resetCurrentSelection() {
+  state.activeCategory = DEFAULTS.category;
+  state.selectedColor = DEFAULTS.color;
+  state.selectedSize = DEFAULTS.size;
+  state.selectedFit = DEFAULTS.fit;
+  state.selectedProduct = state.products[0] || null;
+
+  renderCategoryFilters();
+  renderProductGrid();
+  renderFitSelector();
+  renderSizes();
+  renderColors();
+  updateSummary();
 }
 
 function updateOrderLinks() {
@@ -422,34 +438,17 @@ function setupActions() {
   const addToCartButtons = document.querySelectorAll('[data-add-to-cart]');
 
   addToCartButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      addCurrentSelectionToCart();
-    });
+    btn.addEventListener('click', addCurrentSelectionToCart);
   });
 
   if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      state.selectedProduct = state.products[0] || null;
-      state.selectedColor = COLORS[0];
-      state.selectedSize = 'M';
-      state.selectedFit = 'regular';
-      state.activeCategory = 'Todos';
-
-      renderCategoryFilters();
-      renderProductGrid();
-      renderFitSelector();
-      renderSizes();
-      renderColors();
-      updateSummary();
-      animateSummaryCard();
-    });
+    resetBtn.addEventListener('click', resetCurrentSelection);
   }
 
   if (clearCartBtn) {
     clearCartBtn.addEventListener('click', () => {
       state.cart = [];
       renderCart();
-      animateSummaryCard();
     });
   }
 
@@ -476,20 +475,6 @@ function updateMobileCtaText() {
   }
 
   mobileName.textContent = 'Elegí un diseño para comenzar';
-}
-
-function animateSummaryCard() {
-  const summaryCard = document.querySelector('.summary-card');
-  if (!summaryCard) return;
-
-  summaryCard.classList.remove('is-updating');
-  void summaryCard.offsetWidth;
-  summaryCard.classList.add('is-updating');
-
-  window.clearTimeout(summaryCard._updateTimer);
-  summaryCard._updateTimer = window.setTimeout(() => {
-    summaryCard.classList.remove('is-updating');
-  }, 260);
 }
 
 function getFitLabel(fit) {
