@@ -302,6 +302,11 @@
   justify-content: center;
 }
 
+.product-fit-selector {
+  display: grid;
+  gap: 0.9rem;
+}
+
 .product-order-box {
   display: grid;
   gap: 0.65rem;
