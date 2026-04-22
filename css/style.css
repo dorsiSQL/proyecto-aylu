@@ -26,15 +26,16 @@ html {
   scroll-behavior: smooth;
 }
 
-h1,
-h2,
-h3,
-.card-title {
-  font-family: 'Oswald', sans-serif;
+html,
+body {
+  min-height: 100vh;
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   font-family: 'Oswald', sans-serif;
   background:
     radial-gradient(circle at top right, rgba(200, 47, 47, 0.14), transparent 30%),
@@ -42,6 +43,17 @@ body {
     var(--bg);
   color: var(--text);
   line-height: 1.6;
+}
+
+main {
+  min-height: 0;
+}
+
+h1,
+h2,
+h3,
+.card-title {
+  font-family: 'Oswald', sans-serif;
 }
 
 img {
@@ -549,11 +561,11 @@ h4 {
 
 /* ── Footer ──────────────────────────────── */
 .footer {
-  padding: 1.9rem 0 2.1rem;
+  padding: 1.6rem 0 1.9rem;
   border-top: 1px solid rgba(244, 197, 66, 0.08);
   background:
-    linear-gradient(180deg, rgba(10, 10, 10, 0.96), rgba(10, 10, 10, 0.99)),
-    #0b0b0b;
+  linear-gradient(180deg, rgba(10, 10, 10, 0.96), rgba(10, 10, 10, 0.99)),
+  #0b0b0b;
 }
 
 .footer-grid {
