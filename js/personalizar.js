@@ -13,16 +13,8 @@ const COLORS = [
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 const FITS = [
-  {
-    key: 'regular',
-    label: 'Regular',
-    note: 'Calce clásico'
-  },
-  {
-    key: 'oversize',
-    label: 'Oversize',
-    note: 'Más amplio y relajado'
-  }
+  { key: 'regular', label: 'Regular', note: 'Calce clásico' },
+  { key: 'oversize', label: 'Oversize', note: 'Más amplio y relajado' }
 ];
 
 const state = {
@@ -31,7 +23,8 @@ const state = {
   selectedColor: COLORS[0],
   selectedSize: 'M',
   selectedFit: 'regular',
-  activeCategory: 'Todos'
+  activeCategory: 'Todos',
+  cart: []
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -44,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderSizes();
   renderColors();
   updateSummary();
+  renderCart();
   setupActions();
 });
 
@@ -57,7 +51,7 @@ function applyQueryParams() {
       state.selectedProduct = found;
       const hint = document.querySelector('[data-design-hint]');
       if (hint) {
-        hint.textContent = `Seleccionaste "${found.nombre}" desde el catálogo. Podés cambiarlo eligiendo otro diseño.`;
+        hint.textContent = `Seleccionaste "${found.nombre}" desde el catálogo. Podés cambiarlo eligiendo otro diseño o agregarlo al pedido.`;
       }
       return;
     }
@@ -100,6 +94,9 @@ function renderProductGrid() {
 
   container.innerHTML = visibleProducts.map((product) => {
     const isSelected = state.selectedProduct?.id === product.id;
+    const productCount = state.cart
+      .filter((item) => item.productId === product.id)
+      .reduce((acc, item) => acc + item.quantity, 0);
 
     return `
       <button
@@ -109,6 +106,7 @@ function renderProductGrid() {
         aria-pressed="${isSelected}">
         <div class="design-card-visual">
           <img src="${product.imagen}" alt="${product.nombre}">
+          ${productCount > 0 ? `<span class="design-card-badge">${productCount} en pedido</span>` : ''}
         </div>
 
         <div class="design-card-content">
@@ -239,62 +237,195 @@ function updateSummary() {
   const catNode = document.querySelector('[data-summary-category]');
   const priceNode = document.querySelector('[data-summary-price]');
   const shirtImage = document.querySelector('[data-shirt-preview-image]');
-  const waLinks = document.querySelectorAll('[data-whatsapp-link]');
-  const mobileName = document.querySelector('[data-mobile-cta-product]');
 
   const product = state.selectedProduct;
-  const fitLabel = state.selectedFit === 'oversize' ? 'Oversize' : 'Regular';
+  const fitLabel = getFitLabel(state.selectedFit);
 
   if (designNode) designNode.textContent = product ? product.nombre : '—';
   if (catNode) catNode.textContent = product ? product.categoria : '—';
   if (fitNode) fitNode.textContent = fitLabel;
   if (colorNode) colorNode.textContent = state.selectedColor.name;
   if (sizeNode) sizeNode.textContent = state.selectedSize;
-  if (priceNode) priceNode.textContent = product ? formatPrice(product.precio) : '';
+  if (priceNode) priceNode.textContent = product ? formatPrice(product.precio) : '—';
 
   if (shirtImage && product) {
     shirtImage.src = product.imagen;
     shirtImage.alt = product.nombre;
   }
 
-  if (mobileName) {
-    mobileName.textContent = product
-      ? `${product.nombre} · ${fitLabel} ${state.selectedSize}`
-      : 'Elegí un diseño para comenzar';
-  }
-
-  if (product) {
-    const msg = `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${product.nombre}\n🏷️ Categoría: ${product.categoria}\n🧵 Tipo: ${fitLabel}\n📏 Talle: ${state.selectedSize}\n🎨 Color: ${state.selectedColor.name}\n💰 Precio de referencia: ${formatPrice(product.precio)}\n\n¿Podés confirmar disponibilidad?`;
-
-    waLinks.forEach((link) => {
-      link.href = createWhatsAppLink(msg);
-      link.target = '_blank';
-      link.rel = 'noopener';
-    });
-  } else {
-    waLinks.forEach((link) => {
-      link.href = '#';
-    });
-  }
+  updateOrderLinks();
+  updateMobileCtaText();
 }
 
-function animateSummaryCard() {
-  const summaryCard = document.querySelector('.summary-card');
-  if (!summaryCard) return;
+function renderCart() {
+  const list = document.querySelector('[data-cart-list]');
+  const totalNode = document.querySelector('[data-cart-total]');
+  const countNode = document.querySelector('[data-cart-count]');
 
-  summaryCard.classList.remove('is-updating');
-  void summaryCard.offsetWidth;
-  summaryCard.classList.add('is-updating');
+  if (!list || !totalNode || !countNode) return;
 
-  window.clearTimeout(summaryCard._updateTimer);
-  summaryCard._updateTimer = window.setTimeout(() => {
-    summaryCard.classList.remove('is-updating');
-  }, 260);
+  if (!state.cart.length) {
+    list.innerHTML = `
+      <div class="cart-empty-state">
+        Todavía no agregaste productos al pedido.
+      </div>
+    `;
+  } else {
+    list.innerHTML = state.cart.map((item) => `
+      <article class="cart-item" data-cart-id="${item.id}">
+        <div class="cart-item-head">
+          <div class="cart-item-copy">
+            <h4>${item.productName}</h4>
+            <p>${item.category}</p>
+          </div>
+          <strong class="cart-item-subtotal">${formatPrice(item.unitPrice * item.quantity)}</strong>
+        </div>
+
+        <ul class="cart-item-meta">
+          <li><span>Tipo</span><strong>${item.fitLabel}</strong></li>
+          <li><span>Color</span><strong>${item.color}</strong></li>
+          <li><span>Talle</span><strong>${item.size}</strong></li>
+          <li><span>Precio unit.</span><strong>${formatPrice(item.unitPrice)}</strong></li>
+        </ul>
+
+        <div class="cart-item-actions">
+          <div class="qty-control" aria-label="Cantidad del producto">
+            <button type="button" class="qty-btn" data-cart-action="decrease" data-cart-id="${item.id}" aria-label="Restar cantidad">−</button>
+            <span class="qty-value">${item.quantity}</span>
+            <button type="button" class="qty-btn" data-cart-action="increase" data-cart-id="${item.id}" aria-label="Sumar cantidad">+</button>
+          </div>
+
+          <button type="button" class="cart-remove-btn" data-cart-action="remove" data-cart-id="${item.id}">
+            Quitar
+          </button>
+        </div>
+      </article>
+    `).join('');
+  }
+
+  totalNode.textContent = formatPrice(getCartTotal());
+  countNode.textContent = `${getCartItemsCount()} item${getCartItemsCount() === 1 ? '' : 's'}`;
+
+  list.querySelectorAll('[data-cart-action]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const action = btn.getAttribute('data-cart-action');
+      const id = btn.getAttribute('data-cart-id');
+      handleCartAction(action, id);
+    });
+  });
+
+  renderProductGrid();
+  updateOrderLinks();
+  updateMobileCtaText();
+}
+
+function handleCartAction(action, id) {
+  const item = state.cart.find((entry) => entry.id === id);
+  if (!item) return;
+
+  if (action === 'increase') {
+    item.quantity += 1;
+  }
+
+  if (action === 'decrease') {
+    item.quantity -= 1;
+    if (item.quantity <= 0) {
+      state.cart = state.cart.filter((entry) => entry.id !== id);
+    }
+  }
+
+  if (action === 'remove') {
+    state.cart = state.cart.filter((entry) => entry.id !== id);
+  }
+
+  renderCart();
+  animateSummaryCard();
+}
+
+function addCurrentSelectionToCart() {
+  const product = state.selectedProduct;
+  if (!product) return;
+
+  const fitLabel = getFitLabel(state.selectedFit);
+
+  const existing = state.cart.find((item) =>
+    item.productId === product.id &&
+    item.color === state.selectedColor.name &&
+    item.size === state.selectedSize &&
+    item.fit === state.selectedFit
+  );
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    state.cart.push({
+      id: createCartItemId(product.id, state.selectedColor.name, state.selectedSize, state.selectedFit),
+      productId: product.id,
+      productName: product.nombre,
+      category: product.categoria,
+      image: product.imagen,
+      unitPrice: Number(product.precio) || 0,
+      color: state.selectedColor.name,
+      size: state.selectedSize,
+      fit: state.selectedFit,
+      fitLabel,
+      quantity: 1
+    });
+  }
+
+  renderCart();
+  animateSummaryCard();
+}
+
+function updateOrderLinks() {
+  const orderLinks = document.querySelectorAll('[data-whatsapp-order]');
+  const msg = buildWhatsAppMessage();
+
+  orderLinks.forEach((link) => {
+    link.href = createWhatsAppLink(msg);
+    link.target = '_blank';
+    link.rel = 'noopener';
+  });
+}
+
+function buildWhatsAppMessage() {
+  if (state.cart.length) {
+    let msg = 'Hola! Quiero hacer un pedido:\n\n';
+
+    state.cart.forEach((item, index) => {
+      msg += `${index + 1}) ${item.productName}\n`;
+      msg += `🏷️ Categoría: ${item.category}\n`;
+      msg += `🧵 Tipo: ${item.fitLabel}\n`;
+      msg += `📏 Talle: ${item.size}\n`;
+      msg += `🎨 Color: ${item.color}\n`;
+      msg += `🔢 Cantidad: ${item.quantity}\n`;
+      msg += `💰 Subtotal ref.: ${formatPrice(item.unitPrice * item.quantity)}\n\n`;
+    });
+
+    msg += `💵 Total estimado: ${formatPrice(getCartTotal())}\n\n`;
+    msg += '¿Podés confirmar disponibilidad?';
+    return msg;
+  }
+
+  const product = state.selectedProduct;
+  if (!product) {
+    return 'Hola! Quiero consultar por una remera personalizada.';
+  }
+
+  return `Hola! Quiero hacer un pedido:\n\n👕 Producto: ${product.nombre}\n🏷️ Categoría: ${product.categoria}\n🧵 Tipo: ${getFitLabel(state.selectedFit)}\n📏 Talle: ${state.selectedSize}\n🎨 Color: ${state.selectedColor.name}\n💰 Precio de referencia: ${formatPrice(product.precio)}\n\n¿Podés confirmar disponibilidad?`;
 }
 
 function setupActions() {
   const resetBtn = document.querySelector('[data-reset-selection]');
   const customBtn = document.querySelector('[data-custom-request]');
+  const clearCartBtn = document.querySelector('[data-clear-cart]');
+  const addToCartButtons = document.querySelectorAll('[data-add-to-cart]');
+
+  addToCartButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      addCurrentSelectionToCart();
+    });
+  });
 
   if (resetBtn) {
     resetBtn.addEventListener('click', () => {
@@ -314,10 +445,65 @@ function setupActions() {
     });
   }
 
+  if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', () => {
+      state.cart = [];
+      renderCart();
+      animateSummaryCard();
+    });
+  }
+
   if (customBtn) {
     customBtn.addEventListener('click', () => {
       const msg = 'Hola! Quiero pedir una remera con un diseño personalizado. ¿Me podés dar más información?';
       window.open(createWhatsAppLink(msg), '_blank', 'noopener');
     });
   }
+}
+
+function updateMobileCtaText() {
+  const mobileName = document.querySelector('[data-mobile-cta-product]');
+  if (!mobileName) return;
+
+  if (state.cart.length) {
+    mobileName.textContent = `${getCartItemsCount()} item${getCartItemsCount() === 1 ? '' : 's'} · ${formatPrice(getCartTotal())}`;
+    return;
+  }
+
+  if (state.selectedProduct) {
+    mobileName.textContent = `${state.selectedProduct.nombre} · ${getFitLabel(state.selectedFit)} ${state.selectedSize}`;
+    return;
+  }
+
+  mobileName.textContent = 'Elegí un diseño para comenzar';
+}
+
+function animateSummaryCard() {
+  const summaryCard = document.querySelector('.summary-card');
+  if (!summaryCard) return;
+
+  summaryCard.classList.remove('is-updating');
+  void summaryCard.offsetWidth;
+  summaryCard.classList.add('is-updating');
+
+  window.clearTimeout(summaryCard._updateTimer);
+  summaryCard._updateTimer = window.setTimeout(() => {
+    summaryCard.classList.remove('is-updating');
+  }, 260);
+}
+
+function getFitLabel(fit) {
+  return fit === 'oversize' ? 'Oversize' : 'Regular';
+}
+
+function getCartTotal() {
+  return state.cart.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
+}
+
+function getCartItemsCount() {
+  return state.cart.reduce((acc, item) => acc + item.quantity, 0);
+}
+
+function createCartItemId(productId, color, size, fit) {
+  return `${productId}-${color}-${size}-${fit}`;
 }

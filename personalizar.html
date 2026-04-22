@@ -17,9 +17,9 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/personalizar.css">
 <title>Personalizar remera | Retro Remeras</title>
-<meta name="description" content="Elegí un diseño, color, tipo y talle para tu remera. Confirmá el pedido por WhatsApp en segundos.">
+<meta name="description" content="Elegí uno o varios diseños, definí tipo, color y talle, y confirmá tu pedido por WhatsApp.">
 <meta property="og:title" content="Personalizar remera | Retro Remeras">
-<meta property="og:description" content="Armá tu remera y enviá el pedido por WhatsApp con el mensaje generado automáticamente.">
+<meta property="og:description" content="Armá tu pedido con varios productos y enviá todo por WhatsApp con el mensaje generado automáticamente.">
 <meta property="og:url" content="https://proyecto-aylu.vercel.app/personalizar.html">
 </head>
 <body>
@@ -55,12 +55,12 @@
       <span class="section-kicker">Personalización</span>
       <h1 class="section-title">Armá tu remera en pocos pasos</h1>
       <p class="section-subtitle">
-        Elegí cualquier diseño del catálogo, definí el tipo de remera, el color y el talle, y confirmá el pedido directo por WhatsApp.
+        Elegí cualquier diseño del catálogo, definí el tipo de remera, el color y el talle, y sumá uno o varios productos a tu pedido.
       </p>
     </div>
 
     <div class="notice" data-design-hint>
-      Seleccioná cualquier producto del catálogo, elegí el tipo de remera, color y talle, y el mensaje se arma solo.
+      Seleccioná un diseño, definí la configuración y agregalo al pedido. Después podés repetir el proceso con otros productos.
     </div>
 
     <div class="personalizar-grid">
@@ -125,7 +125,7 @@
         <div class="summary-card-head">
           <div>
             <h2>Resumen de selección</h2>
-            <p class="section-subtitle">Revisá tu elección antes de confirmar.</p>
+            <p class="section-subtitle">Configurá un producto y agregalo al pedido.</p>
           </div>
         </div>
 
@@ -143,10 +143,17 @@
         </ul>
 
         <div class="hero-actions summary-actions">
-          <a class="btn btn-primary" href="#" target="_blank" rel="noopener" data-whatsapp-link>
-            Confirmar por WhatsApp
+          <button class="btn btn-primary" type="button" data-add-to-cart>
+            Agregar al pedido
+          </button>
+
+          <a class="btn btn-secondary" href="#" target="_blank" rel="noopener" data-whatsapp-order>
+            Confirmar pedido por WhatsApp
           </a>
-          <button class="btn btn-secondary" type="button" data-reset-selection>Reiniciar</button>
+
+          <button class="btn btn-secondary" type="button" data-reset-selection>
+            Reiniciar selección
+          </button>
         </div>
 
         <div class="notice summary-note">
@@ -156,19 +163,44 @@
         <button class="btn btn-ghost" type="button" data-custom-request>
           Quiero una remera personalizada
         </button>
+
+        <div class="cart-section">
+          <div class="cart-section-head">
+            <div>
+              <h3>Tu pedido</h3>
+              <p class="cart-section-subtitle">Podés sumar varias remeras antes de confirmar.</p>
+            </div>
+            <span class="cart-count-badge" data-cart-count>0 items</span>
+          </div>
+
+          <div class="cart-list" data-cart-list>
+            <div class="cart-empty-state">
+              Todavía no agregaste productos al pedido.
+            </div>
+          </div>
+
+          <div class="cart-total-row">
+            <span>Total estimado</span>
+            <strong data-cart-total>$0</strong>
+          </div>
+
+          <button class="btn btn-ghost cart-clear-btn" type="button" data-clear-cart>
+            Vaciar pedido
+          </button>
+        </div>
       </aside>
 
     </div>
   </section>
 
-  <div class="mobile-cta-bar" aria-label="Tu selección actual">
+  <div class="mobile-cta-bar" aria-label="Tu pedido actual">
     <div class="mobile-cta-info">
-      <span class="mobile-cta-label">Tu selección</span>
+      <span class="mobile-cta-label">Tu pedido</span>
       <strong class="mobile-cta-product" data-mobile-cta-product>Elegí un diseño para comenzar</strong>
     </div>
-    <a class="btn btn-primary mobile-cta-btn" href="#" target="_blank" rel="noopener" data-whatsapp-link>
-      Confirmar
-    </a>
+    <button class="btn btn-primary mobile-cta-btn" type="button" data-add-to-cart>
+      Agregar
+    </button>
   </div>
 </main>
 
