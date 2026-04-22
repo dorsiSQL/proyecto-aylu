@@ -4,18 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
-<link rel="icon" type="icon" href="assets/icons/favicon.ico">
+<!-- FIX: tipo correcto del favicon -->
+<link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
 <link rel="preload" href="assets/logo/icono-banner.png" as="image">
+<!-- FIX: preconnect antes de cargar Google Fonts para reducir latencia -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Retro Remeras">
-<meta property="og:image" content="assets/img/preview.png">
+<!-- FIX: OG image con URL absoluta (relativa no funciona al compartir en redes) -->
+<meta property="og:image" content="https://proyecto-aylu.vercel.app/assets/img/preview.png">
 <meta property="og:locale" content="es_AR">
+<meta name="robots" content="index, follow">
 <link rel="stylesheet" href="css/style.css">
 <title>Retro Remeras | Remeras con estilo, nostalgia y personalidad</title>
 <meta name="description" content="Retro Remeras: remeras personalizadas y temáticas con estética vintage. Catálogo por categorías, personalización simple y atención por WhatsApp.">
 <meta property="og:title" content="Retro Remeras">
 <meta property="og:description" content="Remeras con estilo, nostalgia y personalidad. Elegí tu diseño, color y talle en pocos pasos.">
+<meta property="og:url" content="https://proyecto-aylu.vercel.app/">
 </head>
 <body>
 
@@ -67,15 +74,17 @@
       <div class="hero-visual">
         <div class="poster-stack">
           <div class="poster-main">
-            <img src="assets/img/ejemplo-vintage.jpg" alt="Diseño vintage destacado">
+            <!-- Primera imagen del hero: eager (es LCP, no lazy) -->
+            <img src="assets/img/ejemplo-vintage.jpg" alt="Diseño vintage destacado" loading="eager">
             <div class="poster-badge">Colecciones con impronta retro</div>
           </div>
           <div class="poster-side">
             <div class="poster-main">
-              <img src="assets/img/remera-goku.jpg" alt="Diseño anime destacado">
+              <!-- FIX: lazy loading en imágenes secundarias del hero -->
+              <img src="assets/img/remera-goku.jpg" alt="Diseño anime destacado" loading="lazy">
             </div>
             <div class="poster-main">
-              <img src="assets/img/ejemplo-gaming.jpg" alt="Diseño videojuegos destacado">
+              <img src="assets/img/ejemplo-gaming.jpg" alt="Diseño videojuegos destacado" loading="lazy">
             </div>
           </div>
         </div>
@@ -121,7 +130,8 @@
       </div>
       <div class="grid-3">
         <a class="category-card" href="catalogo.html?categoria=F%C3%BAtbol" data-category-link="Fútbol">
-          <img src="assets/img/futbol-campeones.svg" alt="Categoría fútbol">
+          <!-- FIX: lazy loading en todas las imágenes de categorías (below the fold) -->
+          <img src="assets/img/futbol-campeones.svg" alt="Categoría fútbol" loading="lazy">
           <div class="category-card-content">
             <h3>Fútbol</h3>
             <p>Clásicos, ídolos, momentos épicos y mística de cancha.</p>
@@ -129,7 +139,7 @@
           </div>
         </a>
         <a class="category-card" href="catalogo.html?categoria=Anime" data-category-link="Anime">
-          <img src="assets/img/anime-neotokyo.svg" alt="Categoría anime">
+          <img src="assets/img/anime-neotokyo.svg" alt="Categoría anime" loading="lazy">
           <div class="category-card-content">
             <h3>Anime</h3>
             <p>Diseños con energía, ciudad, nostalgia y mucha personalidad.</p>
@@ -137,7 +147,7 @@
           </div>
         </a>
         <a class="category-card" href="catalogo.html?categoria=Cine%20%2F%20Pel%C3%ADculas" data-category-link="Cine / Películas">
-          <img src="assets/img/cine-cult.svg" alt="Categoría cine y películas">
+          <img src="assets/img/cine-cult.svg" alt="Categoría cine y películas" loading="lazy">
           <div class="category-card-content">
             <h3>Cine / Películas</h3>
             <p>Posters, VHS, culto y referencias que sí se entienden.</p>
@@ -145,7 +155,7 @@
           </div>
         </a>
         <a class="category-card" href="catalogo.html?categoria=Videojuegos" data-category-link="Videojuegos">
-          <img src="assets/img/gaming-8bit.svg" alt="Categoría videojuegos">
+          <img src="assets/img/gaming-8bit.svg" alt="Categoría videojuegos" loading="lazy">
           <div class="category-card-content">
             <h3>Videojuegos</h3>
             <p>Arcade, pixel, boss fights y una buena cuota de nostalgia.</p>
@@ -153,7 +163,7 @@
           </div>
         </a>
         <a class="category-card" href="catalogo.html?categoria=Variados" data-category-link="Variados">
-          <img src="assets/img/variados-garage.svg" alt="Categoría variados">
+          <img src="assets/img/variados-garage.svg" alt="Categoría variados" loading="lazy">
           <div class="category-card-content">
             <h3>Variados</h3>
             <p>Rock, cultura urbana, conceptos visuales y diseños sueltos.</p>
@@ -161,7 +171,7 @@
           </div>
         </a>
         <a class="category-card" href="catalogo.html?categoria=Vintage" data-category-link="Vintage">
-          <img src="assets/img/vintage-diner.svg" alt="Categoría vintage">
+          <img src="assets/img/vintage-diner.svg" alt="Categoría vintage" loading="lazy">
           <div class="category-card-content">
             <h3>Vintage</h3>
             <p>Cartelería, color cálido, tipografías con historia y buen gusto.</p>
@@ -204,7 +214,7 @@
     </div>
   </section>
 
-  <!-- ── CARRUSEL DE PRODUCTOS ─────────────────────── -->
+  <!-- CARRUSEL DE PRODUCTOS -->
   <section class="section" data-carousel>
     <div class="container">
       <div class="section-header">
@@ -237,7 +247,7 @@
   <div class="container footer-grid">
     <div>
       <a class="brand" href="index.html" aria-label="Retro Remeras">
-        <img src="assets/logo/icono-banner.png" alt="Retro Remeras">
+        <img src="assets/logo/icono-banner.png" alt="Retro Remeras" loading="lazy">
       </a>
       <p>Remeras con estilo, nostalgia y personalidad. Diseños temáticos, atención cercana y pedidos simples por WhatsApp.</p>
       <small>© <span data-year></span> Retro Remeras. Todos los derechos reservados.</small>

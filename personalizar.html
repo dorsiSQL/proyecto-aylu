@@ -4,19 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
-<link rel="icon" type="icon" href="assets/icons/favicon.ico">
+<!-- FIX: tipo correcto del favicon -->
+<link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
 <link rel="preload" href="assets/logo/icono-banner.png" as="image">
+<!-- FIX: preconnect antes de cargar Google Fonts para reducir latencia -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Retro Remeras">
-<meta property="og:image" content="assets/img/preview.png">
+<!-- FIX: OG image con URL absoluta -->
+<meta property="og:image" content="https://proyecto-aylu.vercel.app/assets/img/preview.png">
 <meta property="og:locale" content="es_AR">
+<meta name="robots" content="index, follow">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/personalizar.css">
 <title>Personalizar remera | Retro Remeras</title>
 <meta name="description" content="Elegí un diseño, color y talle para tu remera. Confirmá el pedido por WhatsApp en segundos.">
 <meta property="og:title" content="Personalizar remera | Retro Remeras">
 <meta property="og:description" content="Armá tu remera y enviá el pedido por WhatsApp con el mensaje generado automáticamente.">
+<meta property="og:url" content="https://proyecto-aylu.vercel.app/personalizar.html">
 </head>
 <body>
 
@@ -92,7 +99,7 @@
         </div>
 
         <div class="preview-shirt">
-          <img src="" alt="Producto seleccionado" data-shirt-preview-image>
+          <img src="" alt="Producto seleccionado" data-shirt-preview-image loading="lazy">
         </div>
 
         <ul class="summary-list">
@@ -128,7 +135,7 @@
   <div class="container footer-grid">
     <div>
       <a class="brand" href="index.html" aria-label="Retro Remeras">
-        <img src="assets/logo/icono-banner.png" alt="Retro Remeras">
+        <img src="assets/logo/icono-banner.png" alt="Retro Remeras" loading="lazy">
       </a>
       <p>Remeras con estilo, nostalgia y personalidad. Diseños temáticos, atención cercana y pedidos simples por WhatsApp.</p>
       <small>© <span data-year></span> Retro Remeras. Todos los derechos reservados.</small>
