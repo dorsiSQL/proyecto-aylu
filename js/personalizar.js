@@ -129,6 +129,7 @@ function renderProductGrid() {
       state.selectedProduct = state.products.find((p) => String(p.id) === String(id)) || null;
       renderProductGrid();
       updateSummary();
+      animateSummaryCard();
     });
   });
 }
@@ -155,6 +156,7 @@ function renderFitSelector() {
       renderFitSelector();
       renderSizes();
       updateSummary();
+      animateSummaryCard();
     });
   });
 }
@@ -198,6 +200,7 @@ function renderSizes() {
       state.selectedSize = input.value;
       renderSizes();
       updateSummary();
+      animateSummaryCard();
     });
   });
 }
@@ -223,6 +226,7 @@ function renderColors() {
       state.selectedColor = COLORS.find((c) => c.name === input.value) || COLORS[0];
       renderColors();
       updateSummary();
+      animateSummaryCard();
     });
   });
 }
@@ -274,6 +278,20 @@ function updateSummary() {
   }
 }
 
+function animateSummaryCard() {
+  const summaryCard = document.querySelector('.summary-card');
+  if (!summaryCard) return;
+
+  summaryCard.classList.remove('is-updating');
+  void summaryCard.offsetWidth;
+  summaryCard.classList.add('is-updating');
+
+  window.clearTimeout(summaryCard._updateTimer);
+  summaryCard._updateTimer = window.setTimeout(() => {
+    summaryCard.classList.remove('is-updating');
+  }, 260);
+}
+
 function setupActions() {
   const resetBtn = document.querySelector('[data-reset-selection]');
   const customBtn = document.querySelector('[data-custom-request]');
@@ -292,6 +310,7 @@ function setupActions() {
       renderSizes();
       renderColors();
       updateSummary();
+      animateSummaryCard();
     });
   }
 
