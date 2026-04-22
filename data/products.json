@@ -28,25 +28,5 @@
     "descripcion": "Una postal retro convertida en remera, con look gastado.",
     "disponible": true,
     "destacado": false
-  },
-  {
-    "id": 4,
-    "nombre": "Remera Motel Sunset",
-    "categoria": "Anime",
-    "precio": 20400,
-    "imagen": "assets/catalogo/remera-goku.jpg",
-    "descripcion": "Una postal retro convertida en remera, con look gastado.",
-    "disponible": true,
-    "destacado": false
-  },
-  {
-    "id": 5,
-    "nombre": "Remera Motel Sunset",
-    "categoria": "Anime",
-    "precio": 20400,
-    "imagen": "assets/catalogo/remera-goku.jpg",
-    "descripcion": "Una postal retro convertida en remera, con look gastado.",
-    "disponible": true,
-    "destacado": false
   }
 ]
