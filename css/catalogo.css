@@ -58,8 +58,27 @@
   justify-content: space-between;
 }
 
+/* ── Inline styles del HTML absorbidos en CSS ── */
+
+/* .section-header dentro del aside de filtros tiene margin-bottom inline */
+.catalog-shell .filters > .section-header {
+  margin-bottom: 1rem;
+}
+
+/* .filters h2 tiene font-size: 2rem inline */
+.catalog-shell .filters h2 {
+  font-size: 2rem;
+}
+
+/* .catalog-meta tiene margin inline */
 .catalog-meta {
+  margin: .25rem 0 0;
   color: var(--muted);
+}
+
+/* .catalog-grid tiene margin-top inline */
+[data-catalog-grid] {
+  margin-top: 1rem;
 }
 
 @media (min-width: 720px) {

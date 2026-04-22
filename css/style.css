@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+/* Google Fonts se carga via <link> en el HTML — no repetir con @import */
 
 :root {
   --bg: #111111;
@@ -164,6 +164,7 @@ h1, h2, h3, h4 {
   transition: transform .25s, box-shadow .25s, background .25s, border-color .25s;
 }
 .btn:hover, .btn:focus-visible { transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn:focus-visible { outline: 2px solid rgba(244,197,66,.6); outline-offset: 3px; }
 
 .btn-primary  { color: #111; background: linear-gradient(135deg, var(--yellow), #f0a515); }
 .btn-secondary{ color: var(--cream); background: rgba(255,255,255,.02); border-color: rgba(244,197,66,.24); }
@@ -476,7 +477,10 @@ h1, h2, h3, h4 {
   width: 44px; height: 44px; border-radius: 12px; border: 0;
   background: rgba(255,255,255,.06); color: var(--cream);
   cursor: pointer; z-index: 2;
+  transition: background .2s, transform .2s;
 }
+.modal-close:hover { background: rgba(255,255,255,.12); transform: scale(1.08); }
+.modal-close:focus-visible { outline: 2px solid rgba(244,197,66,.6); outline-offset: 2px; }
 .modal-grid { display: grid; }
 .modal-copy { padding: 1.4rem; }
 
@@ -485,6 +489,13 @@ h1, h2, h3, h4 {
   width: 100%; min-height: 48px; border-radius: 14px;
   border: 1px solid rgba(244,197,66,.14);
   background: rgba(255,255,255,.03); color: var(--text); padding: .85rem 1rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+.input:focus-visible,
+.select:focus-visible {
+  outline: none;
+  border-color: rgba(244,197,66,.5);
+  box-shadow: 0 0 0 3px rgba(244,197,66,.15);
 }
 .input::placeholder { color: #b6aa95; }
 
@@ -565,9 +576,3 @@ h1, h2, h3, h4 {
 }
 
 
-.product-title,
-.card-title {
-  font-family: 'Oswald', sans-serif !important;
-  color: #f5f5f5 !important;
-  font-weight: 600;
-}

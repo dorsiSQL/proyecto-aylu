@@ -189,8 +189,8 @@
 .design-card .product-title,
 .design-card .card-title,
 .design-card-content h3 {
-  font-family: 'Oswald', sans-serif !important;
-  color: #f5f5f5 !important;
+  font-family: 'Oswald', sans-serif;
+  color: #f5f5f5;
   font-weight: 600;
 }
 
@@ -230,4 +230,32 @@
   .size-group-card .size-grid {
     grid-template-columns: repeat(6, minmax(56px, 1fr));
   }
+}
+
+
+/* ── Inline styles del HTML absorbidos en CSS ── */
+
+/* notice con data-design-hint tiene margin-bottom inline */
+[data-design-hint] {
+  margin-bottom: 1rem;
+}
+
+/* filter-pills con data-design-category-filters tiene margin-bottom inline */
+[data-design-category-filters] {
+  margin-bottom: .75rem;
+}
+
+/* form-groups secundarios con margin-top inline */
+.personalizar-grid .panel .form-group + .form-group {
+  margin-top: 1.25rem;
+}
+
+/* h2 del summary card tiene font-size inline */
+.summary-card > div > h2 {
+  font-size: 2.1rem;
+}
+
+/* data-summary-price tiene color inline */
+[data-summary-price] {
+  color: var(--yellow);
 }
