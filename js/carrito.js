@@ -34,31 +34,39 @@ function renderCart() {
   } else {
     list.innerHTML = state.cart.map((item) => `
       <article class="cart-item" data-cart-id="${item.id}">
-        <div class="cart-item-head">
-          <div class="cart-item-copy">
-            <h4>${item.productName}</h4>
-            <p>${item.category}</p>
-          </div>
-          <strong class="cart-item-subtotal">${formatPrice(item.unitPrice * item.quantity)}</strong>
-        </div>
-
-        <ul class="cart-item-meta">
-          <li><span>Tipo</span><strong>${item.fitLabel}</strong></li>
-          <li><span>Color</span><strong>${item.color}</strong></li>
-          <li><span>Talle</span><strong>${item.size}</strong></li>
-          <li><span>Precio unit.</span><strong>${formatPrice(item.unitPrice)}</strong></li>
-        </ul>
-
-        <div class="cart-item-actions">
-          <div class="qty-control" aria-label="Cantidad del producto">
-            <button type="button" class="qty-btn" data-cart-action="decrease" data-cart-id="${item.id}" aria-label="Restar cantidad">−</button>
-            <span class="qty-value">${item.quantity}</span>
-            <button type="button" class="qty-btn" data-cart-action="increase" data-cart-id="${item.id}" aria-label="Sumar cantidad">+</button>
+        <div class="cart-item-body">
+          <div class="cart-item-thumb">
+            <img src="${item.image || ''}" alt="${item.productName}">
           </div>
 
-          <button type="button" class="cart-remove-btn" data-cart-action="remove" data-cart-id="${item.id}">
-            Quitar
-          </button>
+          <div class="cart-item-content">
+            <div class="cart-item-head">
+              <div class="cart-item-copy">
+                <h4>${item.productName}</h4>
+                <p>${item.category}</p>
+              </div>
+              <strong class="cart-item-subtotal">${formatPrice(item.unitPrice * item.quantity)}</strong>
+            </div>
+
+            <ul class="cart-item-meta">
+              <li><span>Tipo</span><strong>${item.fitLabel}</strong></li>
+              <li><span>Color</span><strong>${item.color}</strong></li>
+              <li><span>Talle</span><strong>${item.size}</strong></li>
+              <li><span>Precio unit.</span><strong>${formatPrice(item.unitPrice)}</strong></li>
+            </ul>
+
+            <div class="cart-item-actions">
+              <div class="qty-control" aria-label="Cantidad del producto">
+                <button type="button" class="qty-btn" data-cart-action="decrease" data-cart-id="${item.id}" aria-label="Restar cantidad">−</button>
+                <span class="qty-value">${item.quantity}</span>
+                <button type="button" class="qty-btn" data-cart-action="increase" data-cart-id="${item.id}" aria-label="Sumar cantidad">+</button>
+              </div>
+
+              <button type="button" class="cart-remove-btn" data-cart-action="remove" data-cart-id="${item.id}">
+                Quitar
+              </button>
+            </div>
+          </div>
         </div>
       </article>
     `).join('');

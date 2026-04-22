@@ -562,53 +562,55 @@ h1, h2, h3, h4 {
 
 .nav-cart-icon-btn {
   position: relative;
-  width: 52px;
-  height: 52px;
+  width: 54px;
+  height: 54px;
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  border: 1px solid rgba(244,197,66,.24);
-  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(244,197,66,.34);
+  background: #f5ead4;
   transition: transform .25s, box-shadow .25s, background .25s, border-color .25s;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
 }
 
 .nav-cart-icon-btn:hover,
 .nav-cart-icon-btn:focus-visible {
   transform: translateY(-2px);
-  box-shadow: var(--shadow);
-  border-color: rgba(244,197,66,.38);
-  background: rgba(255,255,255,.16);
+  box-shadow: 0 14px 28px rgba(0,0,0,.24);
+  border-color: rgba(244,197,66,.5);
+  background: #fff1cf;
 }
 
 .nav-cart-icon-btn:focus-visible {
-  outline: 2px solid rgba(244,197,66,.6);
+  outline: 2px solid rgba(244,197,66,.7);
   outline-offset: 3px;
 }
 
 .nav-cart-icon {
-  width: 22px;
-  height: 22px;
+  width: 23px;
+  height: 23px;
   object-fit: contain;
   display: block;
-  opacity: .95;
+  opacity: 1;
 }
 
 .nav-cart-badge {
-  min-width: 21px;
-  height: 21px;
-  padding: 0 .35rem;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 .36rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: #1b1607;
-  border: 1px solid rgba(244,197,66,.28);
+  background: #111111;
+  border: 1px solid rgba(244,197,66,.4);
   color: var(--yellow);
   font-size: .72rem;
   font-weight: 800;
   line-height: 1;
+  box-shadow: 0 6px 16px rgba(0,0,0,.28);
 }
 
 .nav-cart-badge--icon {
