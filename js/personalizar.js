@@ -29,7 +29,7 @@ const state = {
   selectedProduct: null,
   selectedColor: DEFAULTS.color,
   selectedSize: DEFAULTS.size,
-  selectedFit: DEFAULTS.fit,
+  selectedFit: null,
   activeCategory: DEFAULTS.category,
   cart: []
 };
@@ -134,16 +134,9 @@ function renderProductGrid() {
       const id = card.getAttribute('data-product-id');
       state.selectedProduct = state.products.find((p) => String(p.id) === String(id)) || null;
 
-      // Si venís de un reset total, restauro una base lógica para que "Agregar" funcione.
-      if (!state.selectedFit) state.selectedFit = DEFAULTS.fit;
-      if (!state.selectedSize) state.selectedSize = DEFAULTS.size;
-      if (!state.selectedColor) state.selectedColor = DEFAULTS.color;
-
       renderProductGrid();
-      renderFitSelector();
-      renderSizes();
-      renderColors();
       updateSummary();
+      updateActionButtons();
     });
   });
 }
@@ -167,9 +160,11 @@ function renderFitSelector() {
   wrap.querySelectorAll('input[name="shirt-fit"]').forEach((input) => {
     input.addEventListener('change', () => {
       state.selectedFit = input.value || null;
+
       if (!state.selectedSize && state.selectedFit) {
         state.selectedSize = DEFAULTS.size;
       }
+
       renderFitSelector();
       renderSizes();
       updateSummary();
@@ -185,35 +180,31 @@ function renderSizes() {
 
   if (!state.selectedFit) {
     if (banner) {
-      banner.innerHTML = 'Primero elegí un tipo de remera.';
+      banner.textContent = 'Elegí un tipo de remera para habilitar los talles.';
     }
 
     if (stepHint) {
       stepHint.textContent = 'Seleccioná primero el tipo de remera para ver los talles.';
     }
 
-    wrap.innerHTML = `
-      <div class="size-empty-state">
-        Elegí <strong>Regular</strong> u <strong>Oversize</strong> para habilitar los talles.
-      </div>
-    `;
+    wrap.innerHTML = '';
     return;
   }
 
   const currentFit = FITS.find((fit) => fit.key === state.selectedFit) || FITS[0];
 
   if (banner) {
-    banner.innerHTML = `Estás viendo talles para: <strong>${currentFit.label}</strong>`;
+    banner.innerHTML = `Talles disponibles para: <strong>${currentFit.label}</strong>`;
   }
 
   if (stepHint) {
-    stepHint.textContent = `Seleccioná el talle disponible para tu remera ${currentFit.label.toLowerCase()}.`;
+    stepHint.textContent = `Elegí el talle para tu remera ${currentFit.label.toLowerCase()}.`;
   }
 
   wrap.innerHTML = `
     <div class="size-group-card is-single-fit">
       <div class="size-group-title">${currentFit.label}</div>
-      <div class="size-grid">
+      <div class="size-grid size-grid-pro">
         ${SIZES.map((size) => `
           <label class="size-option ${state.selectedSize === size ? 'is-selected' : ''}">
             <input
@@ -239,19 +230,24 @@ function renderSizes() {
 
 function renderColors() {
   const wrap = document.querySelector('[data-color-swatches]');
+  const selectedLabel = document.querySelector('[data-selected-color-label]');
   if (!wrap) return;
 
   wrap.innerHTML = COLORS.map((color) => `
-    <label class="swatch ${state.selectedColor?.name === color.name ? 'is-selected' : ''}">
+    <label class="swatch swatch-card ${state.selectedColor?.name === color.name ? 'is-selected' : ''}">
       <input
         type="radio"
         name="shirt-color"
         value="${color.name}"
         ${state.selectedColor?.name === color.name ? 'checked' : ''}>
-      <span class="swatch-dot" style="background:${color.hex}; border-color:rgba(255,255,255,.2);"></span>
-      <span>${color.name}</span>
+      <span class="swatch-dot swatch-dot-lg" style="background:${color.hex}; border-color:rgba(255,255,255,.2);"></span>
+      <span class="swatch-name">${color.name}</span>
     </label>
   `).join('');
+
+  if (selectedLabel) {
+    selectedLabel.textContent = state.selectedColor?.name || '—';
+  }
 
   wrap.querySelectorAll('input[name="shirt-color"]').forEach((input) => {
     input.addEventListener('change', () => {
@@ -416,10 +412,11 @@ function addCurrentSelectionToCart() {
   renderCart();
 }
 
-function resetCurrentSelection() {
+function clearCartAndSelection() {
+  state.cart = [];
   state.selectedProduct = null;
-  state.selectedColor = null;
-  state.selectedSize = null;
+  state.selectedColor = DEFAULTS.color;
+  state.selectedSize = DEFAULTS.size;
   state.selectedFit = null;
   state.activeCategory = DEFAULTS.category;
 
@@ -429,6 +426,7 @@ function resetCurrentSelection() {
   renderSizes();
   renderColors();
   updateSummary();
+  renderCart();
 }
 
 function updateActionButtons() {
@@ -486,7 +484,6 @@ function buildWhatsAppMessage() {
 }
 
 function setupActions() {
-  const resetBtn = document.querySelector('[data-reset-selection]');
   const customBtn = document.querySelector('[data-custom-request]');
   const clearCartBtn = document.querySelector('[data-clear-cart]');
   const addToCartButtons = document.querySelectorAll('[data-add-to-cart]');
@@ -495,15 +492,8 @@ function setupActions() {
     btn.addEventListener('click', addCurrentSelectionToCart);
   });
 
-  if (resetBtn) {
-    resetBtn.addEventListener('click', resetCurrentSelection);
-  }
-
   if (clearCartBtn) {
-    clearCartBtn.addEventListener('click', () => {
-      state.cart = [];
-      renderCart();
-    });
+    clearCartBtn.addEventListener('click', clearCartAndSelection);
   }
 
   if (customBtn) {
