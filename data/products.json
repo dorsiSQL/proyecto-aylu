@@ -4,7 +4,7 @@
     "nombre": "Remera Maradona 86",
     "categoria": "Fútbol",
     "precio": 18990,
-    "imagen": "assets/catalogo/maradona-86.jpg",
+    "imagen": "assets/catalogo/ejemplo-gaming.jpg",
     "descripcion": "Diseño inspirado en la mística del '86, con impronta retro y gráfica gastada.",
     "disponible": true,
     "destacado": true
@@ -14,7 +14,7 @@
     "nombre": "Remera Espíritu Shonen",
     "categoria": "Anime",
     "precio": 19990,
-    "imagen": "assets/catalogo/espiritu-shonen.jpg",
+    "imagen": "assets/catalogo/ejemplo-vintage.jpg",
     "descripcion": "Tipografía intensa y estética anime con aire urbano.",
     "disponible": true,
     "destacado": false
@@ -24,7 +24,7 @@
     "nombre": "Remera Motel Sunset",
     "categoria": "Vintage",
     "precio": 20400,
-    "imagen": "assets/catalogo/motel-sunset.jpg",
+    "imagen": "assets/catalogo/remera-goku.jpg",
     "descripcion": "Una postal retro convertida en remera, con look gastado.",
     "disponible": true,
     "destacado": false
