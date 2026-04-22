@@ -309,7 +309,6 @@
 
 .product-actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
   align-items: stretch;
   margin-top: 0.4rem;
@@ -638,8 +637,11 @@
 
   .product-actions {
     grid-column: 1 / 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 0.75rem;
     align-self: end;
-  }
+    }
 
   .product-order-box {
     grid-column: 2 / 3;
