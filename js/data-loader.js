@@ -1,8 +1,9 @@
-/ Carga datos desde JSON. Si el navegador bloquea fetch en file://,
+// Carga datos desde JSON. Si el navegador bloquea fetch en file://,
 // usa un respaldo local para que el sitio siga funcionando al abrirlo directamente.
- 
-import { CONFIG } from './config.js';
- 
+
+// ── WhatsApp ── Para cambiar el número editá solo esta línea.
+const WA_NUMBER = '5491156592963';
+
 const fallbackProducts = [
   {"id":1,"nombre":"Remera Maradona 86","categoria":"Fútbol","precio":18990,"imagen":"assets/img/futbol-maradona.svg","descripcion":"Diseño inspirado en la mística del '86, con impronta retro y gráfica gastada.","disponible":true,"destacado":true},
   {"id":2,"nombre":"Remera Campeones del Mundo","categoria":"Fútbol","precio":19490,"imagen":"assets/img/futbol-campeones.svg","descripcion":"Edición homenaje con estética vintage y detalles en dorado.","disponible":true,"destacado":true},
@@ -17,14 +18,14 @@ const fallbackProducts = [
   {"id":11,"nombre":"Remera Motel Sunset","categoria":"Vintage","precio":20490,"imagen":"assets/img/vintage-motel.svg","descripcion":"Una postal retro convertida en remera, con look gastado.","disponible":true,"destacado":true},
   {"id":12,"nombre":"Remera Retro Diner Club","categoria":"Vintage","precio":19690,"imagen":"assets/img/vintage-diner.svg","descripcion":"Inspirada en cartelería americana, tipografía bold y tonos crema.","disponible":true,"destacado":true}
 ];
- 
+
 const fallbackDesigns = [
   {"id":"diseno-01","nombre":"Tipografía Retro Remeras","thumb":"assets/img/design-retro.svg","descripcion":"Logo vintage de la marca con look desgastado."},
   {"id":"diseno-02","nombre":"Rayos & Cassette","thumb":"assets/img/design-cassette.svg","descripcion":"Composición con cassette, rayos y textura rockera."},
   {"id":"diseno-03","nombre":"Arcade Nights","thumb":"assets/img/design-arcade.svg","descripcion":"Diseño gamer con inspiración 8-bit."},
   {"id":"diseno-04","nombre":"Custom Full","thumb":"assets/img/design-custom.svg","descripcion":"Para quienes quieren pedir una idea totalmente a medida."}
 ];
- 
+
 async function loadJson(path, fallbackData) {
   try {
     const response = await fetch(path);
@@ -35,15 +36,15 @@ async function loadJson(path, fallbackData) {
     return structuredClone(fallbackData);
   }
 }
- 
+
 export async function loadProducts() {
   return loadJson('./data/products.json', fallbackProducts);
 }
- 
+
 export async function loadDesigns() {
   return loadJson('./data/designs.json', fallbackDesigns);
 }
- 
+
 export function formatPrice(value) {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
@@ -51,7 +52,7 @@ export function formatPrice(value) {
     maximumFractionDigits: 0
   }).format(value);
 }
- 
+
 export function normalizeText(value = '') {
   return value
     .toString()
@@ -60,7 +61,8 @@ export function normalizeText(value = '') {
     .toLowerCase()
     .trim();
 }
- 
+
 export function createWhatsAppLink(message) {
-  const base = `https://wa.me/${CONFIG.whatsapp.number}`;
+  const base = `https://wa.me/${WA_NUMBER}`;
   return `${base}?text=${encodeURIComponent(message)}`;
+}
