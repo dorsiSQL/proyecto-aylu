@@ -4,22 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#111111">
-<!-- FIX: tipo correcto del favicon -->
 <link rel="icon" type="image/x-icon" href="assets/icons/favicon.ico">
 <link rel="preload" href="assets/logo/icono-banner.png" as="image">
-<!-- FIX: preconnect antes de cargar Google Fonts para reducir latencia -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Retro Remeras">
-<!-- FIX: OG image con URL absoluta (relativa no funciona al compartir en redes) -->
 <meta property="og:image" content="https://proyecto-aylu.vercel.app/assets/img/preview.png">
 <meta property="og:locale" content="es_AR">
 <meta name="robots" content="index, follow">
 <link rel="stylesheet" href="css/style.css">
 <title>Retro Remeras | Remeras con estilo, nostalgia y personalidad</title>
-<meta name="description" content="Retro Remeras: remeras personalizadas y temáticas con estética vintage. Catálogo por categorías, personalización simple y atención por WhatsApp.">
+<meta name="description" content="Retro Remeras: remeras temáticas con estética vintage. Catálogo por categorías, detalle de producto y pedidos simples por WhatsApp.">
 <meta property="og:title" content="Retro Remeras">
 <meta property="og:description" content="Remeras con estilo, nostalgia y personalidad. Elegí tu diseño, color y talle en pocos pasos.">
 <meta property="og:url" content="https://proyecto-aylu.vercel.app/">
@@ -37,32 +34,27 @@
     <nav class="nav-links" aria-label="Navegación principal" data-nav-links>
       <a href="index.html">Inicio</a>
       <a href="catalogo.html">Catálogo</a>
-      <a href="personalizar.html">Personalizar</a>
       <a href="index.html#como-funciona">Cómo funciona</a>
       <a href="index.html#beneficios">Beneficios</a>
     </nav>
     <div class="nav-cta" data-nav-cta>
-      <a class="btn btn-secondary" href="catalogo.html">Ver catálogo</a>
-      <a class="btn btn-primary" href="personalizar.html">Personalizar</a>
+      <a class="btn btn-primary" href="catalogo.html">Ver catálogo</a>
     </div>
   </div>
 </header>
 
-
 <main>
-  <!-- Hero -->
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">Tienda temática + personalización</span>
+        <span class="eyebrow">Tienda temática</span>
         <h1 class="hero-title">Remeras con <span>estilo</span>, nostalgia y personalidad</h1>
         <p class="hero-text">
           En Retro Remeras mezclamos cultura pop, estética vintage y diseños con identidad.
-          Elegí una categoría, encontrá tu estilo o armá una remera personalizada en minutos.
+          Elegí una categoría, encontrá tu estilo y armá tu pedido desde la página de cada producto.
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="catalogo.html">Ver catálogo</a>
-          <a class="btn btn-secondary" href="personalizar.html">Crear remera personalizada</a>
         </div>
         <ul class="hero-highlights">
           <li>Fútbol, anime, cine, gaming y más</li>
@@ -74,13 +66,11 @@
       <div class="hero-visual">
         <div class="poster-stack">
           <div class="poster-main">
-            <!-- Primera imagen del hero: eager (es LCP, no lazy) -->
             <img src="assets/img/ejemplo-vintage.jpg" alt="Diseño vintage destacado" loading="eager">
             <div class="poster-badge">Colecciones con impronta retro</div>
           </div>
           <div class="poster-side">
             <div class="poster-main">
-              <!-- FIX: lazy loading en imágenes secundarias del hero -->
               <img src="assets/img/remera-goku.jpg" alt="Diseño anime destacado" loading="lazy">
             </div>
             <div class="poster-main">
@@ -92,35 +82,33 @@
     </div>
   </section>
 
-  <!-- Cómo funciona -->
   <section id="como-funciona" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-kicker">Cómo funciona</span>
         <h2 class="section-title">Pedí tu remera en 3 pasos simples</h2>
-        <p class="section-subtitle">Del catálogo a tu puerta en pocos minutos. Sin vueltas.</p>
+        <p class="section-subtitle">Del catálogo a tu pedido por WhatsApp, sin vueltas.</p>
       </div>
       <div class="grid-3">
         <article class="info-card">
           <div class="step-number">1</div>
-          <h3>Elegí una categoría o diseño</h3>
-          <p>Entrá al catálogo, filtrá por temática y mirá qué diseño te representa mejor.</p>
+          <h3>Elegí un diseño</h3>
+          <p>Entrá al catálogo, filtrá por temática y mirá qué remera te representa mejor.</p>
         </article>
         <article class="info-card">
           <div class="step-number">2</div>
-          <h3>Seleccioná color y talle</h3>
-          <p>Combiná colores y talles disponibles. El resumen se actualiza al instante.</p>
+          <h3>Seleccioná color, tipo y talle</h3>
+          <p>Desde la página del producto elegís tus variantes y lo agregás al pedido.</p>
         </article>
         <article class="info-card">
           <div class="step-number">3</div>
           <h3>Confirmá por WhatsApp</h3>
-          <p>Se genera el mensaje automáticamente con tu selección. Un clic y ya está.</p>
+          <p>Se genera el mensaje automáticamente con todos los productos del carrito.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Categorías -->
   <section class="section">
     <div class="container">
       <div class="section-header">
@@ -130,7 +118,6 @@
       </div>
       <div class="grid-3">
         <a class="category-card" href="catalogo.html?categoria=F%C3%BAtbol" data-category-link="Fútbol">
-          <!-- FIX: lazy loading en todas las imágenes de categorías (below the fold) -->
           <img src="assets/img/futbol-campeones.svg" alt="Categoría fútbol" loading="lazy">
           <div class="category-card-content">
             <h3>Fútbol</h3>
@@ -182,12 +169,11 @@
     </div>
   </section>
 
-  <!-- Beneficios -->
   <section id="beneficios" class="section">
     <div class="container">
       <div class="section-header">
         <span class="section-kicker">Por qué elegirnos</span>
-        <h2 class="section-title">Calidad, personalización y atención real</h2>
+        <h2 class="section-title">Calidad, claridad y atención real</h2>
       </div>
       <div class="grid-4">
         <article class="benefit-card">
@@ -196,31 +182,30 @@
           <p>Colecciones con identidad propia, pensadas para destacar sin caer en lo genérico.</p>
         </article>
         <article class="benefit-card">
-          <div class="icon">✎</div>
-          <h3>Personalización real</h3>
-          <p>Elegí diseño, color y talle; o pedí una idea totalmente a medida.</p>
+          <div class="icon">◎</div>
+          <h3>Variantes claras</h3>
+          <p>Elegí color, tipo y talle directamente desde la página de cada producto.</p>
+        </article>
+        <article class="benefit-card">
+          <div class="icon">🛒</div>
+          <h3>Carrito simple</h3>
+          <p>Sumá varios productos y confirmá todo junto al final.</p>
         </article>
         <article class="benefit-card">
           <div class="icon">💬</div>
           <h3>Atención por WhatsApp</h3>
           <p>El contacto es directo, rápido y con el pedido ya armado en el mensaje.</p>
         </article>
-        <article class="benefit-card">
-          <div class="icon">◎</div>
-          <h3>Variedad de talles y colores</h3>
-          <p>Opciones claras y visuales para que elegir sea fácil.</p>
-        </article>
       </div>
     </div>
   </section>
 
-  <!-- CARRUSEL DE PRODUCTOS -->
   <section class="section" data-carousel>
     <div class="container">
       <div class="section-header">
         <span class="section-kicker">Catálogo destacado</span>
         <h2 class="section-title">Algunos de nuestros diseños más pedidos</h2>
-        <p class="section-subtitle">Explorá el catálogo completo y personalizá el que más te guste.</p>
+        <p class="section-subtitle">Explorá el catálogo completo y entrá al detalle de cada producto.</p>
       </div>
 
       <div class="carousel-outer">
@@ -235,13 +220,10 @@
 
       <div class="hero-actions" style="margin-top: 2rem;">
         <a class="btn btn-primary" href="catalogo.html">Ver catálogo completo</a>
-        <a class="btn btn-secondary" href="personalizar.html">Quiero personalizar</a>
       </div>
     </div>
   </section>
-
 </main>
-
 
 <footer class="footer">
   <div class="container footer-grid">
