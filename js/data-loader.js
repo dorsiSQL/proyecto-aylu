@@ -1,8 +1,5 @@
-// Carga datos desde JSON. Si el navegador bloquea fetch en file://,
-// usa un respaldo local para que el sitio siga funcionando al abrirlo directamente.
-
-// ── WhatsApp ── Para cambiar el número editá solo esta línea.
 const WA_NUMBER = '5491156592963';
+const CACHE_PREFIX = 'retro_remeras_cache_v1';
 
 const fallbackProducts = [
   {"id":1,"nombre":"Remera Maradona 86","categoria":"Fútbol","precio":18990,"imagen":"assets/img/futbol-maradona.svg","descripcion":"Diseño inspirado en la mística del '86, con impronta retro y gráfica gastada.","disponible":true,"destacado":true},
@@ -26,23 +23,99 @@ const fallbackDesigns = [
   {"id":"diseno-04","nombre":"Custom Full","thumb":"assets/img/design-custom.svg","descripcion":"Para quienes quieren pedir una idea totalmente a medida."}
 ];
 
-async function loadJson(path, fallbackData) {
+const resourceStatus = {
+  products: { source: 'idle', error: null },
+  designs: { source: 'idle', error: null }
+};
+
+function getCacheKey(resourceName) {
+  return `${CACHE_PREFIX}:${resourceName}`;
+}
+
+function cloneData(data) {
+  if (typeof structuredClone === 'function') {
+    return structuredClone(data);
+  }
+  return JSON.parse(JSON.stringify(data));
+}
+
+function readCachedJson(resourceName) {
   try {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error('No se pudo cargar ' + path);
-    return await response.json();
+    const raw = sessionStorage.getItem(getCacheKey(resourceName));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeCachedJson(resourceName, data) {
+  try {
+    sessionStorage.setItem(getCacheKey(resourceName), JSON.stringify(data));
+  } catch {
+    // Si sessionStorage está lleno o bloqueado, simplemente no cacheamos.
+  }
+}
+
+async function loadJson(path, fallbackData, resourceName) {
+  const cached = readCachedJson(resourceName);
+  if (cached) {
+    resourceStatus[resourceName] = { source: 'cache', error: null };
+    return cloneData(cached);
+  }
+
+  try {
+    const response = await fetch(path, { cache: 'no-store' });
+    if (!response.ok) {
+      throw new Error(`No se pudo cargar ${path} (${response.status})`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error(`${path} no contiene un array válido.`);
+    }
+
+    writeCachedJson(resourceName, data);
+    resourceStatus[resourceName] = { source: 'network', error: null };
+    return cloneData(data);
   } catch (error) {
-    console.warn(`[Retro Remeras] Usando respaldo local para ${path}.`, error);
-    return structuredClone(fallbackData);
+    console.warn(`[Retro Remeras] Falló la carga de ${path}. Se usa respaldo local.`, error);
+    resourceStatus[resourceName] = {
+      source: 'fallback',
+      error: error instanceof Error ? error.message : 'Error desconocido'
+    };
+    return cloneData(fallbackData);
   }
 }
 
 export async function loadProducts() {
-  return loadJson('./data/products.json', fallbackProducts);
+  return loadJson('./data/products.json', fallbackProducts, 'products');
 }
 
 export async function loadDesigns() {
-  return loadJson('./data/designs.json', fallbackDesigns);
+  return loadJson('./data/designs.json', fallbackDesigns, 'designs');
+}
+
+export function getDataStatus(resourceName) {
+  return { ...(resourceStatus[resourceName] || { source: 'idle', error: null }) };
+}
+
+export function renderDataNotice(target, resourceName, message) {
+  if (!target) return;
+
+  const existing = target.querySelector('[data-data-notice]');
+  if (existing) existing.remove();
+
+  const status = getDataStatus(resourceName);
+  if (status.source !== 'fallback') return;
+
+  const notice = document.createElement('div');
+  notice.className = 'notice data-notice';
+  notice.setAttribute('data-data-notice', 'true');
+  notice.textContent = message || 'No se pudieron cargar los datos remotos. Estamos mostrando contenido de respaldo.';
+  target.prepend(notice);
 }
 
 export function formatPrice(value) {

@@ -1,67 +1,80 @@
-const CART_STORAGE_KEY = 'retro_remeras_cart';
+import { createWhatsAppLink } from './data-loader.js';
+import { cart } from './cart.js';
+
+const state = {
+  cart: cart.load()
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-  setupMobileMenu();
-  setupDynamicYear();
-  setupCategoryLinks();
-  updateGlobalCartBadge();
-  window.addEventListener('storage', updateGlobalCartBadge);
+  renderCart();
+  setupActions();
+  updateOrderLink();
 });
 
-function setupMobileMenu() {
-  const toggle = document.querySelector('[data-menu-toggle]');
-  const navLinks = document.querySelector('[data-nav-links]');
-  const navCta = document.querySelector('[data-nav-cta]');
+function setupActions() {
+  const clearBtn = document.querySelector('[data-clear-cart]');
+  const list = document.querySelector('[data-cart-list]');
 
-  if (!toggle || !navLinks || !navCta) return;
+  clearBtn?.addEventListener('click', clearCart);
 
-  toggle.addEventListener('click', () => {
-    const open = toggle.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(open));
-    navLinks.classList.toggle('is-open', open);
-    navCta.classList.toggle('is-open', open);
-  });
+  list?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-cart-action]');
+    if (!button) return;
 
-  [...navLinks.querySelectorAll('a'), ...navCta.querySelectorAll('a')].forEach((link) => {
-    link.addEventListener('click', () => {
-      toggle.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      navLinks.classList.remove('is-open');
-      navCta.classList.remove('is-open');
-    });
+    const action = button.getAttribute('data-cart-action');
+    const id = button.getAttribute('data-cart-id');
+    handleCartAction(action, id);
   });
 }
 
-function setupDynamicYear() {
-  document.querySelectorAll('[data-year]').forEach((node) => {
-    node.textContent = new Date().getFullYear();
-  });
+function renderCart() {
+  const list = document.querySelector('[data-cart-list]');
+  const totalNode = document.querySelector('[data-cart-total]');
+  const countNode = document.querySelector('[data-cart-items-count]');
+
+  if (!list || !totalNode || !countNode) return;
+
+  list.innerHTML = cart.createListMarkup(state.cart);
+  totalNode.textContent = new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+    maximumFractionDigits: 0
+  }).format(cart.getTotal(state.cart));
+
+  countNode.textContent = cart.getItemsCount(state.cart);
 }
 
-function setupCategoryLinks() {
-  document.querySelectorAll('[data-category-link]').forEach((link) => {
-    link.addEventListener('click', () => {
-      const category = link.getAttribute('data-category-link');
-      if (!category) return;
-      link.setAttribute('href', `catalogo.html?categoria=${encodeURIComponent(category)}`);
-    });
-  });
-}
+function handleCartAction(action, id) {
+  if (!id) return;
 
-function updateGlobalCartBadge() {
-  const count = getStoredCartCount();
-  document.querySelectorAll('[data-global-cart-count]').forEach((node) => {
-    node.textContent = count;
-  });
-}
-
-function getStoredCartCount() {
-  try {
-    const raw = localStorage.getItem(CART_STORAGE_KEY);
-    const parsed = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(parsed)) return 0;
-    return parsed.reduce((acc, item) => acc + (Number(item.quantity) || 0), 0);
-  } catch {
-    return 0;
+  if (action === 'increase') {
+    state.cart = cart.changeQuantity(state.cart, id, 1);
   }
+
+  if (action === 'decrease') {
+    state.cart = cart.changeQuantity(state.cart, id, -1);
+  }
+
+  if (action === 'remove') {
+    state.cart = cart.removeItem(state.cart, id);
+  }
+
+  cart.save(state.cart);
+  renderCart();
+  updateOrderLink();
+}
+
+function clearCart() {
+  state.cart = cart.clear();
+  renderCart();
+  updateOrderLink();
+}
+
+function updateOrderLink() {
+  const link = document.querySelector('[data-whatsapp-order]');
+  if (!link) return;
+
+  link.href = createWhatsAppLink(cart.buildMessage(state.cart));
+  link.target = '_blank';
+  link.rel = 'noopener';
 }

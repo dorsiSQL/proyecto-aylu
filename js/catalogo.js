@@ -1,4 +1,4 @@
-import { loadProducts, formatPrice, normalizeText, createWhatsAppLink } from './data-loader.js';
+import { loadProducts, formatPrice, normalizeText, createWhatsAppLink, renderDataNotice } from './data-loader.js';
 
 const state = {
   products: [],
@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupSearch();
 
   state.products = await loadProducts();
+  renderDataNotice(
+    document.querySelector('.catalog-shell'),
+    'products',
+    'No se pudo cargar el catálogo remoto. Se está mostrando una versión de respaldo.'
+  );
+
   applyQueryParams();
   filterProducts();
 });
@@ -22,16 +28,17 @@ function setupCategoryPills() {
   const pills = document.querySelector('[data-category-pills]');
   if (!pills) return;
 
-  pills.innerHTML = categories.map((cat) => `
-    <button class="filter-pill ${cat === 'Todos' ? 'is-active' : ''}" type="button" data-filter-category="${cat}">
-      ${cat}
+  pills.innerHTML = categories.map((category) => `
+    <button class="filter-pill ${category === 'Todos' ? 'is-active' : ''}" type="button" data-filter-category="${category}">
+      ${category}
     </button>
   `).join('');
 
-  pills.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-filter-category]');
-    if (!btn) return;
-    state.activeCategory = btn.getAttribute('data-filter-category') || 'Todos';
+  pills.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-filter-category]');
+    if (!button) return;
+
+    state.activeCategory = button.getAttribute('data-filter-category') || 'Todos';
     syncActivePill();
     filterProducts();
   });
@@ -41,46 +48,47 @@ function setupSearch() {
   const input = document.querySelector('[data-search-input]');
   if (!input) return;
 
-  input.addEventListener('input', (e) => {
-    state.search = e.target.value;
+  input.addEventListener('input', (event) => {
+    state.search = event.target.value;
     filterProducts();
   });
 }
 
 function applyQueryParams() {
   const params = new URLSearchParams(window.location.search);
-  const cat = params.get('categoria');
+  const category = params.get('categoria');
   const search = params.get('buscar');
 
-  if (cat && categories.includes(cat)) {
-    state.activeCategory = cat;
+  if (category && categories.includes(category)) {
+    state.activeCategory = category;
     syncActivePill();
   }
 
   if (search) {
     state.search = search;
-    const inp = document.querySelector('[data-search-input]');
-    if (inp) inp.value = search;
+    const input = document.querySelector('[data-search-input]');
+    if (input) input.value = search;
   }
 }
 
 function syncActivePill() {
-  document.querySelectorAll('[data-filter-category]').forEach((btn) => {
-    btn.classList.toggle(
+  document.querySelectorAll('[data-filter-category]').forEach((button) => {
+    button.classList.toggle(
       'is-active',
-      btn.getAttribute('data-filter-category') === state.activeCategory
+      button.getAttribute('data-filter-category') === state.activeCategory
     );
   });
 }
 
 function filterProducts() {
-  const txt = normalizeText(state.search);
+  const searchText = normalizeText(state.search);
 
-  state.filteredProducts = state.products.filter((p) => {
-    const matchCat = state.activeCategory === 'Todos' || p.categoria === state.activeCategory;
-    const haystack = normalizeText(`${p.nombre} ${p.categoria} ${p.descripcion}`);
-    const matchSearch = !txt || haystack.includes(txt);
-    return matchCat && matchSearch && p.disponible;
+  state.filteredProducts = state.products.filter((product) => {
+    const matchCategory = state.activeCategory === 'Todos' || product.categoria === state.activeCategory;
+    const haystack = normalizeText(`${product.nombre} ${product.categoria} ${product.descripcion}`);
+    const matchSearch = !searchText || haystack.includes(searchText);
+
+    return matchCategory && matchSearch && product.disponible;
   });
 
   renderCatalog();
@@ -118,7 +126,7 @@ function renderStats() {
 }
 
 function renderProductCard(product) {
-  const waMsg = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
+  const message = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
 
   return `
     <article class="product-card product-card--linked">
@@ -145,11 +153,11 @@ function renderProductCard(product) {
           <span class="tag">${product.disponible ? 'Disponible' : 'Consultar'}</span>
         </div>
 
-        <div class="product-actions" style="margin-top:1rem;">
+        <div class="product-actions product-actions--spaced">
           <a class="btn btn-secondary" href="producto.html?id=${product.id}">
             Ver producto
           </a>
-          <a class="btn btn-primary" href="${createWhatsAppLink(waMsg)}" target="_blank" rel="noopener">
+          <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank" rel="noopener">
             WhatsApp
           </a>
         </div>

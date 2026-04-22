@@ -22,33 +22,7 @@
 </head>
 <body>
 
-<header class="topbar">
-  <div class="container navbar">
-    <a class="brand" href="index.html" aria-label="Ir al inicio de Retro Remeras">
-      <img src="assets/logo/icono-banner.png" alt="Retro Remeras">
-    </a>
-
-    <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
-      <span></span>
-    </button>
-
-    <nav class="nav-links" aria-label="Navegación principal" data-nav-links>
-      <a href="index.html">Inicio</a>
-      <a href="catalogo.html">Catálogo</a>
-      <a href="index.html#como-funciona">Cómo funciona</a>
-      <a href="index.html#beneficios">Beneficios</a>
-    </nav>
-
-    <div class="nav-cta" data-nav-cta>
-      <a class="nav-cart-icon-btn" href="carrito.html" aria-label="Ver carrito">
-        <img src="assets/icons/carrito-de-compras.png" alt="" class="nav-cart-icon" loading="lazy">
-        <span class="nav-cart-badge nav-cart-badge--icon" data-global-cart-count>0</span>
-      </a>
-
-      <a class="btn btn-primary" href="catalogo.html">Ver catálogo</a>
-    </div>
-  </div>
-</header>
+<retro-navbar></retro-navbar>
 
 <main class="catalog-main">
   <section class="catalog-hero">
@@ -64,8 +38,8 @@
   <section>
     <div class="container catalog-shell">
       <aside class="filters panel">
-        <div class="section-header" style="margin-bottom: 1rem;">
-          <h2 style="font-size: 2rem;">Buscá tu estilo</h2>
+        <div class="section-header">
+          <h2>Buscá tu estilo</h2>
           <p class="section-subtitle">Filtrá por categoría o escribí una palabra clave.</p>
         </div>
 
@@ -90,37 +64,19 @@
         <div class="catalog-stats panel">
           <div>
             <strong data-results-count>0 diseños</strong>
-            <p class="catalog-meta" style="margin: .25rem 0 0;">Filtro activo: <span data-results-filter>Todas las categorías</span></p>
+            <p class="catalog-meta">Filtro activo: <span data-results-filter>Todas las categorías</span></p>
           </div>
         </div>
 
-        <div class="catalog-grid" style="margin-top: 1rem;" data-catalog-grid></div>
+        <div class="catalog-grid" data-catalog-grid></div>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="footer">
-  <div class="container footer-grid">
-    <div>
-      <a class="brand" href="index.html" aria-label="Retro Remeras">
-        <img src="assets/logo/icono-banner.png" alt="Retro Remeras">
-      </a>
-      <p>Remeras con estilo, nostalgia y personalidad. Diseños temáticos, atención cercana y pedidos simples por WhatsApp.</p>
-      <small>© <span data-year></span> Retro Remeras. Todos los derechos reservados.</small>
-    </div>
+<retro-footer></retro-footer>
 
-    <div>
-      <div class="footer-links">
-        <span class="tag">Instagram: @retroremeras</span>
-        <span class="tag">TikTok: @retroremeras</span>
-        <span class="tag">WhatsApp: +54 9 11 5659-2963</span>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="js/script.js"></script>
+<script type="module" src="js/script.js"></script>
 <script type="module" src="js/catalogo.js"></script>
 </body>
 </html>
