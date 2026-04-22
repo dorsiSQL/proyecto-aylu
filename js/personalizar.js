@@ -18,9 +18,9 @@ const FITS = [
 ];
 
 const DEFAULTS = {
-  color: null,
-  size: null,
-  fit: null,
+  color: COLORS[0],
+  size: 'M',
+  fit: 'regular',
   category: 'Todos'
 };
 
@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   state.products = await loadProducts();
 
   applyQueryParams();
+  if (!state.selectedProduct) {
+    state.selectedProduct = state.products[0] || null;
+  }
+
   renderCategoryFilters();
   renderProductGrid();
   renderFitSelector();
@@ -129,7 +133,16 @@ function renderProductGrid() {
     card.addEventListener('click', () => {
       const id = card.getAttribute('data-product-id');
       state.selectedProduct = state.products.find((p) => String(p.id) === String(id)) || null;
+
+      // Si venís de un reset total, restauro una base lógica para que "Agregar" funcione.
+      if (!state.selectedFit) state.selectedFit = DEFAULTS.fit;
+      if (!state.selectedSize) state.selectedSize = DEFAULTS.size;
+      if (!state.selectedColor) state.selectedColor = DEFAULTS.color;
+
       renderProductGrid();
+      renderFitSelector();
+      renderSizes();
+      renderColors();
       updateSummary();
     });
   });
@@ -154,7 +167,9 @@ function renderFitSelector() {
   wrap.querySelectorAll('input[name="shirt-fit"]').forEach((input) => {
     input.addEventListener('change', () => {
       state.selectedFit = input.value || null;
-      state.selectedSize = null;
+      if (!state.selectedSize && state.selectedFit) {
+        state.selectedSize = DEFAULTS.size;
+      }
       renderFitSelector();
       renderSizes();
       updateSummary();
@@ -278,6 +293,7 @@ function updateSummary() {
     }
   }
 
+  updateActionButtons();
   updateOrderLinks();
   updateMobileCtaText();
 }
@@ -413,6 +429,22 @@ function resetCurrentSelection() {
   renderSizes();
   renderColors();
   updateSummary();
+}
+
+function updateActionButtons() {
+  const addButtons = document.querySelectorAll('[data-add-to-cart]');
+  const isComplete = Boolean(
+    state.selectedProduct &&
+    state.selectedFit &&
+    state.selectedSize &&
+    state.selectedColor
+  );
+
+  addButtons.forEach((btn) => {
+    btn.disabled = !isComplete;
+    btn.setAttribute('aria-disabled', String(!isComplete));
+    btn.title = isComplete ? 'Agregar al pedido' : 'Elegí producto, tipo, talle y color';
+  });
 }
 
 function updateOrderLinks() {
