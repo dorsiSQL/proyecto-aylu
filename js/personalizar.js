@@ -18,9 +18,9 @@ const FITS = [
 ];
 
 const DEFAULTS = {
-  color: COLORS[0],
-  size: 'M',
-  fit: 'regular',
+  color: null,
+  size: null,
+  fit: null,
   category: 'Todos'
 };
 
@@ -60,11 +60,8 @@ function applyQueryParams() {
       if (hint) {
         hint.textContent = `Seleccionaste "${found.nombre}" desde el catálogo. Podés cambiarlo eligiendo otro diseño o agregarlo al pedido.`;
       }
-      return;
     }
   }
-
-  state.selectedProduct = state.products[0] || null;
 }
 
 function renderCategoryFilters() {
@@ -156,7 +153,8 @@ function renderFitSelector() {
 
   wrap.querySelectorAll('input[name="shirt-fit"]').forEach((input) => {
     input.addEventListener('change', () => {
-      state.selectedFit = input.value || DEFAULTS.fit;
+      state.selectedFit = input.value || null;
+      state.selectedSize = null;
       renderFitSelector();
       renderSizes();
       updateSummary();
@@ -169,6 +167,23 @@ function renderSizes() {
   const banner = document.querySelector('[data-selected-fit-banner]');
   const stepHint = document.querySelector('[data-size-step-hint]');
   if (!wrap) return;
+
+  if (!state.selectedFit) {
+    if (banner) {
+      banner.innerHTML = 'Primero elegí un tipo de remera.';
+    }
+
+    if (stepHint) {
+      stepHint.textContent = 'Seleccioná primero el tipo de remera para ver los talles.';
+    }
+
+    wrap.innerHTML = `
+      <div class="size-empty-state">
+        Elegí <strong>Regular</strong> u <strong>Oversize</strong> para habilitar los talles.
+      </div>
+    `;
+    return;
+  }
 
   const currentFit = FITS.find((fit) => fit.key === state.selectedFit) || FITS[0];
 
@@ -200,7 +215,7 @@ function renderSizes() {
 
   wrap.querySelectorAll('input[name="shirt-size-choice"]').forEach((input) => {
     input.addEventListener('change', () => {
-      state.selectedSize = input.value;
+      state.selectedSize = input.value || null;
       renderSizes();
       updateSummary();
     });
@@ -212,12 +227,12 @@ function renderColors() {
   if (!wrap) return;
 
   wrap.innerHTML = COLORS.map((color) => `
-    <label class="swatch ${state.selectedColor.name === color.name ? 'is-selected' : ''}">
+    <label class="swatch ${state.selectedColor?.name === color.name ? 'is-selected' : ''}">
       <input
         type="radio"
         name="shirt-color"
         value="${color.name}"
-        ${state.selectedColor.name === color.name ? 'checked' : ''}>
+        ${state.selectedColor?.name === color.name ? 'checked' : ''}>
       <span class="swatch-dot" style="background:${color.hex}; border-color:rgba(255,255,255,.2);"></span>
       <span>${color.name}</span>
     </label>
@@ -225,7 +240,7 @@ function renderColors() {
 
   wrap.querySelectorAll('input[name="shirt-color"]').forEach((input) => {
     input.addEventListener('change', () => {
-      state.selectedColor = COLORS.find((c) => c.name === input.value) || DEFAULTS.color;
+      state.selectedColor = COLORS.find((c) => c.name === input.value) || null;
       renderColors();
       updateSummary();
     });
@@ -246,14 +261,21 @@ function updateSummary() {
 
   if (designNode) designNode.textContent = product ? product.nombre : '—';
   if (catNode) catNode.textContent = product ? product.categoria : '—';
-  if (fitNode) fitNode.textContent = fitLabel;
-  if (colorNode) colorNode.textContent = state.selectedColor.name;
-  if (sizeNode) sizeNode.textContent = state.selectedSize;
+  if (fitNode) fitNode.textContent = fitLabel || '—';
+  if (colorNode) colorNode.textContent = state.selectedColor?.name || '—';
+  if (sizeNode) sizeNode.textContent = state.selectedSize || '—';
   if (priceNode) priceNode.textContent = product ? formatPrice(product.precio) : '—';
 
-  if (shirtImage && product) {
-    shirtImage.src = product.imagen;
-    shirtImage.alt = product.nombre;
+  if (shirtImage) {
+    if (product) {
+      shirtImage.src = product.imagen;
+      shirtImage.alt = product.nombre;
+      shirtImage.style.display = 'block';
+    } else {
+      shirtImage.removeAttribute('src');
+      shirtImage.alt = 'Producto no seleccionado';
+      shirtImage.style.display = 'none';
+    }
   }
 
   updateOrderLinks();
@@ -346,7 +368,7 @@ function handleCartAction(action, id) {
 
 function addCurrentSelectionToCart() {
   const product = state.selectedProduct;
-  if (!product) return;
+  if (!product || !state.selectedFit || !state.selectedSize || !state.selectedColor) return;
 
   const fitLabel = getFitLabel(state.selectedFit);
 
@@ -379,11 +401,11 @@ function addCurrentSelectionToCart() {
 }
 
 function resetCurrentSelection() {
+  state.selectedProduct = null;
+  state.selectedColor = null;
+  state.selectedSize = null;
+  state.selectedFit = null;
   state.activeCategory = DEFAULTS.category;
-  state.selectedColor = DEFAULTS.color;
-  state.selectedSize = DEFAULTS.size;
-  state.selectedFit = DEFAULTS.fit;
-  state.selectedProduct = state.products[0] || null;
 
   renderCategoryFilters();
   renderProductGrid();
@@ -424,7 +446,7 @@ function buildWhatsAppMessage() {
   }
 
   const product = state.selectedProduct;
-  if (!product) {
+  if (!product || !state.selectedFit || !state.selectedSize || !state.selectedColor) {
     return 'Hola! Quiero consultar por una remera personalizada.';
   }
 
@@ -469,7 +491,7 @@ function updateMobileCtaText() {
     return;
   }
 
-  if (state.selectedProduct) {
+  if (state.selectedProduct && state.selectedFit && state.selectedSize) {
     mobileName.textContent = `${state.selectedProduct.nombre} · ${getFitLabel(state.selectedFit)} ${state.selectedSize}`;
     return;
   }
@@ -478,6 +500,7 @@ function updateMobileCtaText() {
 }
 
 function getFitLabel(fit) {
+  if (!fit) return null;
   return fit === 'oversize' ? 'Oversize' : 'Regular';
 }
 
