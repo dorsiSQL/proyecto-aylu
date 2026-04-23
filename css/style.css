@@ -27,7 +27,7 @@
 html {
   scroll-behavior: smooth;
   max-width: 100%;
-  overflow-x: clip;
+  /* overflow-x removido de <html> para no romper position: sticky */
 }
 
 html,
@@ -49,7 +49,7 @@ body {
     var(--bg);
   color: var(--text);
   line-height: 1.6;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 main {
@@ -1288,81 +1288,9 @@ ol {
   }
 }
 
-/* ── Mobile + tablet: navbar hamburguesa garantizada ─────────── */
-@media (max-width: 1099px) {
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 9999;
-  }
-
-  .navbar {
-    min-height: var(--header-height);
-    gap: 0.55rem;
-    padding: 0.3rem 0;
-  }
-
-  .menu-toggle {
-    display: inline-flex !important;
-  }
-
-  .nav-links,
-  .nav-cta {
-    position: absolute;
-    left: 0;
-    right: 0;
-    display: none;
-  }
-
-  .nav-links.is-open,
-  .nav-cta.is-open {
-    display: grid !important;
-  }
-
-  .hero-grid {
-    grid-template-columns: minmax(0, 1fr) !important;
-    gap: 1.6rem;
-  }
-
-  .hero-copy,
-  .hero-visual {
-    order: initial;
-  }
-
-  .hero-title,
-  .hero-text {
-    max-width: 100%;
-  }
-
-  .hero-actions {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .hero-actions .btn {
-    width: 100%;
-  }
-
-  .hero-highlights {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .poster-stack {
-    position: relative !important;
-    inset: auto !important;
-    min-height: auto !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .poster-side {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .grid-4 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
+/* Nota: el bloque @media (max-width: 1099px) fue eliminado.
+   Los estilos base ya son mobile-first (hamburguesa visible, hero en 1 columna).
+   El bloque @media (min-width: 1100px) se encarga de activar el desktop. */
 
 /* ── Desktop navbar visible desde 1100 ───────────────────────── */
 @media (min-width: 1100px) {
@@ -1388,19 +1316,19 @@ ol {
   }
 
   .menu-toggle {
-    display: none !important;
+    display: none;
   }
 
   .nav-links,
   .nav-cta {
-    position: static !important;
-    display: flex !important;
+    position: static;
+    display: flex;
     align-items: center;
-    background: transparent !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    grid-template-columns: none !important;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    grid-template-columns: none;
   }
 
   .nav-links {
@@ -1443,7 +1371,7 @@ ol {
   }
 
   .hero-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.85fr);
     gap: 2rem;
     align-items: center;
   }
