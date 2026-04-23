@@ -43,6 +43,7 @@ body {
     var(--bg);
   color: var(--text);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
 main {
@@ -287,9 +288,14 @@ h4 {
   align-items: center;
 }
 
+.hero-grid > * {
+  min-width: 0;
+}
+
 .hero-copy {
   display: grid;
   gap: 1.25rem;
+  min-width: 0;
 }
 
 .eyebrow {
@@ -310,6 +316,10 @@ h4 {
 .hero-title {
   font-size: clamp(2.8rem, 7vw, 5.6rem);
   margin: 0;
+  max-width: 11ch;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-wrap: balance;
 }
 
 .hero-title span {
@@ -350,6 +360,7 @@ h4 {
 .hero-visual {
   position: relative;
   min-height: 460px;
+  min-width: 0;
   overflow: visible;
 }
 
@@ -377,6 +388,7 @@ h4 {
 .poster-main,
 .poster-side {
   position: relative;
+  min-width: 0;
   overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid rgba(244, 197, 66, 0.16);
@@ -405,6 +417,31 @@ h4 {
   border: 1px solid rgba(244, 197, 66, 0.2);
   color: var(--cream);
   font-weight: 700;
+}
+
+
+.mascot-divider {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -32px;
+  margin-bottom: 18px;
+  padding-right: 1.25rem;
+}
+
+.mascot--divider {
+  width: clamp(100px, 12vw, 160px);
+  opacity: 0.92;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.25));
+  animation: floatMascot 4s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 /* ── Grids ───────────────────────────────── */
@@ -1245,7 +1282,7 @@ h4 {
 
   .navbar {
     flex-wrap: wrap;
-    gap: 0.85rem;
+    gap: 0.75rem;
     padding: 0.35rem 0;
   }
 
@@ -1255,6 +1292,11 @@ h4 {
     justify-content: center;
     margin-left: auto;
     order: 3;
+  }
+
+  .brand img {
+    width: 64px;
+    height: 64px;
   }
 
   .nav-links,
@@ -1377,15 +1419,30 @@ h4 {
   }
 
   .hero {
-    padding: 2.2rem 0 2.25rem;
+    padding: 1.8rem 0 2rem;
   }
 
   .hero-copy {
-    gap: 1rem;
+    gap: 0.95rem;
+  }
+
+  .hero-title {
+    max-width: 100%;
+    font-size: clamp(2rem, 10.5vw, 2.9rem);
+    line-height: 0.98;
+  }
+
+  .hero-text {
+    max-width: 100%;
+    font-size: 0.96rem;
   }
 
   .hero-visual {
     min-height: 0;
+  }
+
+  .poster-stack {
+    gap: 0.75rem;
   }
 
   .poster-main,
@@ -1426,6 +1483,10 @@ h4 {
     display: none;
   }
 
+  .mascot-divider {
+    display: none;
+  }
+
   .footer {
     padding: 1.35rem 0 1.6rem;
   }
@@ -1461,11 +1522,13 @@ h4 {
   }
 
   .hero-title {
-    font-size: clamp(2rem, 10vw, 2.8rem);
+    max-width: 100%;
+    font-size: clamp(1.78rem, 10vw, 2.4rem);
+    line-height: 0.98;
   }
 
   .hero-text {
-    font-size: 0.96rem;
+    font-size: 0.93rem;
   }
 
   .eyebrow,
@@ -1485,6 +1548,11 @@ h4 {
   .poster-main,
   .poster-side {
     min-height: 190px;
+  }
+
+  .poster-badge {
+    font-size: 0.82rem;
+    padding: 0.62rem 0.72rem;
   }
 
   .modal {
