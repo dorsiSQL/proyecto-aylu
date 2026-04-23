@@ -353,38 +353,6 @@ h4 {
   overflow: visible;
 }
 
-.mascot-divider {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: -40px;
-  margin-bottom: 20px;
-  padding-right: 40px;
-}
-
-.mascot--divider {
-  width: clamp(100px, 12vw, 160px);
-  opacity: 0.9;
-
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
-
-  animation: floatMascot 4s ease-in-out infinite;
-}
-
-@keyframes floatMascot {
-  0%, 100% {
-    transform: translateY(-50%) translateX(0);
-  }
-  50% {
-    transform: translateY(calc(-50% - 8px)) translateX(-2px);
-  }
-}
-
-@media (max-width: 768px) {
-  .mascot--hero {
-    display: none;
-  }
-}
-
 .poster-stack,
 .hero-card {
   border-radius: var(--radius);
