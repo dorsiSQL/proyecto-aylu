@@ -2082,3 +2082,131 @@ ol {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ── Landing section visual separation ───────────────────── */
+.home-page .hero,
+.home-page .section,
+.home-page .footer {
+  position: relative;
+  isolation: isolate;
+}
+
+.home-page .hero::before,
+.home-page .section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.home-page .hero::after,
+.home-page .section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.home-page .hero {
+  background:
+    radial-gradient(circle at 18% 16%, rgba(244, 197, 66, 0.10), transparent 26%),
+    radial-gradient(circle at 85% 18%, rgba(200, 47, 47, 0.12), transparent 30%),
+    linear-gradient(180deg, rgba(12, 12, 12, 0.98) 0%, rgba(8, 8, 8, 0.98) 100%);
+}
+
+.home-page .hero::after {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0%, transparent 28%),
+    radial-gradient(circle at 50% 110%, rgba(244, 197, 66, 0.05), transparent 42%);
+}
+
+.home-page #como-funciona.section {
+  background:
+    linear-gradient(180deg, rgba(9, 9, 9, 0.98) 0%, rgba(14, 11, 8, 0.98) 100%);
+}
+
+.home-page #como-funciona.section::before {
+  background:
+    radial-gradient(circle at 82% 24%, rgba(244, 197, 66, 0.08), transparent 28%),
+    radial-gradient(circle at 12% 78%, rgba(200, 47, 47, 0.06), transparent 30%);
+}
+
+.home-page #como-funciona.section::after {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.012) 0%, transparent 36%),
+    linear-gradient(90deg, transparent, rgba(244, 197, 66, 0.06), transparent);
+  opacity: 0.72;
+}
+
+.home-page .section:nth-of-type(2) {
+  background:
+    linear-gradient(180deg, rgba(7, 10, 16, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+}
+
+.home-page .section:nth-of-type(2)::before {
+  background:
+    radial-gradient(circle at 18% 18%, rgba(76, 124, 255, 0.10), transparent 30%),
+    radial-gradient(circle at 86% 76%, rgba(160, 80, 255, 0.06), transparent 26%);
+}
+
+.home-page .section:nth-of-type(2)::after {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.012) 0%, transparent 34%),
+    linear-gradient(90deg, transparent, rgba(76, 124, 255, 0.05), transparent);
+  opacity: 0.75;
+}
+
+.home-page #beneficios.section {
+  background:
+    linear-gradient(180deg, rgba(10, 8, 8, 0.98) 0%, rgba(12, 12, 12, 0.98) 100%);
+}
+
+.home-page #beneficios.section::before {
+  background:
+    radial-gradient(circle at 84% 18%, rgba(200, 47, 47, 0.09), transparent 30%),
+    radial-gradient(circle at 16% 80%, rgba(244, 197, 66, 0.07), transparent 28%);
+}
+
+.home-page #beneficios.section::after {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.01) 0%, transparent 34%),
+    linear-gradient(90deg, transparent, rgba(200, 47, 47, 0.05), transparent);
+  opacity: 0.7;
+}
+
+.home-page [data-carousel].section {
+  background:
+    linear-gradient(180deg, rgba(8, 8, 8, 0.99) 0%, rgba(14, 10, 6, 0.98) 100%);
+}
+
+.home-page [data-carousel].section::before {
+  background:
+    radial-gradient(circle at 20% 24%, rgba(244, 197, 66, 0.10), transparent 30%),
+    radial-gradient(circle at 82% 74%, rgba(200, 47, 47, 0.06), transparent 28%);
+}
+
+.home-page [data-carousel].section::after {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.014) 0%, transparent 30%),
+    linear-gradient(90deg, transparent, rgba(244, 197, 66, 0.05), transparent);
+  opacity: 0.78;
+}
+
+.home-page .section + .section {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+@media (max-width: 767.98px) {
+  .home-page .hero::after,
+  .home-page .section::after {
+    opacity: 0.68;
+  }
+
+  .home-page .hero,
+  .home-page .section {
+    background-attachment: scroll;
+  }
+}
