@@ -7,9 +7,8 @@ import {
 
 const state = {
   products: [],
-  page: 0,
-  perView: 1,
-  totalPages: 1
+  index: 0,
+  perView: 1
 };
 
 function getPerView() {
@@ -21,9 +20,9 @@ function getPerView() {
 }
 
 function getFeaturedProducts(products) {
-  const available = products.filter((product) => product && product.disponible);
-  const featured = available.filter((product) => product.destacado);
-  return (featured.length ? featured : available).slice(0, 9);
+  const available = products.filter(p => p && p.disponible);
+  const featured = available.filter(p => p.destacado);
+  return (featured.length ? featured : available).slice(0, 12);
 }
 
 function renderProductCard(product) {
@@ -32,7 +31,7 @@ function renderProductCard(product) {
   return `
     <article class="carousel-item">
       <div class="product-card product-card--linked card">
-        <a class="product-card-link" href="producto.html?id=${product.id}" aria-label="Ver ${product.nombre}">
+        <a class="product-card-link" href="producto.html?id=${product.id}">
           <div class="product-media">
             <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
             ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
@@ -43,7 +42,7 @@ function renderProductCard(product) {
           <div class="product-category">${product.categoria}</div>
 
           <h3 class="product-title">
-            <a class="product-title-link" href="producto.html?id=${product.id}">
+            <a href="producto.html?id=${product.id}">
               ${product.nombre}
             </a>
           </h3>
@@ -55,11 +54,11 @@ function renderProductCard(product) {
             <span class="tag">${product.disponible ? 'Disponible' : 'Consultar'}</span>
           </div>
 
-          <div class="product-actions product-actions--spaced">
+          <div class="product-actions">
             <a class="btn btn-secondary" href="producto.html?id=${product.id}">
               Ver producto
             </a>
-            <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank" rel="noopener">
+            <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank">
               WhatsApp
             </a>
           </div>
@@ -69,93 +68,54 @@ function renderProductCard(product) {
   `;
 }
 
-function renderDots(root) {
-  const dots = root.querySelector('[data-carousel-dots]');
-  if (!dots) return;
+function scrollToIndex(root) {
+  const items = root.querySelectorAll('.carousel-item');
+  const target = items[state.index];
 
-  dots.innerHTML = Array.from({ length: state.totalPages }, (_, index) => `
-    <button
-      type="button"
-      class="carousel-dot ${index === state.page ? 'is-active' : ''}"
-      data-carousel-dot="${index}"
-      aria-label="Ir al grupo ${index + 1}"
-      aria-current="${index === state.page ? 'true' : 'false'}"
-    ></button>
-  `).join('');
+  if (!target) return;
+
+  target.scrollIntoView({
+    behavior: 'smooth',
+    inline: 'start',
+    block: 'nearest'
+  });
 }
 
 function updateControls(root) {
   const prevBtn = root.querySelector('[data-carousel-prev]');
   const nextBtn = root.querySelector('[data-carousel-next]');
+  const items = root.querySelectorAll('.carousel-item');
 
-  if (prevBtn) prevBtn.disabled = state.page === 0;
-  if (nextBtn) nextBtn.disabled = state.page >= state.totalPages - 1;
-}
-
-function updateLayout(root) {
-  const wrap = root.querySelector('.carousel-track-wrap');
-  const track = root.querySelector('[data-carousel-track]');
-  const items = [...root.querySelectorAll('.carousel-item')];
-
-  if (!wrap || !track || !items.length) return;
-
-  state.perView = Math.min(getPerView(), items.length);
-  state.totalPages = Math.max(1, Math.ceil(items.length / state.perView));
-  state.page = Math.min(state.page, state.totalPages - 1);
-
-  const gap = parseFloat(getComputedStyle(track).gap || '0') || 0;
-  const wrapWidth = wrap.clientWidth;
-  const itemWidth = (wrapWidth - gap * (state.perView - 1)) / state.perView;
-
-  items.forEach((item) => {
-    item.style.flex = `0 0 ${itemWidth}px`;
-    item.style.width = `${itemWidth}px`;
-    item.style.maxWidth = `${itemWidth}px`;
-  });
-
-  const itemFullWidth = itemWidth + gap;
-  const offset = state.page * state.perView * itemFullWidth;
-
-  track.style.transform = `translateX(-${offset}px)`;
-
-  renderDots(root);
-  updateControls(root);
+  if (prevBtn) prevBtn.disabled = state.index === 0;
+  if (nextBtn) nextBtn.disabled = state.index >= items.length - state.perView;
 }
 
 function bindEvents(root) {
   const prevBtn = root.querySelector('[data-carousel-prev]');
   const nextBtn = root.querySelector('[data-carousel-next]');
-  const dots = root.querySelector('[data-carousel-dots]');
 
   prevBtn?.addEventListener('click', () => {
-    if (state.page > 0) {
-      state.page -= 1;
-      updateLayout(root);
+    if (state.index > 0) {
+      state.index--;
+      scrollToIndex(root);
+      updateControls(root);
     }
   });
 
   nextBtn?.addEventListener('click', () => {
-    if (state.page < state.totalPages - 1) {
-      state.page += 1;
-      updateLayout(root);
+    const items = root.querySelectorAll('.carousel-item');
+
+    if (state.index < items.length - state.perView) {
+      state.index++;
+      scrollToIndex(root);
+      updateControls(root);
     }
   });
 
-  dots?.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-carousel-dot]');
-    if (!button) return;
-
-    state.page = Number(button.dataset.carouselDot || 0);
-    updateLayout(root);
-  });
-
-  let resizeTimer = null;
-
   window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      updateLayout(root);
-    }, 80);
+    state.perView = getPerView();
+    scrollToIndex(root);
+    updateControls(root);
   });
 }
 
@@ -170,27 +130,17 @@ async function initCarousel() {
   renderDataNotice(
     root.querySelector('.container'),
     'products',
-    'No se pudieron cargar los productos destacados. Se está mostrando la versión disponible.'
+    'No se pudieron cargar los productos.'
   );
 
-  const featuredProducts = getFeaturedProducts(state.products);
+  const featured = getFeaturedProducts(state.products);
 
-  if (!featuredProducts.length) {
-    track.innerHTML = `
-      <div class="empty-state">
-        <h3>No hay productos destacados por el momento</h3>
-        <p>Probá entrando al catálogo completo para ver todos los diseños.</p>
-      </div>
-    `;
+  track.innerHTML = featured.map(renderProductCard).join('');
 
-    root.querySelector('[data-carousel-prev]')?.setAttribute('hidden', 'true');
-    root.querySelector('[data-carousel-next]')?.setAttribute('hidden', 'true');
-    return;
-  }
+  state.perView = getPerView();
 
-  track.innerHTML = featuredProducts.map(renderProductCard).join('');
   bindEvents(root);
-  updateLayout(root);
+  updateControls(root);
 }
 
 document.addEventListener('DOMContentLoaded', initCarousel);
