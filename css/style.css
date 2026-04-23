@@ -1086,35 +1086,73 @@ ol {
 }
 
 .carousel-arrow {
-  display: grid;
-  place-items: center;
-  align-self: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  width: 50px;
-  height: 50px;
-  margin-top: -1.2rem;
+  width: 46px;
+  height: 46px;
   border-radius: 999px;
-  border: 1px solid rgba(244, 197, 66, 0.2);
-  background: rgba(255, 255, 255, 0.04);
-  color: var(--cream);
+  border: 1px solid rgba(244, 197, 66, 0.25);
+  background: rgba(255, 255, 255, 0.03);
   cursor: pointer;
-  font-size: 1.7rem;
-  line-height: 1;
-  transition:
-    background 0.2s,
-    border-color 0.2s,
-    transform 0.2s,
-    opacity 0.2s;
+  transition: all 0.2s ease;
+  overflow: hidden;
 }
 
+/* estructura interna */
+.carousel-arrow::before,
+.carousel-arrow::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 3px;
+  background: var(--cream);
+  transition: all 0.2s ease;
+}
+
+/* flecha derecha */
+.carousel-arrow--next::before {
+  transform: rotate(45deg);
+  transform-origin: right center;
+  right: 12px;
+}
+
+.carousel-arrow--next::after {
+  transform: rotate(-45deg);
+  transform-origin: right center;
+  right: 12px;
+}
+
+/* flecha izquierda */
+.carousel-arrow--prev::before {
+  transform: rotate(-45deg);
+  transform-origin: left center;
+  left: 12px;
+}
+
+.carousel-arrow--prev::after {
+  transform: rotate(45deg);
+  transform-origin: left center;
+  left: 12px;
+}
+
+/* hover */
 .carousel-arrow:hover:not([disabled]) {
   background: rgba(244, 197, 66, 0.1);
-  border-color: rgba(244, 197, 66, 0.35);
+  border-color: rgba(244, 197, 66, 0.5);
   transform: scale(1.08);
 }
 
+.carousel-arrow:hover::before,
+.carousel-arrow:hover::after {
+  background: var(--yellow);
+}
+
+/* disabled */
 .carousel-arrow[disabled] {
-  opacity: 0.3;
+  opacity: 0.25;
   cursor: default;
   transform: none;
 }
