@@ -13,7 +13,7 @@
   --radius: 18px;
   --radius-sm: 12px;
   --container-max: 1120px;
-  --container-pad: 8px;
+  --container-pad: 16px;
   --container: min(var(--container-max), calc(100% - (var(--container-pad) * 2)));
   --header-height: 68px;
 }
@@ -27,7 +27,7 @@
 html {
   scroll-behavior: smooth;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 html,
@@ -49,7 +49,7 @@ body {
     var(--bg);
   color: var(--text);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 main {
@@ -211,7 +211,7 @@ ol {
 }
 
 .nav-cta {
-  top: calc(100% + var(--mobile-nav-cta-offset, 0px));
+  top: calc(100% + 0.4rem + var(--mobile-nav-cta-offset, 0px));
   gap: 0.7rem;
 }
 
