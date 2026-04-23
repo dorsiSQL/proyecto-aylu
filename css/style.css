@@ -352,6 +352,40 @@ h4 {
   min-height: 460px;
 }
 
+.mascot {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.mascot--hero {
+  bottom: -20px;
+  right: -20px;
+  width: clamp(120px, 16vw, 200px);
+  z-index: 2;
+  opacity: 0.95;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
+  animation: floatMascot 4s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 768px) {
+  .mascot--hero {
+    width: 110px;
+    right: -15px;
+    bottom: -10px;
+    opacity: 0.8;
+  }
+}
+
 .poster-stack,
 .hero-card {
   border-radius: var(--radius);
