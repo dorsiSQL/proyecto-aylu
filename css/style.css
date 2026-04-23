@@ -961,6 +961,19 @@ ol {
   height: 100%;
 }
 
+.carousel-track {
+  align-items: stretch;
+}
+
+.carousel-item {
+  display: flex;
+  min-width: 0;
+}
+
+.carousel-item .product-card {
+  width: 100%;
+}
+
 .carousel-arrow {
   display: none;
   flex-shrink: 0;
