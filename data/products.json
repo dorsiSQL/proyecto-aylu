@@ -104,7 +104,7 @@
     "nombre": "Remera Les Paul",
     "categoria": "Variados",
     "precio": 21000,
-    "imagen": "assets/catalogo/lespaul.jpeg",
+    "imagen": "assets/catalogo/guitar.jpeg",
     "descripcion": "Remera Les Paul",
     "disponible": true,
     "destacado": false
@@ -144,7 +144,7 @@
     "nombre": "Remera Soda Stereo",
     "categoria": "Variados",
     "precio": 21000,
-    "imagen": "assets/catalogo/soda-stereo.jpeg",
+    "imagen": "assets/catalogo/sodastereo.jpeg",
     "descripcion": "Remera Soda Stereo",
     "disponible": true,
     "destacado": false
