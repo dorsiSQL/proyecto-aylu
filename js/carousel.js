@@ -113,7 +113,9 @@ function updateLayout(root) {
     item.style.maxWidth = `${itemWidth}px`;
   });
 
-  const offset = state.page * wrapWidth;
+  const itemFullWidth = itemWidth + gap;
+  const offset = state.page * state.perView * itemFullWidth;
+
   track.style.transform = `translateX(-${offset}px)`;
 
   renderDots(root);
