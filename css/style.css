@@ -350,6 +350,7 @@ h4 {
 .hero-visual {
   position: relative;
   min-height: 460px;
+  overflow: visible;
 }
 
 .mascot {
@@ -359,30 +360,31 @@ h4 {
 }
 
 .mascot--hero {
-  bottom: -20px;
-  right: -20px;
-  width: clamp(120px, 16vw, 200px);
-  z-index: 2;
+  top: 50%;
+  right: -70px;
+  transform: translateY(-50%);
+
+  width: clamp(110px, 14vw, 170px);
+
+  z-index: 1;
   opacity: 0.95;
+
   filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
   animation: floatMascot 4s ease-in-out infinite;
 }
 
 @keyframes floatMascot {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(-50%) translateX(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(calc(-50% - 8px)) translateX(-2px);
   }
 }
 
 @media (max-width: 768px) {
   .mascot--hero {
-    width: 110px;
-    right: -15px;
-    bottom: -10px;
-    opacity: 0.8;
+    display: none;
   }
 }
 
