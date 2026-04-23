@@ -1126,7 +1126,127 @@ ol {
   white-space: nowrap !important;
 }
 
-/* ── Small mobile / large phones ──────────────────────────────── */
+/* ── Mobile pequeño explícito ───────────────────────────── */
+@media (max-width: 479px) {
+  :root {
+    --container-pad: 8px;
+    --header-height: 68px;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+
+  .navbar {
+    min-height: var(--header-height);
+    gap: 0.55rem;
+    padding: 0.3rem 0;
+  }
+
+  .brand img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hero {
+    padding: 1.6rem 0 2rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.6rem;
+  }
+
+  .hero-copy {
+    gap: 1rem;
+  }
+
+  .hero-title {
+    max-width: 100%;
+    font-size: clamp(1.5rem, 9.2vw, 2.15rem);
+    line-height: 1;
+  }
+
+  .hero-text {
+    max-width: 100%;
+    font-size: 0.9rem;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+    width: 100%;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero-highlights {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.55rem;
+    width: 100%;
+  }
+
+  .hero-highlights li {
+    font-size: 0.8rem;
+  }
+
+  .hero-visual {
+    position: relative;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .poster-stack {
+    position: relative;
+    inset: auto;
+    min-height: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .poster-side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .poster-main,
+  .poster-side .poster-main {
+    min-height: 160px;
+  }
+
+  .poster-badge {
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    max-width: calc(100% - 1.2rem);
+    font-size: 0.76rem;
+  }
+
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .footer-grid,
+  .modal-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── Mobile grande ───────────────────────── */
 @media (min-width: 480px) {
   :root {
     --container-pad: 12px;
@@ -1206,6 +1326,12 @@ ol {
     --header-height: 76px;
   }
 
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+
   .brand img {
     width: 68px;
     height: 68px;
@@ -1225,11 +1351,11 @@ ol {
   }
 
   .hero {
-    padding: 2.4rem 0 2.8rem;
+    padding: 2.5rem 0 2.8rem;
   }
 
   .hero-title {
-    font-size: clamp(1.95rem, 6vw, 3.3rem);
+    font-size: clamp(1.95rem, 6vw, 3.4rem);
     line-height: 0.98;
     max-width: 100%;
   }
@@ -1249,6 +1375,8 @@ ol {
   }
 
   .poster-stack {
+    position: relative;
+    inset: auto;
     min-height: 420px;
   }
 
@@ -1279,7 +1407,7 @@ ol {
   }
 }
 
-/* ── Tablet horizontal / notebook pequeño ─────────────────────── */
+/* ── Desktop base ────────────────────────── */
 @media (min-width: 1024px) {
   :root {
     --header-height: 84px;
@@ -1298,8 +1426,8 @@ ol {
   }
 
   .brand img {
-    width: 84px;
-    height: 84px;
+    width: 88px;
+    height: 88px;
   }
 
   .menu-toggle {
@@ -1311,7 +1439,7 @@ ol {
     position: static;
     display: flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 1rem;
     background: transparent;
     border: 0;
     border-radius: 0;
@@ -1333,12 +1461,8 @@ ol {
     border-radius: 0;
     background: transparent;
     border: 0;
-    font-size: clamp(0.95rem, 0.9rem + 0.1vw, 1.05rem);
+    font-size: clamp(1rem, 0.9rem + 0.18vw, 1.12rem);
     white-space: nowrap;
-  }
-
-  .nav-cta {
-    flex: 0 0 auto;
   }
 
   .nav-cta .btn,
@@ -1347,39 +1471,20 @@ ol {
   }
 
   .nav-cart-icon-btn {
-    width: 52px;
-    min-height: 52px;
-    height: 52px;
+    width: 54px;
+    min-height: 54px;
+    height: 54px;
   }
 
   .hero {
-    padding: 3rem 0 3rem;
-  }
-
-  .hero-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-  }
-
-  .hero-copy {
-    gap: 1.1rem;
-  }
-
-  .hero-title {
-    max-width: 100%;
-    font-size: clamp(2.2rem, 4.2vw, 3.7rem);
-  }
-
-  .hero-text {
-    max-width: 62ch;
-    font-size: 1rem;
+    padding: 3.2rem 0 3rem;
   }
 
   .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.9rem;
     grid-template-columns: none;
+    gap: 0.9rem;
   }
 
   .hero-actions .btn {
@@ -1389,8 +1494,8 @@ ol {
   .hero-highlights {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
     grid-template-columns: none;
+    gap: 0.75rem;
   }
 
   .hero-visual {
@@ -1401,14 +1506,11 @@ ol {
     position: relative;
     inset: auto;
     min-height: 380px;
-    display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1rem;
   }
 
   .poster-side {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
   }
 
   .product-actions .btn {
@@ -1417,40 +1519,49 @@ ol {
   }
 }
 
-/* ── Desktop intermedio (acá antes se rompía) ─────────────────── */
+/* ── Desktop chico / fix del salto 1100 ─── */
 @media (min-width: 1100px) {
   .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(380px, 0.82fr);
-    gap: 1.6rem;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);
+    gap: 1.5rem;
     align-items: center;
   }
 
   .hero-copy {
-    gap: 1.15rem;
+    gap: 1.1rem;
   }
 
   .hero-title {
     max-width: 12ch;
-    font-size: clamp(2.45rem, 4vw, 4.2rem);
+    font-size: clamp(2.3rem, 3.5vw, 4rem);
   }
 
   .hero-text {
-    max-width: 56ch;
-    font-size: 1.02rem;
+    max-width: 54ch;
+    font-size: 1rem;
   }
 
   .hero-visual {
-    min-height: 420px;
+    min-height: 400px;
   }
 
   .poster-stack {
     position: relative;
-    min-height: 420px;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+    inset: auto;
+    min-height: 400px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    gap: 1rem;
   }
 
   .poster-side {
     grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .poster-main,
+  .poster-side .poster-main {
+    min-height: 0;
   }
 
   .poster-badge {
@@ -1458,28 +1569,23 @@ ol {
     right: 0.9rem;
     bottom: 0.9rem;
     max-width: calc(100% - 1.8rem);
-    font-size: 0.92rem;
-    padding: 0.68rem 0.82rem;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.8rem;
   }
 
   .grid-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
-/* ── Desktop estándar ───────────────────── */
+/* ── Desktop estándar ────────────────────── */
 @media (min-width: 1280px) {
-  .brand img {
-    width: 88px;
-    height: 88px;
-  }
-
-  .nav-links a {
-    font-size: clamp(1rem, 0.9rem + 0.18vw, 1.12rem);
-  }
-
   .hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(440px, 0.92fr);
+    grid-template-columns: minmax(0, 1fr) minmax(420px, 0.9fr);
     gap: 2rem;
   }
 
@@ -1488,8 +1594,8 @@ ol {
   }
 
   .hero-title {
-    max-width: 10ch;
-    font-size: clamp(2.8rem, 4.5vw, 5rem);
+    max-width: 11ch;
+    font-size: clamp(2.8rem, 4vw, 5rem);
   }
 
   .hero-text {
@@ -1502,11 +1608,18 @@ ol {
   }
 
   .poster-stack {
+    position: relative;
+    inset: auto;
     min-height: 460px;
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
+  }
+
+  .poster-side {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .poster-badge {
+    left: auto;
     right: 1rem;
     bottom: 1rem;
     max-width: calc(100% - 2rem);
@@ -1521,13 +1634,29 @@ ol {
     margin-bottom: 18px;
     padding-right: 1.25rem;
   }
-
-  .grid-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 /* ── Desktop amplio ─────────────────────── */
+@media (min-width: 1440px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(460px, 0.95fr);
+  }
+
+  .hero-title {
+    max-width: 10ch;
+    font-size: clamp(3.2rem, 4.2vw, 5.8rem);
+  }
+
+  .hero-visual {
+    min-height: 500px;
+  }
+
+  .poster-stack {
+    min-height: 500px;
+  }
+}
+
+/* ── 1600+ ──────────────────────────────── */
 @media (min-width: 1600px) {
   :root {
     --container-max: 1440px;
@@ -1556,7 +1685,7 @@ ol {
   }
 }
 
-/* ── 2K / ultra wide ────────────────────── */
+/* ── 2K / ultrawide ─────────────────────── */
 @media (min-width: 2200px) {
   :root {
     --container-max: 1760px;
