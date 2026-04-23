@@ -7,17 +7,8 @@ import {
 
 const state = {
   products: [],
-  index: 0,
-  perView: 1
+  index: 0
 };
-
-function getPerView() {
-  const width = window.innerWidth;
-
-  if (width < 768) return 1;
-  if (width < 1100) return 2;
-  return 3;
-}
 
 function getFeaturedProducts(products) {
   const available = products.filter(p => p && p.disponible);
@@ -30,7 +21,7 @@ function renderProductCard(product) {
 
   return `
     <article class="carousel-item">
-      <div class="product-card product-card--linked card">
+      <div class="product-card">
         <a class="product-card-link" href="producto.html?id=${product.id}">
           <div class="product-media">
             <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
@@ -68,26 +59,17 @@ function renderProductCard(product) {
   `;
 }
 
-function scrollToIndex(root) {
-  const items = root.querySelectorAll('.carousel-item');
-  const target = items[state.index];
-
-  if (!target) return;
-
-  target.scrollIntoView({
-    behavior: 'smooth',
-    inline: 'center',
-    block: 'nearest'
-  });
+function updateCarousel(root) {
+  const track = root.querySelector('[data-carousel-track]');
+  track.style.transform = `translateX(-${state.index * 100}%)`;
 }
 
 function updateControls(root) {
   const prevBtn = root.querySelector('[data-carousel-prev]');
   const nextBtn = root.querySelector('[data-carousel-next]');
-  const items = root.querySelectorAll('.carousel-item');
 
   if (prevBtn) prevBtn.disabled = state.index === 0;
-  if (nextBtn) nextBtn.disabled = state.index >= items.length - state.perView;
+  if (nextBtn) nextBtn.disabled = state.index === state.products.length - 1;
 }
 
 function bindEvents(root) {
@@ -97,25 +79,17 @@ function bindEvents(root) {
   prevBtn?.addEventListener('click', () => {
     if (state.index > 0) {
       state.index--;
-      scrollToIndex(root);
+      updateCarousel(root);
       updateControls(root);
     }
   });
 
   nextBtn?.addEventListener('click', () => {
-    const items = root.querySelectorAll('.carousel-item');
-
-    if (state.index < items.length - state.perView) {
+    if (state.index < state.products.length - 1) {
       state.index++;
-      scrollToIndex(root);
+      updateCarousel(root);
       updateControls(root);
     }
-  });
-
-  window.addEventListener('resize', () => {
-    state.perView = getPerView();
-    scrollToIndex(root);
-    updateControls(root);
   });
 }
 
@@ -125,7 +99,7 @@ async function initCarousel() {
 
   if (!root || !track) return;
 
-  state.products = await loadProducts();
+  const products = await loadProducts();
 
   renderDataNotice(
     root.querySelector('.container'),
@@ -133,11 +107,9 @@ async function initCarousel() {
     'No se pudieron cargar los productos.'
   );
 
-  const featured = getFeaturedProducts(state.products);
+  state.products = getFeaturedProducts(products);
 
-  track.innerHTML = featured.map(renderProductCard).join('');
-
-  state.perView = getPerView();
+  track.innerHTML = state.products.map(renderProductCard).join('');
 
   bindEvents(root);
   updateControls(root);
