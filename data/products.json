@@ -28,5 +28,45 @@
     "descripcion": "Una remera de Goku",
     "disponible": true,
     "destacado": false
+  },
+  {
+    "id": 4,
+    "nombre": "Remera Bon Jovi",
+    "categoria": "Vintage",
+    "precio": 21000,
+    "imagen": "assets/catalogo/bon-jovi.jpeg",
+    "descripcion": "Remera Bon Jovi",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 5,
+    "nombre": "Remera Parasyte",
+    "categoria": "Anime",
+    "precio": 21000,
+    "imagen": "assets/catalogo/parasyte.png",
+    "descripcion": "Remera anime parasyte",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 6,
+    "nombre": "Remera Picapiedras",
+    "categoria": "Vintage",
+    "precio": 21000,
+    "imagen": "assets/catalogo/retro-picapiedra.jpeg",
+    "descripcion": "Remera Picapiedras",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 7,
+    "nombre": "Remera Stranger Things",
+    "categoria": "Cine / Peliculas",
+    "precio": 21000,
+    "imagen": "assets/catalogo/stranger-things.png",
+    "descripcion": "Remera Stranger Things",
+    "disponible": true,
+    "destacado": false
   }
 ]
