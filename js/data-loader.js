@@ -1,5 +1,4 @@
 const WA_NUMBER = '5491156592963';
-const CACHE_PREFIX = 'retro_remeras_cache_v1';
 
 const fallbackProducts = [];
 
@@ -14,37 +13,7 @@ function cloneData(data) {
   return JSON.parse(JSON.stringify(data));
 }
 
-function getCacheKey(resourceName) {
-  return `${CACHE_PREFIX}:${resourceName}`;
-}
-
-function readCachedJson(resourceName) {
-  try {
-    const raw = sessionStorage.getItem(getCacheKey(resourceName));
-    if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : null;
-  } catch (error) {
-    return null;
-  }
-}
-
-function writeCachedJson(resourceName, data) {
-  try {
-    sessionStorage.setItem(getCacheKey(resourceName), JSON.stringify(data));
-  } catch (error) {
-    // no-op
-  }
-}
-
 async function loadJson(url, fallbackData, resourceName) {
-  const cached = readCachedJson(resourceName);
-
-  if (cached) {
-    resourceStatus[resourceName] = { source: 'cache', error: null };
-    return cloneData(cached);
-  }
-
   try {
     const response = await fetch(url, { cache: 'no-store' });
 
@@ -58,9 +27,7 @@ async function loadJson(url, fallbackData, resourceName) {
       throw new Error(`Respuesta inválida en ${url}`);
     }
 
-    writeCachedJson(resourceName, data);
     resourceStatus[resourceName] = { source: 'network', error: null };
-
     return cloneData(data);
   } catch (error) {
     console.warn(`[Retro Remeras] fallback para ${resourceName}:`, error);
@@ -81,14 +48,7 @@ export async function loadDesigns() {
   return loadJson('data/designs.json', fallbackDesigns, 'designs');
 }
 
-export function clearDataCache() {
-  try {
-    sessionStorage.removeItem(getCacheKey('products'));
-    sessionStorage.removeItem(getCacheKey('designs'));
-  } catch (error) {
-    // no-op
-  }
-}
+export function clearDataCache() {}
 
 export function getDataStatus(resourceName) {
   if (!resourceStatus[resourceName]) {
