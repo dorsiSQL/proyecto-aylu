@@ -17,7 +17,7 @@
     "imagen": "assets/catalogo/ejemplo-vintage.jpg",
     "descripcion": "Una remera vintage",
     "disponible": true,
-    "destacado": false
+    "destacado": true
   },
   {
     "id": 3,
@@ -47,7 +47,7 @@
     "imagen": "assets/catalogo/parasyte.png",
     "descripcion": "Remera anime parasyte",
     "disponible": true,
-    "destacado": false
+    "destacado": true
   },
   {
     "id": 6,
@@ -67,7 +67,7 @@
     "imagen": "assets/catalogo/stranger-things.png",
     "descripcion": "Remera Stranger Things",
     "disponible": true,
-    "destacado": false
+    "destacado": true
   },
   {
     "id": 8,
