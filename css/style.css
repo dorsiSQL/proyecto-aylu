@@ -2285,6 +2285,27 @@ ol {
   object-fit: cover;
 }
 
+.promo-bar {
+  background: #050505;
+  color: #f5f5f5;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.promo-bar__track {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 0 12px;
+  white-space: nowrap;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 @media (max-width: 1099.98px) {
   .home-page .topbar {
     overflow: visible;
@@ -2467,6 +2488,13 @@ ol {
 
   .section-header {
     margin-bottom: 1.6rem;
+  }
+  
+  .promo-bar__track {
+    min-height: 24px;
+    font-size: 0.58rem;
+    gap: 8px;
+    padding: 0 8px;
   }
 }
 
