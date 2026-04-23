@@ -11,8 +11,8 @@ const state = {
 };
 
 function getFeaturedProducts(products) {
-  const available = products.filter(p => p && p.disponible);
-  const featured = available.filter(p => p.destacado);
+  const available = products.filter((p) => p && p.disponible);
+  const featured = available.filter((p) => p.destacado);
   return (featured.length ? featured : available).slice(0, 12);
 }
 
@@ -20,9 +20,9 @@ function renderProductCard(product) {
   const message = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
 
   return `
-    <article class="carousel-item">
-      <div class="product-card">
-        <a class="product-card-link" href="producto.html?id=${product.id}">
+    <article class="carousel-item" aria-hidden="true" hidden>
+      <div class="product-card product-card--linked">
+        <a class="product-card-link" href="producto.html?id=${product.id}" aria-label="Ver ${product.nombre}">
           <div class="product-media">
             <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
             ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
@@ -33,7 +33,7 @@ function renderProductCard(product) {
           <div class="product-category">${product.categoria}</div>
 
           <h3 class="product-title">
-            <a href="producto.html?id=${product.id}">
+            <a class="product-title-link" href="producto.html?id=${product.id}">
               ${product.nombre}
             </a>
           </h3>
@@ -49,7 +49,7 @@ function renderProductCard(product) {
             <a class="btn btn-secondary" href="producto.html?id=${product.id}">
               Ver producto
             </a>
-            <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank">
+            <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank" rel="noopener">
               WhatsApp
             </a>
           </div>
@@ -59,9 +59,39 @@ function renderProductCard(product) {
   `;
 }
 
-function updateCarousel(root) {
+function renderDots(root) {
+  const dots = root.querySelector('[data-carousel-dots]');
+  if (!dots) return;
+
+  dots.innerHTML = state.products
+    .map(
+      (_, index) => `
+        <button
+          type="button"
+          class="carousel-dot${index === state.index ? ' is-active' : ''}"
+          data-carousel-dot="${index}"
+          aria-label="Ir al producto ${index + 1}"
+          aria-current="${index === state.index ? 'true' : 'false'}"
+        ></button>`
+    )
+    .join('');
+}
+
+function updateSlides(root) {
   const track = root.querySelector('[data-carousel-track]');
-  track.style.transform = `translateX(-${state.index * 100}%)`;
+  const items = [...root.querySelectorAll('.carousel-item')];
+  if (!track || !items.length) return;
+
+  track.style.display = 'block';
+  track.style.transform = 'none';
+  track.style.width = '100%';
+
+  items.forEach((item, index) => {
+    const isActive = index === state.index;
+    item.hidden = !isActive;
+    item.setAttribute('aria-hidden', String(!isActive));
+    item.style.display = isActive ? 'flex' : 'none';
+  });
 }
 
 function updateControls(root) {
@@ -69,34 +99,43 @@ function updateControls(root) {
   const nextBtn = root.querySelector('[data-carousel-next]');
 
   if (prevBtn) prevBtn.disabled = state.index === 0;
-  if (nextBtn) nextBtn.disabled = state.index === state.products.length - 1;
+  if (nextBtn) nextBtn.disabled = state.index >= state.products.length - 1;
+
+  renderDots(root);
+  updateSlides(root);
 }
 
 function bindEvents(root) {
   const prevBtn = root.querySelector('[data-carousel-prev]');
   const nextBtn = root.querySelector('[data-carousel-next]');
+  const dots = root.querySelector('[data-carousel-dots]');
 
   prevBtn?.addEventListener('click', () => {
     if (state.index > 0) {
-      state.index--;
-      updateCarousel(root);
+      state.index -= 1;
       updateControls(root);
     }
   });
 
   nextBtn?.addEventListener('click', () => {
     if (state.index < state.products.length - 1) {
-      state.index++;
-      updateCarousel(root);
+      state.index += 1;
       updateControls(root);
     }
+  });
+
+  dots?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-carousel-dot]');
+    if (!button) return;
+
+    state.index = Number(button.getAttribute('data-carousel-dot')) || 0;
+    updateControls(root);
   });
 }
 
 async function initCarousel() {
   const root = document.querySelector('[data-carousel]');
   const track = root?.querySelector('[data-carousel-track]');
-
   if (!root || !track) return;
 
   const products = await loadProducts();
@@ -109,8 +148,19 @@ async function initCarousel() {
 
   state.products = getFeaturedProducts(products);
 
-  track.innerHTML = state.products.map(renderProductCard).join('');
+  if (!state.products.length) {
+    track.innerHTML = `
+      <div class="empty-state">
+        <h3>No hay productos destacados por el momento</h3>
+        <p>Probá entrando al catálogo completo para ver todos los diseños.</p>
+      </div>
+    `;
+    root.querySelector('[data-carousel-prev]')?.setAttribute('hidden', 'true');
+    root.querySelector('[data-carousel-next]')?.setAttribute('hidden', 'true');
+    return;
+  }
 
+  track.innerHTML = state.products.map(renderProductCard).join('');
   bindEvents(root);
   updateControls(root);
 }

@@ -992,27 +992,22 @@ ol {
 }
 
 .carousel-track {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  transition: transform 0.42s cubic-bezier(0.25, 0.8, 0.25, 1);
-  will-change: transform;
+  display: block;
   width: 100%;
 }
 
 .carousel-item {
-  min-width: 100%;
-  flex: 0 0 100%;
+  width: 100%;
   max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: stretch;
   height: 100%;
-  padding-inline: clamp(18px, 4vw, 56px);
+  padding-inline: clamp(12px, 3vw, 32px);
 }
 
 .carousel-item .product-card {
-  width: min(760px, 100%);
+  width: min(680px, 100%);
   max-width: 100%;
   min-width: 0;
   height: 100%;
