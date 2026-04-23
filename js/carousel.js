@@ -78,10 +78,11 @@ async function initCarousel() {
 
     let index = 0;
     let timer = null;
+    let resizeRaf = null;
 
     function perView() {
       if (window.innerWidth >= 1100) return 3;
-      if (window.innerWidth >= 700) return 2;
+      if (window.innerWidth >= 768) return 2;
       return 1;
     }
 
@@ -186,9 +187,15 @@ async function initCarousel() {
     }
 
     window.addEventListener('resize', () => {
-      setWidths();
-      renderDots();
-      goTo(index);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+
+      resizeRaf = requestAnimationFrame(() => {
+        const pages = Math.max(1, Math.ceil(carouselProducts.length / perView()));
+        const currentPage = Math.min(Math.floor(index / perView()), pages - 1);
+        setWidths();
+        renderDots();
+        goTo(currentPage * perView());
+      });
     });
 
     setWidths();

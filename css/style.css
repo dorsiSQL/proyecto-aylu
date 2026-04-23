@@ -172,6 +172,7 @@ ol {
   flex-wrap: nowrap;
   gap: 0.55rem;
   padding: 0.3rem 0;
+  --mobile-nav-cta-offset: 0px;
 }
 
 .brand {
@@ -207,7 +208,7 @@ ol {
 }
 
 .nav-cta {
-  top: calc(100% + 14.2rem);
+  top: calc(100% + var(--mobile-nav-cta-offset, 0px));
   gap: 0.7rem;
 }
 

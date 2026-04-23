@@ -8,27 +8,73 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupMobileMenu() {
+  const header = document.querySelector('.topbar');
+  const navbar = document.querySelector('.navbar');
   const toggle = document.querySelector('[data-menu-toggle]');
   const navLinks = document.querySelector('[data-nav-links]');
   const navCta = document.querySelector('[data-nav-cta]');
 
-  if (!toggle || !navLinks || !navCta) return;
+  if (!toggle || !navLinks || !navCta || !navbar) return;
+
+  const desktopBreakpoint = window.matchMedia('(min-width: 1024px)');
+
+  function updateMobileNavOffset() {
+    if (desktopBreakpoint.matches) {
+      navbar.style.removeProperty('--mobile-nav-cta-offset');
+      return;
+    }
+
+    const gap = 8;
+    const linksHeight = navLinks.offsetHeight || 0;
+    const offset = linksHeight + gap * 2;
+    navbar.style.setProperty('--mobile-nav-cta-offset', `${offset}px`);
+  }
+
+  function closeMenu() {
+    toggle.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    navLinks.classList.remove('is-open');
+    navCta.classList.remove('is-open');
+  }
+
+  function openMenu() {
+    navLinks.classList.add('is-open');
+    updateMobileNavOffset();
+    navCta.classList.add('is-open');
+    toggle.classList.add('is-open');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
 
   toggle.addEventListener('click', () => {
-    const open = toggle.classList.toggle('is-open');
-    toggle.setAttribute('aria-expanded', String(open));
-    navLinks.classList.toggle('is-open', open);
-    navCta.classList.toggle('is-open', open);
+    const isOpen = toggle.classList.contains('is-open');
+
+    if (isOpen) {
+      closeMenu();
+      return;
+    }
+
+    openMenu();
   });
 
   [...navLinks.querySelectorAll('a'), ...navCta.querySelectorAll('a')].forEach((link) => {
-    link.addEventListener('click', () => {
-      toggle.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      navLinks.classList.remove('is-open');
-      navCta.classList.remove('is-open');
-    });
+    link.addEventListener('click', closeMenu);
   });
+
+  const handleResize = () => {
+    if (desktopBreakpoint.matches) {
+      closeMenu();
+      navbar.style.removeProperty('--mobile-nav-cta-offset');
+      return;
+    }
+
+    if (toggle.classList.contains('is-open')) {
+      updateMobileNavOffset();
+    }
+  };
+
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('orientationchange', handleResize);
+  updateMobileNavOffset();
 }
 
 function setupDynamicYear() {
