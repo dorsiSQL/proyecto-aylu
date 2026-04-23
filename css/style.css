@@ -161,6 +161,7 @@ ol {
   position: sticky;
   top: 0;
   z-index: 9999;
+  overflow: visible;
   backdrop-filter: blur(14px);
   background: rgba(12, 12, 12, 0.88);
   border-bottom: 1px solid rgba(244, 197, 66, 0.08);
@@ -169,12 +170,12 @@ ol {
 .navbar {
   position: relative;
   min-height: var(--header-height);
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: nowrap;
   gap: 0.55rem;
   padding: 0.3rem 0;
+  overflow: visible;
   --mobile-nav-cta-offset: 0px;
 }
 
@@ -183,6 +184,7 @@ ol {
   align-items: center;
   min-width: 0;
   flex-shrink: 0;
+  justify-self: start;
 }
 
 .brand img {
@@ -196,6 +198,8 @@ ol {
   position: absolute;
   left: 0;
   right: 0;
+  width: 100%;
+  max-width: 100%;
   display: none;
   z-index: 1201;
   background: rgba(14, 14, 14, 0.98);
@@ -260,6 +264,7 @@ ol {
   justify-content: center;
   margin-left: auto;
   flex-shrink: 0;
+  justify-self: end;
   order: 3;
 }
 
@@ -397,6 +402,7 @@ ol {
 /* ── Hero ────────────────────────────────── */
 .hero {
   padding: 1.6rem 0 2rem;
+  overflow: hidden;
 }
 
 .hero-grid {
@@ -479,6 +485,7 @@ ol {
   min-width: 0;
   min-height: 0;
   width: 100%;
+  max-width: 100%;
   order: 2;
   justify-self: stretch;
 }
@@ -517,8 +524,13 @@ ol {
   background: #0d0d0d;
 }
 
-.poster-main,
+.poster-main {
+  aspect-ratio: 4 / 5;
+  min-height: 160px;
+}
+
 .poster-side .poster-main {
+  aspect-ratio: 1 / 1;
   min-height: 160px;
 }
 
@@ -1254,16 +1266,21 @@ ol {
   }
 
   .hero-visual {
-    min-height: 420px;
+    min-height: 0;
   }
 
   .poster-stack {
-    min-height: 420px;
+    min-height: 0;
   }
 
-  .poster-main,
+  .poster-main {
+    aspect-ratio: 4 / 5;
+    min-height: 280px;
+  }
+
   .poster-side .poster-main {
-    min-height: 0;
+    aspect-ratio: 1 / 1;
+    min-height: 180px;
   }
 
   .grid-3,
@@ -1306,6 +1323,10 @@ ol {
 
   .navbar {
     min-height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
     gap: 1rem;
     padding: 0;
   }
@@ -1405,13 +1426,13 @@ ol {
   }
 
   .hero-visual {
-    min-height: 380px;
+    min-height: 0;
   }
 
   .poster-stack {
     position: relative;
     inset: auto;
-    min-height: 380px;
+    min-height: 0;
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -1455,11 +1476,11 @@ ol {
   }
 
   .hero-visual {
-    min-height: 460px;
+    min-height: 0;
   }
 
   .poster-stack {
-    min-height: 460px;
+    min-height: 0;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
   }
 
@@ -1489,11 +1510,11 @@ ol {
   }
 
   .hero-visual {
-    min-height: 500px;
+    min-height: 0;
   }
 
   .poster-stack {
-    min-height: 500px;
+    min-height: 0;
   }
 
   .mascot-divider {
