@@ -6,9 +6,9 @@
 
 :root {
   /* ── Palette ─────────────────────────────── */
-  --bg: #111111;
+  --bg: #0a0a0a;
   --bg-soft: #1a1a1a;
-  --panel: #191919;
+  --panel: rgba(25, 25, 25, 0.8);
   --panel-2: #222222;
   --text: #f6ecd9;
   --muted: #c6bca8;
@@ -183,7 +183,8 @@ ol {
 
 /* ── Sections ────────────────────────────── */
 .section {
-  padding: 3.5rem 0;
+  padding: 6rem 0;
+  position: relative;
 }
 
 .section-header {
@@ -627,7 +628,7 @@ ol {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  font-size: clamp(1.5rem, 9.2vw, 2.15rem);
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
   line-height: 1;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -2634,3 +2635,19 @@ ol {
     background-attachment: scroll;
   }
 }
+
+/* ── Refinamientos Extra Manus ── */
+.section:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(244, 197, 66, 0.1), transparent);
+}
+.product-card:hover, .category-card:hover {
+  transform: translateY(-8px) scale(1.01) !important;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(244, 197, 66, 0.15) !important;
+}
+.topbar { backdrop-filter: blur(20px) !important; }
