@@ -1190,3 +1190,413 @@ h4 {
     min-height: 150px;
   }
 }
+
+/* ── Responsive global + navbar más legible ───────────────────────── */
+
+.nav-links a {
+  font-size: clamp(1rem, 0.82rem + 0.35vw, 1.14rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.nav-cta .btn {
+  font-size: 0.98rem;
+}
+
+@media (max-width: 1199px) {
+  :root {
+    --container: min(1120px, calc(100% - 1.5rem));
+  }
+
+  .hero {
+    padding: 3.2rem 0 3rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+  }
+
+  .hero-visual {
+    min-height: 380px;
+  }
+
+  .poster-stack {
+    position: relative;
+    inset: auto;
+    min-height: 380px;
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-height: 78px;
+    --container: min(100%, calc(100% - 1.25rem));
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    padding: 0.35rem 0;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    order: 3;
+  }
+
+  .nav-links,
+  .nav-cta {
+    display: none;
+    width: 100%;
+  }
+
+  .nav-links.is-open,
+  .nav-cta.is-open {
+    display: grid;
+  }
+
+  .nav-links {
+    order: 4;
+    gap: 0.35rem;
+    padding: 0.25rem 0 0.15rem;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(244, 197, 66, 0.1);
+    font-size: 1.02rem;
+  }
+
+  .nav-cta {
+    order: 5;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 0.1rem 0 0.85rem;
+  }
+
+  .nav-cta .btn,
+  .nav-cart-icon-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 2.6rem 0 2.6rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2.35rem, 8vw, 4rem);
+  }
+
+  .hero-text {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .hero-highlights {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .poster-stack {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .poster-side {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .grid-3,
+  .grid-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .category-card {
+    min-height: 190px;
+  }
+
+  .carousel-outer {
+    gap: 0.5rem;
+  }
+
+  .carousel-arrow {
+    width: 42px;
+    height: 42px;
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --container: min(100%, calc(100% - 1rem));
+    --radius: 18px;
+    --radius-sm: 12px;
+  }
+
+  .brand img {
+    width: 68px;
+    height: 68px;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+
+  .section-subtitle,
+  .footer p {
+    font-size: 0.95rem;
+  }
+
+  .hero {
+    padding: 2.2rem 0 2.25rem;
+  }
+
+  .hero-copy {
+    gap: 1rem;
+  }
+
+  .hero-visual {
+    min-height: 0;
+  }
+
+  .poster-main,
+  .poster-side {
+    min-height: 220px;
+  }
+
+  .poster-badge {
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .info-card,
+  .benefit-card,
+  .panel,
+  .product-content {
+    padding: 1rem;
+  }
+
+  .category-card {
+    padding: 1.15rem;
+    min-height: 170px;
+  }
+
+  .category-card h3 {
+    font-size: 1.35rem;
+  }
+
+  .product-actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .carousel-arrow {
+    display: none;
+  }
+
+  .footer {
+    padding: 1.35rem 0 1.6rem;
+  }
+
+  .footer-links {
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-size: 0.72rem;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --container: min(100%, calc(100% - 0.85rem));
+    --header-height: 74px;
+  }
+
+  .topbar {
+    backdrop-filter: blur(10px);
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+    padding: 0.82rem 0.9rem;
+  }
+
+  .btn {
+    min-height: 46px;
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .hero-text {
+    font-size: 0.96rem;
+  }
+
+  .eyebrow,
+  .section-kicker {
+    font-size: 0.78rem;
+  }
+
+  .hero-highlights li {
+    font-size: 0.88rem;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .poster-side {
+    grid-template-columns: 1fr;
+  }
+
+  .poster-main,
+  .poster-side {
+    min-height: 190px;
+  }
+
+  .modal {
+    padding: 0.6rem;
+  }
+
+  .modal-dialog {
+    border-radius: 18px;
+  }
+
+  .modal-copy {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(460px, 0.95fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --container: min(1440px, calc(100% - 3rem));
+  }
+
+  body {
+    font-size: 17px;
+  }
+
+  .navbar {
+    min-height: 92px;
+  }
+
+  .brand img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .nav-links a {
+    font-size: 1.12rem;
+  }
+
+  .section {
+    padding: 5rem 0;
+  }
+
+  .hero-title {
+    font-size: clamp(4rem, 5vw, 6rem);
+  }
+
+  .product-content {
+    padding: 1.15rem;
+  }
+}
+
+@media (min-width: 2200px) {
+  :root {
+    --container: min(1760px, calc(100% - 4rem));
+  }
+
+  body {
+    font-size: 18px;
+  }
+
+  .section-title {
+    font-size: clamp(2.5rem, 3vw, 4rem);
+  }
+
+  .hero-title {
+    font-size: clamp(4.5rem, 4vw, 6.8rem);
+  }
+}
+
+@media (min-width: 3200px) {
+  :root {
+    --container: min(2200px, calc(100% - 6rem));
+  }
+
+  body {
+    font-size: 20px;
+  }
+
+  .navbar {
+    min-height: 104px;
+  }
+
+  .brand img {
+    width: 108px;
+    height: 108px;
+  }
+
+  .nav-links a {
+    font-size: 1.22rem;
+  }
+
+  .btn {
+    min-height: 56px;
+    font-size: 1.02rem;
+  }
+}
