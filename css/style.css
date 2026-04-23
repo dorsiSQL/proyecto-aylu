@@ -1375,7 +1375,7 @@ ol {
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 1280px) {
   .hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(460px, 0.95fr);
     gap: 2rem;
