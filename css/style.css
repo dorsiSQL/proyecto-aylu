@@ -544,26 +544,6 @@ ol {
   font-size: 0.76rem;
 }
 
-.mascot-divider {
-  display: none;
-}
-
-.mascot--divider {
-  width: clamp(100px, 12vw, 160px);
-  opacity: 0.92;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.25));
-  animation: floatMascot 4s ease-in-out infinite;
-}
-
-@keyframes floatMascot {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
 /* ── Grids / Cards ───────────────────────── */
 .grid-3,
 .grid-4 {

@@ -81,9 +81,9 @@ async function initCarousel() {
     let resizeRaf = null;
 
     function perView() {
-      if (window.innerWidth >= 1100) return 3;
-      if (window.innerWidth >= 768) return 2;
-      return 1;
+    if (window.innerWidth >= 1100) return 3;
+    if (window.innerWidth >= 768) return 2;
+    return 1;
     }
 
     function maxIndex() {
