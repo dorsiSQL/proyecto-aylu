@@ -991,16 +991,25 @@ ol {
     0 0 0 1px rgba(244, 197, 66, 0.06);
 }
 
+.carousel-item .product-card-link {
+  display: block;
+  width: 100%;
+}
+
 .carousel-item .product-media {
-  aspect-ratio: 4 / 4.6;
+  width: 100%;
+  aspect-ratio: 1 / 1.08;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  overflow: hidden;
   background: #0d0d0d;
 }
 
 .carousel-item .product-media img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .carousel-item .product-content {
