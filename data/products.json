@@ -32,7 +32,7 @@
   {
     "id": 4,
     "nombre": "Remera Bon Jovi",
-    "categoria": "Vintage",
+    "categoria": "Variados",
     "precio": 21000,
     "imagen": "assets/catalogo/bon-jovi.jpeg",
     "descripcion": "Remera Bon Jovi",
@@ -52,7 +52,7 @@
   {
     "id": 6,
     "nombre": "Remera Picapiedras",
-    "categoria": "Vintage",
+    "categoria": "Variados",
     "precio": 21000,
     "imagen": "assets/catalogo/retro-picapiedra.jpeg",
     "descripcion": "Remera Picapiedras",
@@ -66,6 +66,86 @@
     "precio": 21000,
     "imagen": "assets/catalogo/stranger-things.png",
     "descripcion": "Remera Stranger Things",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 8,
+    "nombre": "Remera Artesano del miedo",
+    "categoria": "Cine / Peliculas",
+    "precio": 21000,
+    "imagen": "assets/catalogo/artesano.jpeg",
+    "descripcion": "Remera Artesano del miedo",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 9,
+    "nombre": "Remera Beatles",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/beatles.jpeg",
+    "descripcion": "Remera Beatles",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 10,
+    "nombre": "Remera Charly García",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/charlygarcia.jpeg",
+    "descripcion": "Remera Charly García",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 11,
+    "nombre": "Remera Les Paul",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/lespaul.jpeg",
+    "descripcion": "Remera Les Paul",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 12,
+    "nombre": "Remera Kiss",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/kiss.jpeg",
+    "descripcion": "Remera Kiss",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 13,
+    "nombre": "Remera Rolling Stones",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/rollingstones.jpeg",
+    "descripcion": "Remera Rolling Stones",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 14,
+    "nombre": "Remera Sandro",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/sandro.jpeg",
+    "descripcion": "Remera Sandro",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 15,
+    "nombre": "Remera Soda Stereo",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/soda-stereo.jpeg",
+    "descripcion": "Remera Soda Stereo",
     "disponible": true,
     "destacado": false
   }
