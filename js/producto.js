@@ -4,11 +4,12 @@ import { cart } from './cart.js';
 const COLORS = [
   { name: 'Negro', swatchClass: 'swatch-dot--negro' },
   { name: 'Blanco', swatchClass: 'swatch-dot--blanco' },
-  { name: 'Rojo', swatchClass: 'swatch-dot--rojo' },
-  { name: 'Amarillo', swatchClass: 'swatch-dot--amarillo' },
-  { name: 'Gris', swatchClass: 'swatch-dot--gris' },
-  { name: 'Azul', swatchClass: 'swatch-dot--azul' },
-  { name: 'Verde', swatchClass: 'swatch-dot--verde' }
+  
+//  { name: 'Rojo', swatchClass: 'swatch-dot--rojo' },
+//  { name: 'Amarillo', swatchClass: 'swatch-dot--amarillo' },
+//  { name: 'Gris', swatchClass: 'swatch-dot--gris' },
+//  { name: 'Azul', swatchClass: 'swatch-dot--azul' },
+//  { name: 'Verde', swatchClass: 'swatch-dot--verde' }
 ];
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
