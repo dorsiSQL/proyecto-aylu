@@ -1058,9 +1058,31 @@ ol {
     --header-height: 76px;
   }
 
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1200;
+  }
+
+  .navbar {
+    position: relative;
+    min-height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    padding: 0.3rem 0;
+  }
+
+  .brand {
+    min-width: 0;
+    flex: 0 1 auto;
+  }
+
   .brand img {
-    width: 74px;
-    height: 74px;
+    width: 68px;
+    height: 68px;
   }
 
   .menu-toggle {
@@ -1069,27 +1091,38 @@ ol {
     align-items: center;
     justify-content: center;
     margin-left: auto;
-  }
-
-  .navbar {
-    position: relative;
-    flex-wrap: wrap;
-    padding: 0.25rem 0;
+    flex-shrink: 0;
+    order: 3;
   }
 
   .nav-links,
   .nav-cta {
-    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
     display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-    padding: 0.35rem 0 0.85rem;
+    z-index: 1201;
+    background: rgba(14, 14, 14, 0.98);
+    border: 1px solid rgba(244, 197, 66, 0.1);
+    border-radius: 18px;
+    padding: 0.8rem;
+  }
+
+  .nav-links {
+    top: calc(100% + 0.5rem);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.45rem;
+  }
+
+  .nav-cta {
+    top: calc(100% + 15.2rem);
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
   }
 
   .nav-links.is-open,
   .nav-cta.is-open {
-    display: flex;
+    display: grid;
   }
 
   .nav-links a,
@@ -1111,6 +1144,7 @@ ol {
 
   .nav-cart-icon-btn {
     border-radius: 999px;
+    justify-content: center;
   }
 
   .hero {
@@ -1122,7 +1156,7 @@ ol {
   }
 
   .hero-title {
-    max-width: 11ch;
+    max-width: 100%;
   }
 
   .hero-actions,
@@ -1272,14 +1306,26 @@ ol {
     backdrop-filter: blur(10px);
   }
 
+  .navbar {
+    gap: 0.55rem;
+  }
+
   .brand img {
-    width: 58px;
-    height: 58px;
+    width: 56px;
+    height: 56px;
   }
 
   .menu-toggle {
     width: 44px;
     height: 44px;
+  }
+
+  .nav-links {
+    top: calc(100% + 0.4rem);
+  }
+
+  .nav-cta {
+    top: calc(100% + 14.2rem);
   }
 
   .btn {
