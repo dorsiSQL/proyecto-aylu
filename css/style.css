@@ -2286,7 +2286,7 @@ ol {
 }
 
 /* ==============================
-   PROMO BAR - LOOP INFINITO REAL
+   PROMO BAR - MOVIMIENTO CONTINUO
 ============================== */
 
 .promo-bar {
@@ -2308,44 +2308,38 @@ ol {
   align-items: center;
 }
 
-.promo-bar__content {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  height: 100%;
-  animation: promoBarScroll 14s linear infinite;
-  will-change: transform;
-}
-
-.promo-bar__group {
+.promo-bar__track {
   display: flex;
   align-items: center;
   gap: 18px;
-  flex-shrink: 0;
-  padding-right: 18px;
+  width: max-content;
+  height: 100%;
   white-space: nowrap;
 
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+
+  animation: promoBarMove 26s linear infinite;
+  will-change: transform;
 }
 
-.promo-bar__group span {
+.promo-bar__track span {
   flex: 0 0 auto;
 }
 
-@keyframes promoBarScroll {
+@keyframes promoBarMove {
   from {
     transform: translateX(0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translateX(-33.333%);
   }
 }
 
-.promo-bar__content:hover {
+.promo-bar__track:hover {
   animation-play-state: paused;
 }
 
@@ -2538,14 +2532,10 @@ ol {
     height: 28px;
   }
 
-  .promo-bar__content {
-    animation-duration: 18s;
-  }
-
-  .promo-bar__group {
+  .promo-bar__track {
     gap: 14px;
-    padding-right: 14px;
     font-size: 0.58rem;
+    animation-duration: 30s;
   }
 }
 
