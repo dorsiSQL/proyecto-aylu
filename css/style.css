@@ -157,7 +157,7 @@ ol {
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 1200;
+  z-index: 9999;
   backdrop-filter: blur(14px);
   background: rgba(12, 12, 12, 0.88);
   border-bottom: 1px solid rgba(244, 197, 66, 0.08);
@@ -1642,8 +1642,80 @@ ol {
     max-width: calc(100% - 1.2rem);
     font-size: 0.76rem;
   }
+}
 
-  .mascot-divider {
+/* Tablet y mobile grande: mostrar navbar visible, no escondida */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+
+  .navbar {
+    min-height: 76px;
+    gap: 0.85rem;
+    padding: 0.4rem 0;
+  }
+
+  .brand img {
+    width: 68px;
+    height: 68px;
+  }
+
+  .menu-toggle {
     display: none !important;
+  }
+
+  .nav-links,
+  .nav-cta {
+    position: static !important;
+    display: flex !important;
+    align-items: center;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .nav-links {
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: 0.9rem;
+    min-width: 0;
+  }
+
+  .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    min-height: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+
+  .nav-cta {
+    flex: 0 0 auto;
+    gap: 0.65rem;
+  }
+
+  .nav-cart-icon-btn {
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+  }
+
+  .nav-cta .btn {
+    width: auto;
+    min-height: 44px;
+    padding: 0.72rem 0.95rem;
+    white-space: nowrap;
+    font-size: 0.92rem;
   }
 }
