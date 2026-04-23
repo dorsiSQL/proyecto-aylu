@@ -76,7 +76,7 @@ function scrollToIndex(root) {
 
   target.scrollIntoView({
     behavior: 'smooth',
-    inline: 'start',
+    inline: 'center',
     block: 'nearest'
   });
 }
