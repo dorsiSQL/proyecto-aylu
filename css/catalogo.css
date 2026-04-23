@@ -14,98 +14,76 @@
 .filters {
   display: grid;
   gap: 1rem;
+  min-width: 0;
 }
 
 .filter-row {
   display: grid;
-  gap: .9rem;
+  gap: 0.9rem;
 }
 
 .filter-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: .65rem;
+  gap: 0.65rem;
 }
 
 .filter-pill {
-  border: 1px solid rgba(244,197,66,.16);
-  background: rgba(255,255,255,.02);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border: 1px solid rgba(244, 197, 66, 0.16);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--cream);
   border-radius: 999px;
-  padding: .7rem 1rem;
+  padding: 0.7rem 1rem;
   cursor: pointer;
-  transition: transform .25s ease, background .25s ease, border-color .25s ease;
+  text-align: center;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
 
 .filter-pill:hover,
 .filter-pill.is-active {
   transform: translateY(-1px);
-  background: rgba(244,197,66,.1);
-  border-color: rgba(244,197,66,.28);
+  background: rgba(244, 197, 66, 0.1);
+  border-color: rgba(244, 197, 66, 0.28);
   color: var(--yellow);
 }
 
 .catalog-grid {
   display: grid;
   gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.catalog-grid > * {
+  min-width: 0;
 }
 
 .catalog-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: .8rem;
+  gap: 0.8rem;
   align-items: center;
   justify-content: space-between;
 }
 
-/* ── Inline styles del HTML absorbidos en CSS ── */
-
-/* .section-header dentro del aside de filtros tiene margin-bottom inline */
 .catalog-shell .filters > .section-header {
   margin-bottom: 1rem;
 }
 
-/* .filters h2 tiene font-size: 2rem inline */
 .catalog-shell .filters h2 {
   font-size: 2rem;
 }
 
-/* .catalog-meta tiene margin inline */
 .catalog-meta {
-  margin: .25rem 0 0;
+  margin: 0.25rem 0 0;
   color: var(--muted);
 }
 
-/* .catalog-grid tiene margin-top inline */
 [data-catalog-grid] {
   margin-top: 1rem;
-}
-
-@media (min-width: 720px) {
-  .filter-row {
-    grid-template-columns: 1.1fr .9fr;
-    align-items: end;
-  }
-
-  .catalog-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .catalog-shell {
-    grid-template-columns: 300px 1fr;
-    align-items: start;
-  }
-
-  .filters {
-    position: sticky;
-    top: calc(var(--header-height) + 1rem);
-  }
-
-  .catalog-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 .size-showcase {
@@ -115,43 +93,66 @@
 
 .size-showcase-group {
   display: grid;
-  gap: .6rem;
+  gap: 0.6rem;
 }
 
 .size-showcase-label {
   color: var(--yellow);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: .06em;
-  font-size: .85rem;
+  letter-spacing: 0.06em;
+  font-size: 0.85rem;
 }
 
 .size-mini-row {
   display: flex;
   flex-wrap: wrap;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .size-mini-chip {
   min-width: 46px;
   display: inline-grid;
   place-items: center;
-  padding: .55rem .7rem;
+  padding: 0.55rem 0.7rem;
   border-radius: 12px;
-  border: 1px solid rgba(244,197,66,.16);
-  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(244, 197, 66, 0.16);
+  background: rgba(255, 255, 255, 0.02);
   color: var(--cream);
   font-weight: 700;
 }
 
 @media (min-width: 720px) {
+  .filter-row {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: end;
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .size-showcase {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
   }
 }
 
-/* ── Responsive catálogo ───────────────────────── */
+@media (min-width: 1024px) {
+  .catalog-shell {
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .filters {
+    position: sticky;
+    top: calc(var(--header-height) + 1rem);
+  }
+
+  .catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
 
 @media (max-width: 1023px) {
   .catalog-main {
@@ -198,13 +199,13 @@
   }
 
   .filter-pills {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.5rem;
   }
 
   .filter-pill {
     width: 100%;
-    justify-content: center;
-    text-align: center;
     padding: 0.78rem 0.9rem;
   }
 
@@ -213,12 +214,9 @@
     font-size: 0.94rem;
   }
 
-  .catalog-grid {
-    grid-template-columns: 1fr;
-  }
-
+  .catalog-grid,
   .size-showcase {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .size-mini-row {
@@ -241,7 +239,8 @@
   }
 
   .filters,
-  .catalog-results {
+  .catalog-results,
+  .catalog-stats > * {
     min-width: 0;
   }
 
@@ -258,18 +257,14 @@
 
 @media (min-width: 1280px) {
   .catalog-shell {
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 320px minmax(0, 1fr);
     gap: 1.35rem;
-  }
-
-  .catalog-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1600px) {
   .catalog-shell {
-    grid-template-columns: 340px 1fr;
+    grid-template-columns: 340px minmax(0, 1fr);
   }
 
   .catalog-grid {
@@ -279,7 +274,7 @@
 
 @media (min-width: 2200px) {
   .catalog-shell {
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 380px minmax(0, 1fr);
     gap: 1.5rem;
   }
 
