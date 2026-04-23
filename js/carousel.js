@@ -1,4 +1,9 @@
-import { loadProducts, formatPrice, createWhatsAppLink, renderDataNotice } from './data-loader.js';
+import {
+  loadProducts,
+  formatPrice,
+  createWhatsAppLink,
+  renderDataNotice
+} from './data-loader.js';
 
 const state = {
   products: [],
@@ -79,12 +84,18 @@ function renderDots(root) {
   `).join('');
 }
 
+function updateControls(root) {
+  const prevBtn = root.querySelector('[data-carousel-prev]');
+  const nextBtn = root.querySelector('[data-carousel-next]');
+
+  if (prevBtn) prevBtn.disabled = state.page === 0;
+  if (nextBtn) nextBtn.disabled = state.page >= state.totalPages - 1;
+}
+
 function updateLayout(root) {
   const wrap = root.querySelector('.carousel-track-wrap');
   const track = root.querySelector('[data-carousel-track]');
   const items = [...root.querySelectorAll('.carousel-item')];
-  const prevBtn = root.querySelector('[data-carousel-prev]');
-  const nextBtn = root.querySelector('[data-carousel-next]');
 
   if (!wrap || !track || !items.length) return;
 
@@ -92,24 +103,30 @@ function updateLayout(root) {
   state.totalPages = Math.max(1, Math.ceil(items.length / state.perView));
   state.page = Math.min(state.page, state.totalPages - 1);
 
-  const trackStyle = window.getComputedStyle(track);
-  const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0') || 0;
+  const gap = parseFloat(getComputedStyle(track).gap || '0') || 0;
   const wrapWidth = wrap.clientWidth;
-  const totalGap = gap * Math.max(0, state.perView - 1);
-  const itemWidth = Math.max(0, (wrapWidth - totalGap) / state.perView);
+  const itemWidth = (wrapWidth - gap * (state.perView - 1)) / state.perView;
 
   items.forEach((item) => {
     item.style.flex = `0 0 ${itemWidth}px`;
+    item.style.width = `${itemWidth}px`;
     item.style.maxWidth = `${itemWidth}px`;
   });
 
-  const offset = state.page * wrapWidth;
-  track.style.transform = `translateX(-${offset}px)`;
+  const targetIndex = state.page * state.perView;
+  const targetItem = items[targetIndex];
 
-  if (prevBtn) prevBtn.disabled = state.page === 0;
-  if (nextBtn) nextBtn.disabled = state.page >= state.totalPages - 1;
+  if (targetItem) {
+    const baseLeft = items[0].offsetLeft;
+    const targetLeft = targetItem.offsetLeft;
+    const offset = Math.max(0, targetLeft - baseLeft);
+    track.style.transform = `translateX(-${offset}px)`;
+  } else {
+    track.style.transform = 'translateX(0)';
+  }
 
   renderDots(root);
+  updateControls(root);
 }
 
 function bindEvents(root) {
@@ -135,15 +152,17 @@ function bindEvents(root) {
     const button = event.target.closest('[data-carousel-dot]');
     if (!button) return;
 
-    state.page = Number(button.getAttribute('data-carousel-dot')) || 0;
+    state.page = Number(button.dataset.carouselDot || 0);
     updateLayout(root);
   });
 
-  let resizeTimer;
+  let resizeTimer = null;
 
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => updateLayout(root), 80);
+    resizeTimer = setTimeout(() => {
+      updateLayout(root);
+    }, 80);
   });
 }
 
