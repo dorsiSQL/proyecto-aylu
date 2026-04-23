@@ -1484,3 +1484,223 @@ ol {
     font-size: 1.02rem;
   }
 }
+
+
+/* ── Landing hardening / mobile overflow fixes ───────────────── */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+main,
+.topbar,
+.hero,
+.hero-grid,
+.hero-copy,
+.hero-visual,
+.poster-stack,
+.poster-main,
+.poster-side,
+.section,
+.footer {
+  max-width: 100%;
+}
+
+.hero-copy,
+.hero-visual,
+.poster-main,
+.poster-side,
+.poster-badge,
+.hero-actions,
+.hero-highlights,
+.hero-highlights li {
+  min-width: 0;
+}
+
+.hero-title {
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+.poster-main img,
+.poster-side img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 1023px) {
+  .navbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .menu-toggle {
+    display: inline-flex !important;
+    justify-self: end;
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-copy {
+    width: 100%;
+  }
+
+  .hero-title {
+    font-size: clamp(1.95rem, 8vw, 3.4rem);
+    line-height: 0.98;
+    text-wrap: wrap;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-actions,
+  .hero-highlights {
+    width: 100%;
+  }
+
+  .poster-stack {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .topbar .container,
+  .hero .container,
+  .section .container,
+  .footer .container {
+    width: min(100%, calc(100% - 24px));
+  }
+
+  .navbar {
+    grid-template-columns: minmax(0, 1fr) 44px;
+    gap: 0.5rem;
+  }
+
+  .brand img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .hero {
+    padding: 1.6rem 0 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.65rem, 10vw, 2.45rem) !important;
+    letter-spacing: 0.01em;
+  }
+
+  .hero-text {
+    font-size: 0.94rem;
+  }
+
+  .hero-actions {
+    gap: 0.7rem;
+  }
+
+  .hero-highlights {
+    gap: 0.55rem;
+  }
+
+  .hero-highlights li {
+    font-size: 0.84rem;
+    padding: 0.55rem 0.7rem;
+  }
+
+  .hero-visual,
+  .poster-stack,
+  .poster-main,
+  .poster-side {
+    width: 100%;
+  }
+
+  .poster-main,
+  .poster-side .poster-main {
+    min-height: 180px;
+  }
+
+  .poster-badge {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.72rem;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --container-pad: 8px;
+    --header-height: 68px;
+  }
+
+  .topbar .container,
+  .hero .container,
+  .section .container,
+  .footer .container {
+    width: min(100%, calc(100% - 16px));
+  }
+
+  .navbar {
+    grid-template-columns: minmax(0, 1fr) 42px;
+  }
+
+  .menu-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .menu-toggle span,
+  .menu-toggle::before,
+  .menu-toggle::after {
+    width: 20px;
+  }
+
+  .hero-title {
+    font-size: clamp(1.5rem, 9.2vw, 2.15rem) !important;
+    line-height: 1;
+  }
+
+  .hero-text {
+    font-size: 0.9rem;
+  }
+
+  .eyebrow,
+  .section-kicker {
+    font-size: 0.72rem;
+    padding: 0.34rem 0.62rem;
+  }
+
+  .btn {
+    min-height: 44px;
+    padding: 0.78rem 0.95rem;
+    font-size: 0.92rem;
+  }
+
+  .hero-highlights li {
+    font-size: 0.8rem;
+  }
+
+  .poster-main,
+  .poster-side .poster-main {
+    min-height: 160px;
+  }
+
+  .poster-badge {
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    font-size: 0.76rem;
+  }
+}
