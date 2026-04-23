@@ -1,76 +1,184 @@
-// ===============================
-// CARRUSEL FUNCIONAL + RESPONSIVE
-// ===============================
+import { loadProducts, formatPrice, createWhatsAppLink, renderDataNotice } from './data-loader.js';
 
-let currentIndex = 0;
+const state = {
+  products: [],
+  page: 0,
+  perView: 1,
+  totalPages: 1
+};
 
 function getPerView() {
   const width = window.innerWidth;
 
-  if (width < 768) return 1;       // mobile
-  if (width < 1100) return 2;      // tablet
-  return 3;                        // desktop
+  if (width < 768) return 1;
+  if (width < 1100) return 2;
+  return 3;
 }
 
-function updateCarousel() {
-  const track = document.querySelector('.carousel-track');
-  const items = document.querySelectorAll('.carousel-item');
+function getFeaturedProducts(products) {
+  const available = products.filter((product) => product && product.disponible);
+  const featured = available.filter((product) => product.destacado);
+  return (featured.length ? featured : available).slice(0, 9);
+}
 
-  if (!track || items.length === 0) return;
+function renderProductCard(product) {
+  const message = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
 
-  const perView = getPerView();
-  const totalItems = items.length;
+  return `
+    <article class="carousel-item">
+      <div class="product-card product-card--linked card">
+        <a class="product-card-link" href="producto.html?id=${product.id}" aria-label="Ver ${product.nombre}">
+          <div class="product-media">
+            <img src="${product.imagen}" alt="${product.nombre}" loading="lazy">
+            ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
+          </div>
+        </a>
 
-  const itemWidth = 100 / perView;
+        <div class="product-content">
+          <div class="product-category">${product.categoria}</div>
 
-  items.forEach(item => {
-    item.style.minWidth = `${itemWidth}%`;
-    item.style.maxWidth = `${itemWidth}%`;
+          <h3 class="product-title">
+            <a class="product-title-link" href="producto.html?id=${product.id}">
+              ${product.nombre}
+            </a>
+          </h3>
+
+          <p class="product-description">${product.descripcion}</p>
+
+          <div class="price-row">
+            <span class="product-price">${formatPrice(product.precio)}</span>
+            <span class="tag">${product.disponible ? 'Disponible' : 'Consultar'}</span>
+          </div>
+
+          <div class="product-actions product-actions--spaced">
+            <a class="btn btn-secondary" href="producto.html?id=${product.id}">
+              Ver producto
+            </a>
+            <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank" rel="noopener">
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderDots(root) {
+  const dots = root.querySelector('[data-carousel-dots]');
+  if (!dots) return;
+
+  dots.innerHTML = Array.from({ length: state.totalPages }, (_, index) => `
+    <button
+      type="button"
+      class="carousel-dot ${index === state.page ? 'is-active' : ''}"
+      data-carousel-dot="${index}"
+      aria-label="Ir al grupo ${index + 1}"
+      aria-current="${index === state.page ? 'true' : 'false'}"
+    ></button>
+  `).join('');
+}
+
+function updateLayout(root) {
+  const wrap = root.querySelector('.carousel-track-wrap');
+  const track = root.querySelector('[data-carousel-track]');
+  const items = [...root.querySelectorAll('.carousel-item')];
+  const prevBtn = root.querySelector('[data-carousel-prev]');
+  const nextBtn = root.querySelector('[data-carousel-next]');
+
+  if (!wrap || !track || !items.length) return;
+
+  state.perView = Math.min(getPerView(), items.length);
+  state.totalPages = Math.max(1, Math.ceil(items.length / state.perView));
+  state.page = Math.min(state.page, state.totalPages - 1);
+
+  const trackStyle = window.getComputedStyle(track);
+  const gap = parseFloat(trackStyle.columnGap || trackStyle.gap || '0') || 0;
+  const wrapWidth = wrap.clientWidth;
+  const totalGap = gap * Math.max(0, state.perView - 1);
+  const itemWidth = Math.max(0, (wrapWidth - totalGap) / state.perView);
+
+  items.forEach((item) => {
+    item.style.flex = `0 0 ${itemWidth}px`;
+    item.style.maxWidth = `${itemWidth}px`;
   });
 
-  // limitar índice
-  if (currentIndex > totalItems - perView) {
-    currentIndex = totalItems - perView;
-  }
+  const offset = state.page * wrapWidth;
+  track.style.transform = `translateX(-${offset}px)`;
 
-  if (currentIndex < 0) currentIndex = 0;
+  if (prevBtn) prevBtn.disabled = state.page === 0;
+  if (nextBtn) nextBtn.disabled = state.page >= state.totalPages - 1;
 
-  const translateX = -(currentIndex * itemWidth);
-  track.style.transform = `translateX(${translateX}%)`;
+  renderDots(root);
 }
 
-// ===============================
-// CONTROLES
-// ===============================
+function bindEvents(root) {
+  const prevBtn = root.querySelector('[data-carousel-prev]');
+  const nextBtn = root.querySelector('[data-carousel-next]');
+  const dots = root.querySelector('[data-carousel-dots]');
 
-function nextSlide() {
-  const items = document.querySelectorAll('.carousel-item');
-  const perView = getPerView();
+  prevBtn?.addEventListener('click', () => {
+    if (state.page > 0) {
+      state.page -= 1;
+      updateLayout(root);
+    }
+  });
 
-  if (currentIndex < items.length - perView) {
-    currentIndex++;
-    updateCarousel();
-  }
+  nextBtn?.addEventListener('click', () => {
+    if (state.page < state.totalPages - 1) {
+      state.page += 1;
+      updateLayout(root);
+    }
+  });
+
+  dots?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-carousel-dot]');
+    if (!button) return;
+
+    state.page = Number(button.getAttribute('data-carousel-dot')) || 0;
+    updateLayout(root);
+  });
+
+  let resizeTimer;
+
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => updateLayout(root), 80);
+  });
 }
 
-function prevSlide() {
-  if (currentIndex > 0) {
-    currentIndex--;
-    updateCarousel();
+async function initCarousel() {
+  const root = document.querySelector('[data-carousel]');
+  const track = root?.querySelector('[data-carousel-track]');
+
+  if (!root || !track) return;
+
+  state.products = await loadProducts();
+
+  renderDataNotice(
+    root.querySelector('.container'),
+    'products',
+    'No se pudieron cargar los productos destacados. Se está mostrando la versión disponible.'
+  );
+
+  const featuredProducts = getFeaturedProducts(state.products);
+
+  if (!featuredProducts.length) {
+    track.innerHTML = `
+      <div class="empty-state">
+        <h3>No hay productos destacados por el momento</h3>
+        <p>Probá entrando al catálogo completo para ver todos los diseños.</p>
+      </div>
+    `;
+
+    root.querySelector('[data-carousel-prev]')?.setAttribute('hidden', 'true');
+    root.querySelector('[data-carousel-next]')?.setAttribute('hidden', 'true');
+    return;
   }
+
+  track.innerHTML = featuredProducts.map(renderProductCard).join('');
+  bindEvents(root);
+  updateLayout(root);
 }
 
-// ===============================
-// INIT
-// ===============================
-
-window.addEventListener('load', updateCarousel);
-window.addEventListener('resize', updateCarousel);
-
-document.addEventListener('DOMContentLoaded', () => {
-  const nextBtn = document.querySelector('.carousel-next');
-  const prevBtn = document.querySelector('.carousel-prev');
-
-  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-});
+document.addEventListener('DOMContentLoaded', initCarousel);
