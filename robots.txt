@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /carrito.html
+
+Sitemap: https://remerasretro.com/sitemap.xml
