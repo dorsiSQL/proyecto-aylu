@@ -113,17 +113,8 @@ function updateLayout(root) {
     item.style.maxWidth = `${itemWidth}px`;
   });
 
-  const targetIndex = state.page * state.perView;
-  const targetItem = items[targetIndex];
-
-  if (targetItem) {
-    const baseLeft = items[0].offsetLeft;
-    const targetLeft = targetItem.offsetLeft;
-    const offset = Math.max(0, targetLeft - baseLeft);
-    track.style.transform = `translateX(-${offset}px)`;
-  } else {
-    track.style.transform = 'translateX(0)';
-  }
+  const offset = state.page * wrapWidth;
+  track.style.transform = `translateX(-${offset}px)`;
 
   renderDots(root);
   updateControls(root);
