@@ -999,6 +999,8 @@ ol {
 .carousel-item {
   flex: 0 0 100%;
   max-width: 100%;
+  align-items:center;
+  display: flex;
 }
 
 .carousel-item .product-card {
