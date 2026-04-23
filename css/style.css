@@ -2284,45 +2284,65 @@ ol {
   height: 100%;
   object-fit: cover;
 }
+/* ==============================
+   PROMO BAR - SCROLL CONTINUO
+============================== */
+
 .promo-bar {
+  width: 100%;
+  height: 32px;
   background: #050505;
   color: #f5f5f5;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
   overflow: hidden;
-  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 1001;
 }
 
 .promo-bar__marquee {
   width: 100%;
+  height: 100%;
   overflow: hidden;
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .promo-bar__content {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
+  width: max-content;
+  min-width: 200%;
+  height: 100%;
   white-space: nowrap;
-  min-height: 32px;
-  padding: 0 16px;
 
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 
-  animation: promoScroll 22s linear infinite;
+  animation: promoBarScroll 18s linear infinite;
+  will-change: transform;
 }
 
-/* animación continua */
-@keyframes promoScroll {
-  from {
+.promo-bar__content span {
+  flex: 0 0 auto;
+}
+
+@keyframes promoBarScroll {
+  0% {
     transform: translateX(0);
   }
-  to {
+
+  100% {
     transform: translateX(-50%);
   }
 }
+
+.promo-bar__content:hover {
+  animation-play-state: paused;
+}
+
 
 @media (max-width: 1099.98px) {
   .home-page .topbar {
@@ -2508,22 +2528,16 @@ ol {
     margin-bottom: 1.6rem;
   }
 
-  .promo-bar__track {
-    min-height: 24px;
-    font-size: 0.58rem;
-    gap: 8px;
-    padding: 0 8px;
+    .promo-bar {
+    height: 28px;
   }
 
   .promo-bar__content {
-    font-size: 0.60rem;
-    min-height: 26px;
-    gap: 12px;
-    padding: 0 10px;
-
-    /* más lento en mobile */
-    animation: promoScroll 30s linear infinite;
+    gap: 14px;
+    font-size: 0.58rem;
+    animation-duration: 24s;
   }
+  
 }
 
 @media (min-width: 1100px) {
