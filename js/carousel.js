@@ -1,5 +1,5 @@
 // ===============================
-// CARRUSEL RESPONSIVE FIX
+// CARRUSEL FUNCIONAL + RESPONSIVE
 // ===============================
 
 let currentIndex = 0;
@@ -8,9 +8,8 @@ function getPerView() {
   const width = window.innerWidth;
 
   if (width < 768) return 1;       // mobile
-  if (width < 1100) return 1;      // tablet (forzamos 1 para evitar corte)
-  if (width < 1600) return 2;      // desktop normal
-  return 3;                        // desktop grande
+  if (width < 1100) return 2;      // tablet
+  return 3;                        // desktop
 }
 
 function updateCarousel() {
@@ -22,7 +21,6 @@ function updateCarousel() {
   const perView = getPerView();
   const totalItems = items.length;
 
-  // ancho dinámico por item
   const itemWidth = 100 / perView;
 
   items.forEach(item => {
@@ -30,7 +28,7 @@ function updateCarousel() {
     item.style.maxWidth = `${itemWidth}%`;
   });
 
-  // evitar overflow de índice
+  // limitar índice
   if (currentIndex > totalItems - perView) {
     currentIndex = totalItems - perView;
   }
@@ -38,7 +36,6 @@ function updateCarousel() {
   if (currentIndex < 0) currentIndex = 0;
 
   const translateX = -(currentIndex * itemWidth);
-
   track.style.transform = `translateX(${translateX}%)`;
 }
 
@@ -70,7 +67,6 @@ function prevSlide() {
 window.addEventListener('load', updateCarousel);
 window.addEventListener('resize', updateCarousel);
 
-// Botones (si existen)
 document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.querySelector('.carousel-next');
   const prevBtn = document.querySelector('.carousel-prev');
