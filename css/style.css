@@ -1929,6 +1929,31 @@ ol {
   .carousel-item .product-actions .btn {
     min-height: 40px;
   }
+
+   .carousel-outer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .carousel-arrow {
+    display: none;
+  }
+
+  .carousel-track-wrap {
+    width: 100%;
+    padding: 0.15rem 0.35rem 0.35rem;
+  }
+
+  .carousel-item {
+    width: 100%;
+  }
+
+  .carousel-item .product-card {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+
 }
 
 @media (min-width: 1100px) {
