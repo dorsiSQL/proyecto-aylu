@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "nombre": "Remera negra xxxl ultra gordo",
+    "nombre": "Remera Atari",
     "categoria": "Videojuegos",
     "precio": 21000,
     "imagen": "assets/catalogo/diseño-atari/atari-negra.png",
@@ -146,6 +146,16 @@
     "precio": 21000,
     "imagen": "assets/catalogo/sodastereo.jpeg",
     "descripcion": "Remera Soda Stereo",
+    "disponible": true,
+    "destacado": false
+  },
+  {
+    "id": 16,
+    "nombre": "Remera Patricio Rey",
+    "categoria": "Variados",
+    "precio": 21000,
+    "imagen": "assets/catalogo/patricio-rey-blanca.jpg",
+    "descripcion": "Remera Patricio Rey",
     "disponible": true,
     "destacado": false
   }
