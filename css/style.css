@@ -2299,6 +2299,7 @@ ol {
   z-index: 1001;
 }
 
+.promo-bar__viewport,
 .promo-bar__marquee {
   width: 100%;
   height: 100%;
@@ -2707,6 +2708,55 @@ ol {
   }
 }
 
+
+/* Animaciones al scrollear */
+.home-page .scroll-reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  filter: blur(6px);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo),
+    filter 0.8s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.home-page .scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.home-page .hero-visual.scroll-reveal {
+  transform: translateY(28px) scale(0.98);
+}
+
+.home-page .hero-visual.scroll-reveal.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+.home-page .category-card.scroll-reveal,
+.home-page .info-card.scroll-reveal,
+.home-page .benefit-card.scroll-reveal {
+  transform: translateY(30px) scale(0.97);
+}
+
+.home-page .category-card.scroll-reveal.is-visible,
+.home-page .info-card.scroll-reveal.is-visible,
+.home-page .benefit-card.scroll-reveal.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
 /* Ajustes finales */
 .section:not(:last-child)::after {
   content: "";
@@ -2717,11 +2767,14 @@ ol {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(244, 197, 66, 0.1), transparent);
 }
+
 .product-card:hover,
 .category-card:hover {
-  transform: translateY(-8px) scale(1.01) !important;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(244, 197, 66, 0.15) !important;
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(244, 197, 66, 0.15);
 }
+
 .topbar {
-  backdrop-filter: blur(20px) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }

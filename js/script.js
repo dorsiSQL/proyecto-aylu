@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   subscribeToCartUpdates(updateGlobalCartBadge);
 });
 
+/* =========================
+   Mobile menu
+========================= */
 function setupMobileMenu() {
   const navbar = document.querySelector('.navbar');
   const toggle = document.querySelector('[data-menu-toggle]');
@@ -49,11 +52,7 @@ function setupMobileMenu() {
     if (desktopBreakpoint.matches) return;
 
     const isOpen = toggle.classList.contains('is-open');
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+    isOpen ? closeMenu() : openMenu();
   });
 
   [...navLinks.querySelectorAll('a'), ...navCta.querySelectorAll('a')].forEach((link) => {
@@ -75,9 +74,9 @@ function setupMobileMenu() {
     }
   }
 
-  if (typeof desktopBreakpoint.addEventListener === 'function') {
+  if (desktopBreakpoint.addEventListener) {
     desktopBreakpoint.addEventListener('change', syncResponsiveState);
-  } else if (typeof desktopBreakpoint.addListener === 'function') {
+  } else {
     desktopBreakpoint.addListener(syncResponsiveState);
   }
 
@@ -87,12 +86,18 @@ function setupMobileMenu() {
   syncResponsiveState();
 }
 
+/* =========================
+   Año dinámico
+========================= */
 function setupDynamicYear() {
   document.querySelectorAll('[data-year]').forEach((node) => {
     node.textContent = new Date().getFullYear();
   });
 }
 
+/* =========================
+   Carrito (badge global)
+========================= */
 function updateGlobalCartBadge(items = []) {
   const count = cart.getItemsCount(items);
   document.querySelectorAll('[data-global-cart-count]').forEach((node) => {
@@ -100,11 +105,14 @@ function updateGlobalCartBadge(items = []) {
   });
 }
 
+/* =========================
+   Scroll reveal (landing)
+========================= */
 function setupLandingScrollAnimations() {
   const homePage = document.body.classList.contains('home-page');
   if (!homePage) return;
 
-  const animatedElements = document.querySelectorAll(`
+  const elements = document.querySelectorAll(`
     .hero-copy,
     .hero-visual,
     .section-header,
@@ -116,27 +124,26 @@ function setupLandingScrollAnimations() {
     .footer-grid
   `);
 
-  if (!animatedElements.length) return;
+  if (!elements.length) return;
 
-  animatedElements.forEach((element, index) => {
-    element.classList.add('scroll-reveal');
-    element.style.setProperty('--reveal-delay', `${Math.min(index * 40, 240)}ms`);
+  elements.forEach((el, index) => {
+    el.classList.add('scroll-reveal');
+    el.style.setProperty('--reveal-delay', `${Math.min(index * 40, 240)}ms`);
   });
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-
         entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       });
     },
     {
-      threshold: 0.16,
-      rootMargin: '0px 0px -70px 0px'
+      threshold: 0.15,
+      rootMargin: '0px 0px -60px 0px'
     }
   );
 
-  animatedElements.forEach((element) => observer.observe(element));
+  elements.forEach((el) => observer.observe(el));
 }
