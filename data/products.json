@@ -1,10 +1,10 @@
 [
   {
     "id": 1,
-    "nombre": "Remera Atari",
+    "nombre": "Remera negra xxxl ultra gordo",
     "categoria": "Videojuegos",
     "precio": 21000,
-    "imagen": "assets/catalogo/atari-negra.png",
+    "imagen": "assets/catalogo/diseño-atari/atari-negra.png",
     "descripcion": "Diseño atari vintage",
     "disponible": true,
     "destacado": true
