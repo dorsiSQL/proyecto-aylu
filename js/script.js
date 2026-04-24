@@ -3,6 +3,7 @@ import { cart, subscribeToCartUpdates } from './cart.js';
 document.addEventListener('DOMContentLoaded', () => {
   setupMobileMenu();
   setupDynamicYear();
+  setupLandingScrollAnimations();
   updateGlobalCartBadge(cart.load());
   subscribeToCartUpdates(updateGlobalCartBadge);
 });
@@ -97,4 +98,45 @@ function updateGlobalCartBadge(items = []) {
   document.querySelectorAll('[data-global-cart-count]').forEach((node) => {
     node.textContent = count;
   });
+}
+
+function setupLandingScrollAnimations() {
+  const homePage = document.body.classList.contains('home-page');
+  if (!homePage) return;
+
+  const animatedElements = document.querySelectorAll(`
+    .hero-copy,
+    .hero-visual,
+    .section-header,
+    .info-card,
+    .category-card,
+    .benefit-card,
+    [data-carousel] .carousel-outer,
+    [data-carousel] .carousel-dots,
+    .footer-grid
+  `);
+
+  if (!animatedElements.length) return;
+
+  animatedElements.forEach((element, index) => {
+    element.classList.add('scroll-reveal');
+    element.style.setProperty('--reveal-delay', `${Math.min(index * 40, 240)}ms`);
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    },
+    {
+      threshold: 0.16,
+      rootMargin: '0px 0px -70px 0px'
+    }
+  );
+
+  animatedElements.forEach((element) => observer.observe(element));
 }

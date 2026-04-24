@@ -2343,6 +2343,58 @@ ol {
   animation-play-state: paused;
 }
 
+/* ─────────────────────────────────────────────
+   LANDING PAGE — scroll reveal animations
+   Safe add-on: no layout, no media query override
+   ─────────────────────────────────────────── */
+
+.home-page .scroll-reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  filter: blur(6px);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo),
+    filter 0.8s ease;
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.home-page .scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.home-page .hero-visual.scroll-reveal {
+  transform: translateY(28px) scale(0.98);
+}
+
+.home-page .hero-visual.scroll-reveal.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+.home-page .category-card.scroll-reveal,
+.home-page .info-card.scroll-reveal,
+.home-page .benefit-card.scroll-reveal {
+  transform: translateY(30px) scale(0.97);
+}
+
+.home-page .category-card.scroll-reveal.is-visible,
+.home-page .info-card.scroll-reveal.is-visible,
+.home-page .benefit-card.scroll-reveal.is-visible {
+  transform: translateY(0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
 
 @media (max-width: 1099.98px) {
   .home-page .topbar {
