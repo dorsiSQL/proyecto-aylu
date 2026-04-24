@@ -2788,3 +2788,61 @@ ol {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+
+/* =========================
+   SOCIAL FOOTER (SAFE)
+   ========================= */
+
+/* Contenedor (aislado, no pisa .card ni nada global) */
+.footer-social {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+/* Botones */
+.footer-social .social-link {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+/* SVG */
+.footer-social .social-link svg {
+  width: 20px;
+  height: 20px;
+  fill: #ffffff;
+  display: block;
+}
+
+/* Instagram */
+.footer-social .social-link.instagram:hover {
+  background: linear-gradient(45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  animation: footerBounce 0.4s linear;
+}
+
+/* WhatsApp */
+.footer-social .social-link.whatsapp:hover {
+  background: #25D366;
+  animation: footerBounce 0.4s linear;
+}
+
+/* Animación aislada (nuevo nombre para no pisar nada) */
+@keyframes footerBounce {
+  40% { transform: scale(1.25); }
+  60% { transform: scale(0.9); }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
