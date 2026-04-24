@@ -1,4 +1,4 @@
-import { formatPrice } from './data-loader.js';
+import { formatPrice, escapeHtml, safeUrl } from './data-loader.js';
 
 const STORAGE_KEY = 'retro_remeras_cart';
 const CART_UPDATED_EVENT = 'retro-cart:updated';
@@ -110,12 +110,12 @@ export const cart = {
     let message = 'Hola! Quiero hacer un pedido:%0A%0A';
 
     cartItems.forEach((item, index) => {
-      message += `${index + 1}) ${item.productName}%0A`;
-      message += `Categoría: ${item.category}%0A`;
-      message += `Tipo: ${item.fitLabel}%0A`;
-      message += `Talle: ${item.size}%0A`;
-      message += `Color: ${item.color}%0A`;
-      message += `Cantidad: ${item.quantity}%0A`;
+      message += `${index + 1}) ${String(item.productName || '')}%0A`;
+      message += `Categoría: ${String(item.category || '')}%0A`;
+      message += `Tipo: ${String(item.fitLabel || '')}%0A`;
+      message += `Talle: ${String(item.size || '')}%0A`;
+      message += `Color: ${String(item.color || '')}%0A`;
+      message += `Cantidad: ${Number(item.quantity) || 0}%0A`;
       message += `Subtotal ref.: ${formatPrice((Number(item.unitPrice) || 0) * (Number(item.quantity) || 0))}%0A%0A`;
     });
 
@@ -141,36 +141,36 @@ export const cart = {
         const subtotal = (Number(item.unitPrice) || 0) * (Number(item.quantity) || 0);
 
         return `
-          <article class="cart-item" data-cart-id="${item.id}">
+          <article class="cart-item" data-cart-id="${escapeHtml(item.id)}">
             <div class="cart-item-body">
               <div class="cart-item-thumb">
-                <img src="${item.image || ''}" alt="${item.productName}">
+                <img src="${safeUrl(item.image || '')}" alt="${escapeHtml(item.productName)}" loading="lazy" decoding="async">
               </div>
 
               <div class="cart-item-content">
                 <div class="cart-item-head">
                   <div class="cart-item-copy">
-                    <h4>${item.productName}</h4>
-                    <p>${item.category}</p>
+                    <h4>${escapeHtml(item.productName)}</h4>
+                    <p>${escapeHtml(item.category)}</p>
                   </div>
                   <strong class="cart-item-subtotal">${formatPrice(subtotal)}</strong>
                 </div>
 
                 <ul class="cart-item-meta">
-                  <li><span>Tipo</span><strong>${item.fitLabel}</strong></li>
-                  <li><span>Color</span><strong>${item.color}</strong></li>
-                  <li><span>Talle</span><strong>${item.size}</strong></li>
+                  <li><span>Tipo</span><strong>${escapeHtml(item.fitLabel)}</strong></li>
+                  <li><span>Color</span><strong>${escapeHtml(item.color)}</strong></li>
+                  <li><span>Talle</span><strong>${escapeHtml(item.size)}</strong></li>
                   <li><span>Precio unit.</span><strong>${formatPrice(item.unitPrice)}</strong></li>
                 </ul>
 
                 <div class="cart-item-actions">
                   <div class="qty-control" aria-label="Cantidad del producto">
-                    <button type="button" class="qty-btn" data-cart-action="decrease" data-cart-id="${item.id}" aria-label="Restar cantidad">−</button>
-                    <span class="qty-value">${item.quantity}</span>
-                    <button type="button" class="qty-btn" data-cart-action="increase" data-cart-id="${item.id}" aria-label="Sumar cantidad">+</button>
+                    <button type="button" class="qty-btn" data-cart-action="decrease" data-cart-id="${escapeHtml(item.id)}" aria-label="Restar cantidad">−</button>
+                    <span class="qty-value">${Number(item.quantity) || 0}</span>
+                    <button type="button" class="qty-btn" data-cart-action="increase" data-cart-id="${escapeHtml(item.id)}" aria-label="Sumar cantidad">+</button>
                   </div>
 
-                  <button type="button" class="cart-remove-btn" data-cart-action="remove" data-cart-id="${item.id}">
+                  <button type="button" class="cart-remove-btn" data-cart-action="remove" data-cart-id="${escapeHtml(item.id)}">
                     Quitar
                   </button>
                 </div>

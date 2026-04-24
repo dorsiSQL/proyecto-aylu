@@ -292,6 +292,6 @@
 
 /* ── Refinamientos Manus ── */
 
-.filters { backdrop-filter: blur(8px) !important; padding: 1.5rem !important; }
-.filter-pill.is-active { background: var(--yellow) !important; color: #000 !important; box-shadow: 0 8px 20px rgba(244, 197, 66, 0.2) !important; }
-.catalog-grid { gap: 2rem !important; }
+.filters { backdrop-filter: blur(8px); padding: 1.5rem; }
+.filter-pill.is-active { background: var(--yellow); color: #000; box-shadow: 0 8px 20px rgba(244, 197, 66, 0.2); }
+.catalog-grid { gap: 2rem; }

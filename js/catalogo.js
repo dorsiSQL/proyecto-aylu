@@ -1,4 +1,4 @@
-import { loadProducts, formatPrice, normalizeText, createWhatsAppLink, renderDataNotice } from './data-loader.js';
+import { loadProducts, formatPrice, normalizeText, createWhatsAppLink, renderDataNotice, escapeHtml, safeUrl, getProductUrl } from './data-loader.js';
 
 const state = {
   products: [],
@@ -29,8 +29,8 @@ function setupCategoryPills() {
   if (!pills) return;
 
   pills.innerHTML = categories.map((category) => `
-    <button class="filter-pill ${category === 'Todos' ? 'is-active' : ''}" type="button" data-filter-category="${category}">
-      ${category}
+    <button class="filter-pill ${category === 'Todos' ? 'is-active' : ''}" type="button" data-filter-category="${escapeHtml(category)}">
+      ${escapeHtml(category)}
     </button>
   `).join('');
 
@@ -85,7 +85,7 @@ function filterProducts() {
 
   state.filteredProducts = state.products.filter((product) => {
     const matchCategory = state.activeCategory === 'Todos' || product.categoria === state.activeCategory;
-    const haystack = normalizeText(`${product.nombre} ${product.categoria} ${product.descripcion}`);
+    const haystack = normalizeText(`  `);
     const matchSearch = !searchText || haystack.includes(searchText);
 
     return matchCategory && matchSearch && product.disponible;
@@ -126,27 +126,27 @@ function renderStats() {
 }
 
 function renderProductCard(product) {
-  const message = `Hola! Me interesa la remera *${product.nombre}*. ¿Está disponible?`;
+  const message = `Hola! Me interesa la remera **. ¿Está disponible?`;
 
   return `
     <article class="product-card product-card--linked">
-      <a class="product-card-link" href="producto.html?id=${product.id}" aria-label="Ver ${product.nombre}">
+      <a class="product-card-link" href="${getProductUrl(product.id)}" aria-label="Ver ${escapeHtml(product.nombre)}">
         <div class="product-media">
-          <img src="${product.imagen}" alt="${product.nombre}">
+          <img src="${safeUrl(product.imagen)}" alt="${escapeHtml(product.nombre)}" loading="lazy" decoding="async">
           ${product.destacado ? '<span class="cat-visual__badge">Destacado</span>' : ''}
         </div>
       </a>
 
       <div class="product-content">
-        <div class="product-category">${product.categoria}</div>
+        <div class="product-category">${escapeHtml(product.categoria)}</div>
 
         <h3 class="product-title">
-          <a class="product-title-link" href="producto.html?id=${product.id}">
-            ${product.nombre}
+          <a class="product-title-link" href="${getProductUrl(product.id)}">
+            ${escapeHtml(product.nombre)}
           </a>
         </h3>
 
-        <p class="product-description">${product.descripcion}</p>
+        <p class="product-description">${escapeHtml(product.descripcion)}</p>
 
         <div class="price-row">
           <span class="product-price">${formatPrice(product.precio)}</span>
@@ -154,7 +154,7 @@ function renderProductCard(product) {
         </div>
 
         <div class="product-actions product-actions--spaced">
-          <a class="btn btn-secondary" href="producto.html?id=${product.id}">
+          <a class="btn btn-secondary" href="${getProductUrl(product.id)}">
             Ver producto
           </a>
           <a class="btn btn-primary" href="${createWhatsAppLink(message)}" target="_blank" rel="noopener">

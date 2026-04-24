@@ -1,7 +1,5 @@
 const WA_NUMBER = '5491156592963';
-
 const fallbackProducts = [];
-
 const fallbackDesigns = [];
 
 const resourceStatus = {
@@ -16,16 +14,10 @@ function cloneData(data) {
 async function loadJson(url, fallbackData, resourceName) {
   try {
     const response = await fetch(url, { cache: 'no-store' });
-
-    if (!response.ok) {
-      throw new Error(`No se pudo cargar ${url} (${response.status})`);
-    }
+    if (!response.ok) throw new Error(`No se pudo cargar ${url} (${response.status})`);
 
     const data = await response.json();
-
-    if (!Array.isArray(data)) {
-      throw new Error(`Respuesta inválida en ${url}`);
-    }
+    if (!Array.isArray(data)) throw new Error(`Respuesta inválida en ${url}`);
 
     resourceStatus[resourceName] = { source: 'network', error: null };
     return cloneData(data);
@@ -35,7 +27,6 @@ async function loadJson(url, fallbackData, resourceName) {
       source: 'fallback',
       error: error && error.message ? error.message : 'Error desconocido'
     };
-
     return cloneData(fallbackData);
   }
 }
@@ -51,40 +42,28 @@ export async function loadDesigns() {
 export function clearDataCache() {}
 
 export function getDataStatus(resourceName) {
-  if (!resourceStatus[resourceName]) {
-    return { source: 'idle', error: null };
-  }
-
-  return {
-    source: resourceStatus[resourceName].source,
-    error: resourceStatus[resourceName].error
-  };
+  if (!resourceStatus[resourceName]) return { source: 'idle', error: null };
+  return { ...resourceStatus[resourceName] };
 }
 
 export function renderDataNotice(target, resourceName, message) {
   if (!target) return;
 
   const existing = target.querySelector('[data-data-notice]');
-  if (existing) {
-    existing.remove();
-  }
+  if (existing) existing.remove();
 
   const status = getDataStatus(resourceName);
-
   if (status.source !== 'fallback') return;
 
   const notice = document.createElement('div');
   notice.className = 'notice data-notice';
   notice.setAttribute('data-data-notice', 'true');
-  notice.textContent =
-    message || 'No se pudieron cargar los datos remotos. Estamos mostrando contenido de respaldo.';
-
+  notice.textContent = message || 'No se pudieron cargar los datos remotos.';
   target.prepend(notice);
 }
 
 export function formatPrice(value) {
   const number = Number(value) || 0;
-
   return new Intl.NumberFormat('es-AR', {
     style: 'currency',
     currency: 'ARS',
@@ -98,6 +77,26 @@ export function normalizeText(value) {
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
+}
+
+export function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+export function safeUrl(value, fallback = '#') {
+  const url = String(value || '').trim();
+  if (!url) return fallback;
+  if (/^(https?:|mailto:|tel:|assets\/|data\/|\.\/|\.\.\/|[\w-]+\.html)/i.test(url)) return url;
+  return fallback;
+}
+
+export function getProductUrl(productId) {
+  return `producto.html?id=${encodeURIComponent(String(productId ?? ''))}`;
 }
 
 export function createWhatsAppLink(message) {

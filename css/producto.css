@@ -861,7 +861,7 @@
 
 /* ── Refinamientos Manus ── */
 
-.product-page-title { font-size: clamp(2.2rem, 3.5vw, 3.2rem) !important; font-weight: 900 !important; }
-.product-price { color: var(--yellow) !important; font-size: 2.2rem !important; font-weight: 800 !important; }
-.product-buybox { padding: 2rem !important; backdrop-filter: blur(10px) !important; }
-.product-gallery-main:hover img { transform: scale(1.03) !important; }
+.product-page-title { font-size: clamp(2.2rem, 3.5vw, 3.2rem); font-weight: 900; }
+.product-price { color: var(--yellow); font-size: 2.2rem; font-weight: 800; }
+.product-buybox { padding: 2rem; backdrop-filter: blur(10px); }
+.product-gallery-main:hover img { transform: scale(1.03); }

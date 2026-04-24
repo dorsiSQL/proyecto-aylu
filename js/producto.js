@@ -1,4 +1,4 @@
-import { loadProducts, formatPrice, createWhatsAppLink, renderDataNotice } from './data-loader.js';
+import { loadProducts, formatPrice, createWhatsAppLink, renderDataNotice, escapeHtml, safeUrl } from './data-loader.js';
 import { cart } from './cart.js';
 
 const COLORS = [
@@ -112,11 +112,42 @@ function renderProduct() {
   if (descNode) descNode.textContent = product.descripcion;
 
   if (imageNode) {
-    imageNode.src = product.imagen;
+    imageNode.src = safeUrl(product.imagen);
+    imageNode.loading = 'eager';
+    imageNode.decoding = 'async';
     imageNode.alt = product.nombre;
   }
 
   document.title = `${product.nombre} | Retro Remeras`;
+  updateProductSchema(product);
+}
+
+function updateProductSchema(product) {
+  let node = document.querySelector('[data-product-schema]');
+
+  if (!node) {
+    node = document.createElement('script');
+    node.type = 'application/ld+json';
+    node.setAttribute('data-product-schema', 'true');
+    document.head.appendChild(node);
+  }
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: String(product.nombre || 'Remera personalizada'),
+    description: String(product.descripcion || 'Remera personalizada de Retro Remeras'),
+    image: safeUrl(product.imagen, ''),
+    category: String(product.categoria || 'Remeras'),
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'ARS',
+      price: Number(product.precio) || 0,
+      availability: product.disponible ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+    }
+  };
+
+  node.textContent = JSON.stringify(schema);
 }
 
 function renderFitSelector() {
@@ -130,9 +161,9 @@ function renderFitSelector() {
 
   wrap.innerHTML = FITS.map((fit) => `
     <label class="fit-option ${state.selectedFit === fit.key ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-fit" value="${fit.key}" ${state.selectedFit === fit.key ? 'checked' : ''}>
-      <span class="fit-option-title">${fit.label}</span>
-      <span class="fit-option-note">${fit.note}</span>
+      <input type="radio" name="shirt-fit" value="${escapeHtml(fit.key)}" ${state.selectedFit === fit.key ? 'checked' : ''}>
+      <span class="fit-option-title">${escapeHtml(fit.label)}</span>
+      <span class="fit-option-note">${escapeHtml(fit.note)}</span>
     </label>
   `).join('');
 
@@ -156,8 +187,8 @@ function renderSizes() {
 
   wrap.innerHTML = SIZES.map((size) => `
     <label class="size-option ${state.selectedSize === size ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-size-choice" value="${size}" ${state.selectedSize === size ? 'checked' : ''}>
-      <span>${size}</span>
+      <input type="radio" name="shirt-size-choice" value="${escapeHtml(size)}" ${state.selectedSize === size ? 'checked' : ''}>
+      <span>${escapeHtml(size)}</span>
     </label>
   `).join('');
 
@@ -181,9 +212,9 @@ function renderColors() {
 
   wrap.innerHTML = COLORS.map((color) => `
     <label class="swatch-card ${state.selectedColor.name === color.name ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-color" value="${color.name}" ${state.selectedColor.name === color.name ? 'checked' : ''}>
-      <span class="swatch-dot-lg ${color.swatchClass}"></span>
-      <span class="swatch-name">${color.name}</span>
+      <input type="radio" name="shirt-color" value="${escapeHtml(color.name)}" ${state.selectedColor.name === color.name ? 'checked' : ''}>
+      <span class="swatch-dot-lg ${escapeHtml(color.swatchClass)}"></span>
+      <span class="swatch-name">${escapeHtml(color.name)}</span>
     </label>
   `).join('');
 
