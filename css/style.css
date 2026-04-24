@@ -1,11 +1,9 @@
-/* ═══════════════════════════════════════════════════════════════
-   POLISHED E-COMMERCE CSS — Premium Dark Theme
-   Base: original style.css
-   Polish layer: senior UX/UI refinements — no HTML/JS changes
-   ═══════════════════════════════════════════════════════════════ */
+/* =========================================================
+   Retro Remeras - Estilos generales
+   ========================================================= */
 
 :root {
-  /* ── Palette ─────────────────────────────── */
+  /* Colores */
   --bg: #0a0a0a;
   --bg-soft: #1a1a1a;
   --panel: rgba(25, 25, 25, 0.8);
@@ -17,22 +15,22 @@
   --cream: #f5ead4;
   --border: rgba(244, 197, 66, 0.18);
 
-  /* ── Shadows ─────────────────────────────── */
+  /* Sombras */
   --shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
   --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.28), 0 1px 4px rgba(0, 0, 0, 0.18);
   --shadow-card-hover: 0 24px 56px rgba(0, 0, 0, 0.52), 0 6px 16px rgba(0, 0, 0, 0.28);
   --shadow-btn-primary: 0 8px 24px rgba(244, 197, 66, 0.28), 0 2px 8px rgba(0, 0, 0, 0.24);
 
-  /* ── Glow ────────────────────────────────── */
+  /* Brillos */
   --glow-yellow: 0 0 32px rgba(244, 197, 66, 0.14);
   --glow-red: 0 0 32px rgba(200, 47, 47, 0.14);
 
-  /* ── Easing ──────────────────────────────── */
+  /* Transiciones */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
 
-  /* ── Layout ──────────────────────────────── */
+  /* Layout */
   --radius: 18px;
   --radius-sm: 12px;
   --container-max: 1120px;
@@ -41,7 +39,7 @@
   --header-height: 68px;
 }
 
-/* ── Reset ───────────────────────────────── */
+/* Reset */
 *,
 *::before,
 *::after {
@@ -66,7 +64,6 @@ body {
   display: grid;
   grid-template-rows: auto 1fr auto;
   font-family: 'Oswald', sans-serif;
-  /* Antialiasing — instant premium legibility upgrade */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -129,7 +126,7 @@ main,
   max-width: 100%;
 }
 
-/* ── Typography hierarchy ─────────────────── */
+/* Tipografía */
 h1 {
   margin: 0 0 0.8rem;
   line-height: 1.05;
@@ -143,7 +140,6 @@ h2 {
   margin: 0 0 0.8rem;
   line-height: 1.08;
   letter-spacing: 0.02em;
-  /* Slightly stepped down from h1 for clear hierarchy */
   color: #ede5d4;
   text-wrap: balance;
   font-weight: 700;
@@ -181,9 +177,9 @@ ol {
   min-width: 0;
 }
 
-/* ── Sections ────────────────────────────── */
+/* Secciones */
 .section {
-  padding: 6rem 0;
+  padding: clamp(5.5rem, 9vw, 8rem) 0;
   position: relative;
 }
 
@@ -192,7 +188,7 @@ ol {
   max-width: 700px;
 }
 
-/* ── Kicker / Eyebrow — shimmer pulse ────── */
+/* Etiquetas destacadas */
 @keyframes kicker-shimmer {
   0%   { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -212,13 +208,12 @@ ol {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.09em;
-  /* Subtle glow */
   box-shadow: 0 0 12px rgba(244, 197, 66, 0.08), inset 0 1px 0 rgba(244, 197, 66, 0.06);
   position: relative;
   overflow: hidden;
 }
 
-/* Shimmer sweep on the kicker badge */
+/* Brillo suave en etiquetas */
 .section-kicker::after,
 .eyebrow::after {
   content: "";
@@ -237,7 +232,6 @@ ol {
 
 .section-title {
   font-size: clamp(1.85rem, 8vw, 2.45rem);
-  /* Subtle luminance to pull titles forward */
   color: #f8f5ef;
 }
 
@@ -248,7 +242,7 @@ ol {
   line-height: 1.65;
 }
 
-/* ── Topbar / Navbar ───────────────────────────── */
+/* Navbar */
 .topbar {
   position: sticky;
   top: 0;
@@ -257,7 +251,6 @@ ol {
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   background: rgba(10, 10, 10, 0.9);
   border-bottom: 1px solid rgba(244, 197, 66, 0.1);
-  /* Subtle bottom glow for depth */
   box-shadow: 0 1px 0 rgba(244, 197, 66, 0.04), 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
@@ -409,7 +402,7 @@ ol {
   transform: translateY(-8px) rotate(-45deg);
 }
 
-/* ── Buttons ─────────────────────────────── */
+/* Botones */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -425,7 +418,6 @@ ol {
   text-align: center;
   position: relative;
   overflow: hidden;
-  /* Expo out for hover, natural for release */
   transition:
     transform 0.3s var(--ease-out-expo),
     box-shadow 0.3s var(--ease-out-expo),
@@ -434,7 +426,7 @@ ol {
     opacity 0.2s ease;
 }
 
-/* Subtle ripple plane for all buttons */
+/* Efecto visual de botones */
 .btn::after {
   content: "";
   position: absolute;
@@ -456,7 +448,7 @@ ol {
   transition-duration: 0.1s;
 }
 
-/* ── Primary button — shimmer effect ─────── */
+/* Botón principal */
 @keyframes btn-shimmer {
   0%   { transform: translateX(-120%) skewX(-12deg); }
   100% { transform: translateX(220%) skewX(-12deg); }
@@ -524,7 +516,7 @@ ol {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), 0 0 16px rgba(244, 197, 66, 0.06);
 }
 
-/* ── Focus rings ─────────────────────────── */
+/* Foco accesible */
 .btn:focus-visible,
 .menu-toggle:focus-visible,
 .nav-cart-icon-btn:focus-visible,
@@ -535,7 +527,7 @@ ol {
   outline-offset: 3px;
 }
 
-/* ── Cart button ─────────────────────────── */
+/* Botón del carrito */
 .nav-cart-icon-btn {
   position: relative;
   width: 100%;
@@ -598,9 +590,9 @@ ol {
   right: -4px;
 }
 
-/* ── Hero ────────────────────────────────── */
+/* Hero */
 .hero {
-  padding: 1.6rem 0 2rem;
+  padding: clamp(2.25rem, 6vw, 5.5rem) 0;
 }
 
 .hero-grid {
@@ -628,14 +620,14 @@ ol {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
   line-height: 1;
   overflow-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
   letter-spacing: 0.01em;
   color: #f9f6f0;
-  /* Subtle luminous glow on the title */
   text-shadow: 0 0 40px rgba(245, 234, 212, 0.08);
 }
 
@@ -681,7 +673,6 @@ ol {
   border: 1px solid rgba(255, 255, 255, 0.07);
   color: var(--cream);
   font-size: 0.8rem;
-  /* Subtle hover lift for list items */
   transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s var(--ease-out-expo);
 }
 
@@ -787,7 +778,7 @@ ol {
   display: none;
 }
 
-/* ── Grids / Cards base ──────────────────── */
+/* Grillas y cards */
 .grid-3,
 .grid-4 {
   display: grid;
@@ -795,7 +786,7 @@ ol {
   gap: 1rem;
 }
 
-/* ── Info / Benefit / Panel cards ────────── */
+/* Cards informativas */
 .info-card,
 .benefit-card,
 .product-card,
@@ -840,7 +831,7 @@ ol {
   margin: 0;
 }
 
-/* ── Step numbers ────────────────────────── */
+/* Números de pasos */
 .step-number {
   display: inline-grid;
   place-items: center;
@@ -856,7 +847,7 @@ ol {
     0 2px 6px rgba(244, 197, 66, 0.15);
 }
 
-/* ── Category cards ──────────────────────── */
+/* Cards de categorías */
 .category-card {
   position: relative;
   overflow: hidden;
@@ -909,7 +900,7 @@ ol {
   display: none;
 }
 
-/* ── Per-category themes ─────────────────── */
+/* Colores por categoría */
 .category-card[data-category-link="Fútbol"] {
   background: linear-gradient(145deg, #0d2018, #0a1a10);
   border-color: rgba(40, 160, 80, 0.16);
@@ -982,7 +973,7 @@ ol {
   box-shadow: var(--shadow-card-hover), 0 0 36px rgba(200, 160, 70, 0.1);
 }
 
-/* ── Default category card hover ─────────── */
+/* Hover de categorías */
 .category-card:hover {
   transform: translateY(-7px);
   border-color: rgba(244, 197, 66, 0.26);
@@ -1039,7 +1030,7 @@ ol {
   border-color: rgba(244, 197, 66, 0.28);
 }
 
-/* ── Benefit card icon ───────────────────── */
+/* Íconos de beneficios */
 .benefit-card .icon {
   font-size: 1.6rem;
   margin-bottom: 0.75rem;
@@ -1051,7 +1042,7 @@ ol {
   transform: scale(1.15) rotate(-3deg);
 }
 
-/* ── Footer ──────────────────────────────── */
+/* Footer */
 .footer {
   padding: 1.5rem 0 1.75rem;
   border-top: 1px solid rgba(244, 197, 66, 0.08);
@@ -1101,7 +1092,7 @@ ol {
   height: 64px;
 }
 
-/* ── Tags ────────────────────────────────── */
+/* Tags */
 .tag {
   display: inline-flex;
   align-items: center;
@@ -1121,7 +1112,7 @@ ol {
   font-weight: 600;
 }
 
-/* ── Product cards ───────────────────────── */
+/* Cards de producto */
 .product-card {
   overflow: hidden;
   display: flex;
@@ -1154,7 +1145,6 @@ ol {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Smooth zoom transition */
   transition: transform 0.55s var(--ease-out-expo);
 }
 
@@ -1170,7 +1160,7 @@ ol {
   flex: 1;
 }
 
-/* Product metadata hierarchy */
+/* Datos del producto */
 .product-category {
   color: var(--yellow);
   font-size: 0.72rem;
@@ -1208,7 +1198,6 @@ ol {
 }
 
 .product-price {
-  /* Make the price pop — it's the conversion lever */
   font-size: 1.1rem;
   font-weight: 900;
   color: #f8f5ef;
@@ -1233,7 +1222,7 @@ ol {
   transform: scale(1.05);
 }
 
-/* ── Visual helpers ─────────────────────── */
+/* Recursos visuales */
 .cat-visual {
   background: #111;
   display: flex;
@@ -1313,8 +1302,7 @@ ol {
   background: rgba(255, 255, 255, 0.11);
 }
 
-/* ── Carousel ────────────────────────────── */
-/* NOTE: carousel track logic untouched — only visual polish */
+/* Carrusel */
 .carousel-outer {
   position: relative;
 }
@@ -1475,7 +1463,7 @@ ol {
   padding-inline: 0.9rem;
 }
 
-/* ── Carousel arrows ─────────────────────── */
+/* Flechas del carrusel */
 .carousel-arrow {
   position: absolute;
   top: 50%;
@@ -1556,7 +1544,7 @@ ol {
   cursor: default;
 }
 
-/* ── Carousel dots ───────────────────────── */
+/* Puntos del carrusel */
 .carousel-dots {
   display: flex;
   justify-content: center;
@@ -1589,7 +1577,7 @@ ol {
   box-shadow: 0 0 10px rgba(244, 197, 66, 0.3);
 }
 
-/* ── Carousel section header spacing ─────── */
+/* Espaciado del carrusel */
 .home-page [data-carousel] .section-header {
   margin-bottom: 1.5rem;
 }
@@ -1598,7 +1586,7 @@ ol {
   overflow: visible;
 }
 
-/* ── Empty state + Modal ─────────────────── */
+/* Estados vacíos y modal */
 .empty-state {
   text-align: center;
   padding: 2rem;
@@ -1670,7 +1658,7 @@ ol {
   padding: 1rem;
 }
 
-/* ── Forms ───────────────────────────────── */
+/* Formularios */
 .input,
 .select {
   width: 100%;
@@ -1740,11 +1728,11 @@ ol {
   white-space: nowrap !important;
 }
 
-/* ─────────────────────────────────────────────
-   RESPONSIVE BREAKPOINTS
-   ─────────────────────────────────────────── */
+/* =========================================================
+   Responsive
+   ========================================================= */
 
-/* ── Mobile grande ───────────────────────── */
+/* Mobile grande */
 @media (min-width: 480px) {
   :root {
     --container-pad: 12px;
@@ -1815,7 +1803,7 @@ ol {
   }
 }
 
-/* ── Tablet ──────────────────────────────── */
+/* Tablet */
 @media (min-width: 768px) {
   :root {
     --container-pad: 16px;
@@ -1830,7 +1818,7 @@ ol {
   }
 
   .section {
-    padding: 4.5rem 0;
+    padding: clamp(5.5rem, 8vw, 7rem) 0;
   }
 
   .section-title {
@@ -1843,7 +1831,7 @@ ol {
   }
 
   .hero {
-    padding: 2.5rem 0 2.8rem;
+    padding: clamp(3.5rem, 7vw, 6rem) 0;
   }
 
   .hero-title {
@@ -1901,7 +1889,7 @@ ol {
   }
 }
 
-/* ── Desktop navbar desde 1100 ────────────── */
+/* Desktop */
 @media (min-width: 1100px) {
   :root {
     --header-height: 84px;
@@ -1963,7 +1951,7 @@ ol {
     position: relative;
   }
 
-  /* Underline indicator on desktop nav */
+  /* Subrayado de navegación */
   .nav-links a::after {
     content: "";
     position: absolute;
@@ -1981,7 +1969,7 @@ ol {
     width: 100%;
   }
 
-  /* Reset kicker pseudo-element on desktop nav links (don't inherit) */
+  /* Evita efectos heredados en los links del nav */
   .nav-links a::before {
     display: none;
   }
@@ -2003,7 +1991,7 @@ ol {
   }
 
   .hero {
-    padding: 3.2rem 0 3.2rem;
+    padding: clamp(4.5rem, 7vw, 7rem) 0;
   }
 
   .hero-grid {
@@ -2086,7 +2074,7 @@ ol {
   }
 }
 
-/* ── Desktop amplio desde 1280 ───────────── */
+/* Desktop amplio */
 @media (min-width: 1280px) {
   .hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(420px, 0.9fr);
@@ -2130,7 +2118,7 @@ ol {
   }
 }
 
-/* ── Desktop amplio 1440 ─────────────────── */
+/* Desktop 1440+ */
 @media (min-width: 1440px) {
   .hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(460px, 0.95fr);
@@ -2158,7 +2146,7 @@ ol {
   }
 }
 
-/* ── 1600+ ──────────────────────────────── */
+/* Pantallas grandes */
 @media (min-width: 1600px) {
   :root {
     --container-max: 1440px;
@@ -2179,7 +2167,7 @@ ol {
   }
 
   .section {
-    padding: 5.5rem 0;
+    padding: clamp(6rem, 6vw, 8.5rem) 0;
   }
 
   .hero-title {
@@ -2187,7 +2175,7 @@ ol {
   }
 }
 
-/* ── 2K / ultrawide ─────────────────────── */
+/* 2K y ultrawide */
 @media (min-width: 2200px) {
   :root {
     --container-max: 1760px;
@@ -2207,7 +2195,7 @@ ol {
   }
 }
 
-/* ── 4K ─────────────────────────────────── */
+/* 4K */
 @media (min-width: 3200px) {
   :root {
     --container-max: 2200px;
@@ -2237,9 +2225,9 @@ ol {
   }
 }
 
-/* ─────────────────────────────────────────────
-   HOME PAGE LANDING — hardening + responsive fix
-   ─────────────────────────────────────────── */
+/* =========================================================
+   Landing page
+   ========================================================= */
 .home-page {
   overflow-x: clip;
 }
@@ -2258,6 +2246,19 @@ ol {
 
 .home-page .hero {
   overflow: hidden;
+  min-height: min(760px, calc(100svh - 32px - var(--header-height)));
+  display: flex;
+  align-items: center;
+}
+
+.home-page .section {
+  min-height: 72svh;
+  display: flex;
+  align-items: center;
+}
+
+.home-page .section > .container {
+  width: var(--container);
 }
 
 .home-page .hero > .container {
@@ -2285,9 +2286,7 @@ ol {
   object-fit: cover;
 }
 
-/* ==============================
-   PROMO BAR - MOVIMIENTO CONTINUO
-============================== */
+/* Promo bar */
 
 .promo-bar {
   width: 100%;
@@ -2342,59 +2341,6 @@ ol {
 .promo-bar__track:hover {
   animation-play-state: paused;
 }
-
-/* ─────────────────────────────────────────────
-   LANDING PAGE — scroll reveal animations
-   Safe add-on: no layout, no media query override
-   ─────────────────────────────────────────── */
-
-.home-page .scroll-reveal {
-  opacity: 0;
-  transform: translateY(34px);
-  filter: blur(6px);
-  transition:
-    opacity 0.8s var(--ease-out-expo),
-    transform 0.8s var(--ease-out-expo),
-    filter 0.8s ease;
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform, filter;
-}
-
-.home-page .scroll-reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-.home-page .hero-visual.scroll-reveal {
-  transform: translateY(28px) scale(0.98);
-}
-
-.home-page .hero-visual.scroll-reveal.is-visible {
-  transform: translateY(0) scale(1);
-}
-
-.home-page .category-card.scroll-reveal,
-.home-page .info-card.scroll-reveal,
-.home-page .benefit-card.scroll-reveal {
-  transform: translateY(30px) scale(0.97);
-}
-
-.home-page .category-card.scroll-reveal.is-visible,
-.home-page .info-card.scroll-reveal.is-visible,
-.home-page .benefit-card.scroll-reveal.is-visible {
-  transform: translateY(0) scale(1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-page .scroll-reveal {
-    opacity: 1;
-    transform: none;
-    filter: none;
-    transition: none;
-  }
-}
-
 
 @media (max-width: 1099.98px) {
   .home-page .topbar {
@@ -2463,7 +2409,13 @@ ol {
 
 @media (max-width: 767.98px) {
   .home-page .hero {
-    padding: 1.25rem 0 1.8rem;
+    padding: 2rem 0 2.8rem;
+  }
+
+  .home-page .section {
+    min-height: auto;
+    display: block;
+    padding: 4.5rem 0;
   }
 
   .home-page .hero-title {
@@ -2478,7 +2430,7 @@ ol {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  /* Carousel mobile overrides */
+  /* Carrusel en mobile */
   .carousel-track-wrap {
     width: 100%;
     padding: 0.15rem 0.15rem 0.35rem;
@@ -2569,7 +2521,7 @@ ol {
     right: 6px;
   }
 
-  /* More vertical breathing room on mobile */
+  /* Más aire en cards chicas */
   .info-card,
   .benefit-card,
   .panel {
@@ -2620,9 +2572,7 @@ ol {
   }
 }
 
-/* ─────────────────────────────────────────────
-   LANDING — section visual separation / depth
-   ─────────────────────────────────────────── */
+/* Fondos y separación visual de la landing */
 .home-page .hero,
 .home-page .section,
 .home-page .footer {
@@ -2649,12 +2599,12 @@ ol {
   opacity: 0.85;
 }
 
-/* Section hairline separators for visual rhythm */
+/* Separador sutil entre secciones */
 .home-page .section + .section {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.028);
 }
 
-/* ── Hero section background ─────────────── */
+/* Fondo del hero */
 .home-page .hero {
   background:
     radial-gradient(circle at 18% 16%, rgba(244, 197, 66, 0.10), transparent 26%),
@@ -2668,7 +2618,7 @@ ol {
     radial-gradient(circle at 50% 110%, rgba(244, 197, 66, 0.05), transparent 42%);
 }
 
-/* ── Como funciona section ───────────────── */
+/* Fondo: cómo funciona */
 .home-page #como-funciona.section {
   background:
     linear-gradient(180deg, rgba(9, 9, 9, 0.98) 0%, rgba(14, 11, 8, 0.98) 100%);
@@ -2687,7 +2637,7 @@ ol {
   opacity: 0.72;
 }
 
-/* ── Categorías section (nth-of-type 2) ─── */
+/* Fondo: categorías */
 .home-page .section:nth-of-type(2) {
   background:
     linear-gradient(180deg, rgba(7, 10, 16, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
@@ -2706,7 +2656,7 @@ ol {
   opacity: 0.75;
 }
 
-/* ── Beneficios section ──────────────────── */
+/* Fondo: beneficios */
 .home-page #beneficios.section {
   background:
     linear-gradient(180deg, rgba(10, 8, 8, 0.98) 0%, rgba(12, 12, 12, 0.98) 100%);
@@ -2725,7 +2675,7 @@ ol {
   opacity: 0.7;
 }
 
-/* ── Carousel / Destacados section ──────── */
+/* Fondo: destacados */
 .home-page [data-carousel].section {
   background:
     linear-gradient(180deg, rgba(8, 8, 8, 0.99) 0%, rgba(14, 10, 6, 0.98) 100%);
@@ -2744,7 +2694,7 @@ ol {
   opacity: 0.78;
 }
 
-/* ── Mobile section adjustments ─────────── */
+/* Ajustes mobile de fondos */
 @media (max-width: 767.98px) {
   .home-page .hero::after,
   .home-page .section::after {
@@ -2757,7 +2707,7 @@ ol {
   }
 }
 
-/* ── Refinamientos Extra Manus ── */
+/* Ajustes finales */
 .section:not(:last-child)::after {
   content: "";
   position: absolute;
@@ -2767,8 +2717,11 @@ ol {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(244, 197, 66, 0.1), transparent);
 }
-.product-card:hover, .category-card:hover {
+.product-card:hover,
+.category-card:hover {
   transform: translateY(-8px) scale(1.01) !important;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(244, 197, 66, 0.15) !important;
 }
-.topbar { backdrop-filter: blur(20px) !important; }
+.topbar {
+  backdrop-filter: blur(20px) !important;
+}
