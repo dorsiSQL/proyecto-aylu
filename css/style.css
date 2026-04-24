@@ -1092,6 +1092,87 @@ ol {
   height: 64px;
 }
 
+.footer-grid > div:last-child,
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.footer-address {
+  margin: 0;
+  font-style: normal;
+  font-size: 0.85rem;
+  color: var(--muted);
+  opacity: 0.65;
+}
+
+.footer-social {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.footer-social .social-link {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.footer-social .social-link svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  display: block;
+}
+
+.footer-social .social-link.instagram:hover,
+.footer-social .social-link.instagram:focus-visible {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  animation: footerBounce 0.4s linear;
+}
+
+.footer-social .social-link.whatsapp:hover,
+.footer-social .social-link.whatsapp:focus-visible {
+  background: #25d366;
+  animation: footerBounce 0.4s linear;
+}
+
+.footer-social .social-link:focus-visible {
+  outline: 2px solid rgba(244, 197, 66, 0.65);
+  outline-offset: 3px;
+}
+
+@keyframes footerBounce {
+  40% { transform: scale(1.25); }
+  60% { transform: scale(0.9); }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 767px) {
+  .footer-grid > div:last-child,
+  .footer-contact {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .footer-social {
+    justify-content: flex-start;
+  }
+}
+
 /* Tags */
 .tag {
   display: inline-flex;
@@ -1869,6 +1950,20 @@ ol {
   .footer-grid {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     align-items: center;
+  }
+
+  .footer-grid > div:last-child,
+  .footer-contact {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  .footer-social {
+    justify-content: flex-end;
+  }
+
+  .footer-address {
+    text-align: right;
   }
 
   .modal-grid {
@@ -2787,62 +2882,4 @@ ol {
 .topbar {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-}
-
-/* =========================
-   SOCIAL FOOTER (SAFE)
-   ========================= */
-
-/* Contenedor (aislado, no pisa .card ni nada global) */
-.footer-social {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-/* Botones */
-.footer-social .social-link {
-  width: 44px;
-  height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.05);
-  transition: transform 0.25s ease, background 0.25s ease;
-}
-
-/* SVG */
-.footer-social .social-link svg {
-  width: 20px;
-  height: 20px;
-  fill: #ffffff;
-  display: block;
-}
-
-/* Instagram */
-.footer-social .social-link.instagram:hover {
-  background: linear-gradient(45deg,
-    #f09433 0%,
-    #e6683c 25%,
-    #dc2743 50%,
-    #cc2366 75%,
-    #bc1888 100%
-  );
-  animation: footerBounce 0.4s linear;
-}
-
-/* WhatsApp */
-.footer-social .social-link.whatsapp:hover {
-  background: #25D366;
-  animation: footerBounce 0.4s linear;
-}
-
-/* Animación aislada (nuevo nombre para no pisar nada) */
-@keyframes footerBounce {
-  40% { transform: scale(1.25); }
-  60% { transform: scale(0.9); }
-  80% { transform: scale(1.1); }
-  100% { transform: scale(1); }
 }
