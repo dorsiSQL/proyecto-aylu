@@ -4,7 +4,7 @@
     "nombre": "Remera Atari",
     "categoria": "Videojuegos",
     "precio": 21000,
-    "imagen": "assets/catalogo/ejemplo-gaming.jpg",
+    "imagen": "assets/catalogo/atari-negra.png",
     "descripcion": "Diseño atari vintage",
     "disponible": true,
     "destacado": true
