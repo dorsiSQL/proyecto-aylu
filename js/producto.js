@@ -3,13 +3,7 @@ import { cart } from './cart.js';
 
 const COLORS = [
   { name: 'Negro', swatchClass: 'swatch-dot--negro' },
-  { name: 'Blanco', swatchClass: 'swatch-dot--blanco' },
-  
-//  { name: 'Rojo', swatchClass: 'swatch-dot--rojo' },
-//  { name: 'Amarillo', swatchClass: 'swatch-dot--amarillo' },
-//  { name: 'Gris', swatchClass: 'swatch-dot--gris' },
-//  { name: 'Azul', swatchClass: 'swatch-dot--azul' },
-//  { name: 'Verde', swatchClass: 'swatch-dot--verde' }
+  { name: 'Blanco', swatchClass: 'swatch-dot--blanco' }
 ];
 
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -79,6 +73,36 @@ function setProductFromQuery() {
     state.products.find((product) => String(product.id) === String(productId)) || null;
 }
 
+function getProductImageByColor(product, colorName) {
+  if (!product) return '';
+
+  const fallbackImage = product.imagen || '';
+  const colorImages = product.imagenesPorColor;
+
+  if (!colorImages || typeof colorImages !== 'object') {
+    return fallbackImage;
+  }
+
+  return colorImages[colorName] || fallbackImage;
+}
+
+function getSelectedProductImage() {
+  return getProductImageByColor(state.selectedProduct, state.selectedColor.name);
+}
+
+function updateProductImage() {
+  const product = state.selectedProduct;
+  const imageNode = document.querySelector('[data-product-image]');
+  if (!product || !imageNode) return;
+
+  const selectedImage = getSelectedProductImage();
+
+  imageNode.src = safeUrl(selectedImage);
+  imageNode.loading = 'eager';
+  imageNode.decoding = 'async';
+  imageNode.alt = `${product.nombre} color ${state.selectedColor.name}`;
+}
+
 function renderNotFound() {
   const shell = document.querySelector('.product-shell');
   if (!shell) return;
@@ -103,7 +127,6 @@ function renderProduct() {
   const categoryNode = document.querySelector('[data-product-category]');
   const priceNode = document.querySelector('[data-product-price]');
   const descNode = document.querySelector('[data-product-description]');
-  const imageNode = document.querySelector('[data-product-image]');
 
   if (breadcrumb) breadcrumb.textContent = product.nombre;
   if (nameNode) nameNode.textContent = product.nombre;
@@ -111,12 +134,7 @@ function renderProduct() {
   if (priceNode) priceNode.textContent = formatPrice(product.precio);
   if (descNode) descNode.textContent = product.descripcion;
 
-  if (imageNode) {
-    imageNode.src = safeUrl(product.imagen);
-    imageNode.loading = 'eager';
-    imageNode.decoding = 'async';
-    imageNode.alt = product.nombre;
-  }
+  updateProductImage();
 
   document.title = `${product.nombre} | Retro Remeras`;
   updateProductSchema(product);
@@ -137,7 +155,7 @@ function updateProductSchema(product) {
     '@type': 'Product',
     name: String(product.nombre || 'Remera personalizada'),
     description: String(product.descripcion || 'Remera personalizada de Retro Remeras'),
-    image: safeUrl(product.imagen, ''),
+    image: safeUrl(getSelectedProductImage(), ''),
     category: String(product.categoria || 'Remeras'),
     offers: {
       '@type': 'Offer',
@@ -155,9 +173,7 @@ function renderFitSelector() {
   const valueNode = document.querySelector('[data-fit-value]');
   if (!wrap) return;
 
-  if (valueNode) {
-    valueNode.textContent = getFitLabel(state.selectedFit);
-  }
+  if (valueNode) valueNode.textContent = getFitLabel(state.selectedFit);
 
   wrap.innerHTML = FITS.map((fit) => `
     <label class="fit-option ${state.selectedFit === fit.key ? 'is-selected' : ''}">
@@ -181,9 +197,7 @@ function renderSizes() {
   const valueNode = document.querySelector('[data-size-value]');
   if (!wrap) return;
 
-  if (valueNode) {
-    valueNode.textContent = state.selectedSize;
-  }
+  if (valueNode) valueNode.textContent = state.selectedSize;
 
   wrap.innerHTML = SIZES.map((size) => `
     <label class="size-option ${state.selectedSize === size ? 'is-selected' : ''}">
@@ -206,9 +220,7 @@ function renderColors() {
   const valueNode = document.querySelector('[data-color-value]');
   if (!wrap) return;
 
-  if (valueNode) {
-    valueNode.textContent = state.selectedColor.name;
-  }
+  if (valueNode) valueNode.textContent = state.selectedColor.name;
 
   wrap.innerHTML = COLORS.map((color) => `
     <label class="swatch-card ${state.selectedColor.name === color.name ? 'is-selected' : ''}">
@@ -222,7 +234,10 @@ function renderColors() {
     input.addEventListener('change', () => {
       const selected = COLORS.find((color) => color.name === input.value);
       state.selectedColor = selected || DEFAULTS.color;
+
       renderColors();
+      updateProductImage();
+      updateProductSchema(state.selectedProduct);
       updateOrderLink();
     });
   });
@@ -233,13 +248,8 @@ function setupActions() {
   const clearBtn = document.querySelector('[data-clear-cart]');
   const list = document.querySelector('[data-cart-list]');
 
-  if (addBtn) {
-    addBtn.addEventListener('click', addCurrentSelectionToCart);
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener('click', clearCart);
-  }
+  if (addBtn) addBtn.addEventListener('click', addCurrentSelectionToCart);
+  if (clearBtn) clearBtn.addEventListener('click', clearCart);
 
   if (list) {
     list.addEventListener('click', (event) => {
@@ -257,19 +267,19 @@ function addCurrentSelectionToCart() {
   const product = state.selectedProduct;
   if (!product) return;
 
-  const fitLabel = getFitLabel(state.selectedFit);
+  const selectedImage = getSelectedProductImage();
 
   const nextItem = {
     id: cart.createItemId(product.id, state.selectedColor.name, state.selectedSize, state.selectedFit),
     productId: product.id,
     productName: product.nombre,
     category: product.categoria,
-    image: product.imagen,
+    image: selectedImage,
     unitPrice: Number(product.precio) || 0,
     color: state.selectedColor.name,
     size: state.selectedSize,
     fit: state.selectedFit,
-    fitLabel: fitLabel,
+    fitLabel: getFitLabel(state.selectedFit),
     quantity: 1
   };
 
