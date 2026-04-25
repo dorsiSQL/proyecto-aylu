@@ -694,8 +694,15 @@ ol {
 .poster-stack,
 .hero-card {
   border-radius: var(--radius);
-  overflow: hidden;
   box-shadow: var(--shadow);
+}
+
+.poster-stack {
+  overflow: visible;
+}
+
+.hero-card {
+  overflow: hidden;
 }
 
 .poster-stack {
@@ -2201,18 +2208,7 @@ ol {
 
   .poster-side {
     grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-
-  .poster-side .poster-main:first-child {
-    border-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .poster-side .poster-main:last-child {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+    gap: 0.65rem;
   }
 
   .poster-badge {
@@ -2390,6 +2386,24 @@ ol {
 
 .home-page .poster-stack {
   width: 100%;
+  gap: 0.85rem;
+}
+
+.home-page .poster-stack > .poster-main {
+  aspect-ratio: 4 / 4.7;
+}
+
+.home-page .poster-side {
+  gap: 0.75rem;
+}
+
+.home-page .poster-side .poster-main {
+  aspect-ratio: 1 / 1.08;
+}
+
+.home-page .poster-main,
+.home-page .poster-side .poster-main {
+  box-shadow: var(--shadow-card);
 }
 
 .home-page .poster-main img,
@@ -2498,10 +2512,12 @@ ol {
   .home-page .poster-stack {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;
+    gap: 0.85rem;
   }
 
   .home-page .poster-side {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
   }
 
   .home-page .hero-actions {
@@ -2545,8 +2561,23 @@ ol {
     font-size: 0.95rem;
   }
 
+  .home-page .poster-stack {
+    gap: 0.75rem;
+  }
+
+  .home-page .poster-stack > .poster-main {
+    aspect-ratio: 4 / 4.6;
+    min-height: 0;
+  }
+
   .home-page .poster-side {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .home-page .poster-side .poster-main {
+    aspect-ratio: 1 / 1.08;
+    min-height: 0;
   }
 
   /* Carrusel en mobile */
@@ -2662,6 +2693,12 @@ ol {
   }
 }
 
+@media (max-width: 379.98px) {
+  .home-page .poster-side {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (min-width: 1100px) {
   .home-page .hero > .container {
     width: min(1320px, calc(100% - (var(--container-pad) * 2)));
@@ -2684,10 +2721,37 @@ ol {
   .home-page .poster-stack {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
     min-height: 420px;
+    gap: 0.85rem;
+    overflow: visible;
+  }
+
+  .home-page .poster-stack > .poster-main,
+  .home-page .poster-side .poster-main {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .home-page .poster-stack > .poster-main {
+    position: relative;
+    z-index: 2;
+    transform: rotate(-0.7deg);
   }
 
   .home-page .poster-side {
+    position: relative;
+    z-index: 1;
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    transform: translateX(-6px);
+  }
+
+  .home-page .poster-side .poster-main:first-child {
+    transform: translateY(-4px) rotate(0.7deg);
+  }
+
+  .home-page .poster-side .poster-main:last-child {
+    transform: translateY(4px) rotate(-0.45deg);
   }
 
   .home-page .section {
