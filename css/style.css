@@ -1,5 +1,6 @@
 /* =========================================================
-   Retro Remeras - Estilos generales
+   Retro Remeras · Estilos generales
+   Base visual, layout, componentes y responsive del sitio.
    ========================================================= */
 
 :root {
@@ -39,7 +40,7 @@
   --header-height: 68px;
 }
 
-/* Reset */
+/* Reset y base */
 *,
 *::before,
 *::after {
@@ -213,7 +214,7 @@ ol {
   overflow: hidden;
 }
 
-/* Brillo suave en etiquetas */
+/* Brillo animado en etiquetas */
 .section-kicker::after,
 .eyebrow::after {
   content: "";
@@ -426,7 +427,7 @@ ol {
     opacity 0.2s ease;
 }
 
-/* Efecto visual de botones */
+/* Efecto visual común */
 .btn::after {
   content: "";
   position: absolute;
@@ -726,16 +727,27 @@ ol {
   position: relative;
   min-width: 0;
   width: 100%;
-  overflow: hidden;
-  border-radius: var(--radius);
-  border: 1px solid rgba(244, 197, 66, 0.16);
-  background: #0d0d0d;
-  transition: border-color 0.35s ease;
 }
 
-.poster-main:hover,
-.poster-side:hover {
-  border-color: rgba(244, 197, 66, 0.26);
+.poster-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.poster-main {
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #0d0d0d;
+  box-shadow: var(--shadow-card);
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    box-shadow 0.35s var(--ease-out-expo);
+}
+
+.poster-main:hover {
+  transform: none;
+  box-shadow: var(--shadow-card);
 }
 
 .poster-main,
@@ -751,34 +763,84 @@ ol {
   transition: transform 0.55s var(--ease-out-expo);
 }
 
-.poster-main:hover img,
-.poster-side:hover img {
-  transform: scale(1.025);
+.poster-main:hover img {
+  transform: none;
 }
 
-.poster-side {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
+/* Marco animado de posters */
+@keyframes posterFrameSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-.poster-badge {
+.poster-frame {
+  isolation: isolate;
+  border: 0;
+  background: #0d0d0d;
+}
+
+.poster-frame::before {
+  content: "";
   position: absolute;
-  left: 0.6rem;
-  right: 0.6rem;
-  bottom: 0.6rem;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 165%;
+  height: 165%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(244, 197, 66, 0) 0deg,
+    rgba(244, 197, 66, 0.98) 42deg,
+    rgba(200, 47, 47, 0.95) 92deg,
+    rgba(244, 197, 66, 0.98) 146deg,
+    rgba(244, 197, 66, 0) 210deg,
+    rgba(244, 197, 66, 0) 360deg
+  );
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: center;
+  animation: posterFrameSpin 4.8s linear infinite;
+  opacity: 0.9;
+}
+
+.poster-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 5px;
+  border-radius: calc(var(--radius) - 6px);
+  background: #0d0d0d;
+  pointer-events: none;
+}
+
+.poster-frame > img {
+  position: absolute;
+  z-index: 2;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: calc(var(--radius) - 8px);
+}
+
+
+.poster-frame > .poster-badge {
+  position: absolute;
+  z-index: 3;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
   max-width: none;
-  padding: 0.6rem 0.72rem;
+  padding: 0.72rem 0.9rem;
   border-radius: 14px;
-  background: rgba(14, 14, 14, 0.9);
-  border: 1px solid rgba(244, 197, 66, 0.22);
+  background: rgba(10, 10, 10, 0.86);
+  border: 1px solid rgba(244, 197, 66, 0.32);
   color: var(--cream);
-  font-weight: 700;
+  font-weight: 800;
   text-align: center;
-  font-size: 0.76rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  font-size: 0.82rem;
+  line-height: 1.15;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.46), 0 0 18px rgba(244, 197, 66, 0.08);
 }
 
 .mascot-divider {
@@ -980,33 +1042,40 @@ ol {
   box-shadow: var(--shadow-card-hover), 0 0 36px rgba(200, 160, 70, 0.1);
 }
 
-/* Hover de categorías */
+/* Categorías destacadas
+   Cards compactas con botón “Explorar” flotante al pasar el mouse. */
+.category-card {
+  overflow: visible;
+  padding-bottom: 1.25rem;
+}
+
 .category-card:hover {
-  transform: translateY(-7px);
-  border-color: rgba(244, 197, 66, 0.26);
-  box-shadow: var(--shadow-card-hover), 0 0 32px rgba(244, 197, 66, 0.07);
+  transform: translateY(-6px);
+  border-color: rgba(244, 197, 66, 0.32);
+  box-shadow: var(--shadow-card-hover), 0 0 28px rgba(244, 197, 66, 0.08);
 }
 
 .category-card:hover::before {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius);
+  width: 22%;
+  height: 22%;
+  border-radius: 0 var(--radius) 0 100%;
 }
 
 .category-card:hover::after {
-  height: 100%;
-  border-radius: var(--radius);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(10, 10, 10, 0.015));
+  height: 2px;
+  border-radius: 0 100% 0 var(--radius);
 }
 
 .category-card-content {
   position: relative;
   z-index: 2;
-  transition: transform 0.38s var(--ease-out-expo);
+  height: 100%;
+  padding-bottom: 3.4rem;
+  transition: none;
 }
 
 .category-card:hover .category-card-content {
-  transform: translateY(-5px);
+  transform: none;
 }
 
 .category-card h3 {
@@ -1016,25 +1085,47 @@ ol {
 }
 
 .category-card p {
-  margin: 0 0 0.85rem;
+  margin: 0;
   color: rgba(246, 236, 217, 0.72);
   font-size: 0.88rem;
   line-height: 1.5;
 }
 
 .category-card .btn-ghost {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  bottom: 0;
+  width: min(62%, 170px);
+  min-height: 42px;
+  padding: 0.62rem 1rem;
+  transform: translate(-50%, 125%);
+  opacity: 0;
+  pointer-events: none;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 197, 66, 0.42);
+  background: linear-gradient(135deg, #f7d060, #f0a515);
+  color: #111;
+  font-weight: 800;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
   transition:
     transform 0.3s var(--ease-out-expo),
-    background 0.25s ease,
-    border-color 0.25s ease;
+    opacity 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.category-card:hover .btn-ghost {
-  transform: translateY(-2px);
-  background: rgba(244, 197, 66, 0.14);
-  border-color: rgba(244, 197, 66, 0.28);
+.category-card:hover .btn-ghost,
+.category-card:focus-within .btn-ghost {
+  transform: translate(-50%, 50%);
+  opacity: 1;
+  pointer-events: auto;
+  background: linear-gradient(135deg, #f7d060, #f0a515);
+  border-color: rgba(244, 197, 66, 0.5);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38), 0 0 18px rgba(244, 197, 66, 0.12);
+}
+
+.category-card .btn-ghost:hover {
+  transform: translate(-50%, 44%);
 }
 
 /* Íconos de beneficios */
@@ -2198,26 +2289,27 @@ ol {
   }
 
   .hero-visual {
-    min-height: 460px;
+    min-height: 520px;
   }
 
   .poster-stack {
-    min-height: 460px;
+    min-height: 520px;
+    max-height: 640px;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
   }
 
   .poster-side {
     grid-template-columns: minmax(0, 1fr);
-    gap: 0.65rem;
+    gap: 1rem;
   }
 
   .poster-badge {
-    left: auto;
+    left: 1rem;
     right: 1rem;
     bottom: 1rem;
-    max-width: calc(100% - 2rem);
-    font-size: 1rem;
-    padding: 0.7rem 0.9rem;
+    max-width: none;
+    font-size: 0.95rem;
+    padding: 0.72rem 0.9rem;
   }
 }
 
@@ -2233,11 +2325,12 @@ ol {
   }
 
   .hero-visual {
-    min-height: 500px;
+    min-height: 600px;
   }
 
   .poster-stack {
-    min-height: 500px;
+    min-height: 600px;
+    max-height: 700px;
   }
 
   .mascot-divider {
@@ -2342,7 +2435,8 @@ ol {
 .home-page .hero-visual,
 .home-page .poster-stack,
 .home-page .poster-side,
-.home-page .poster-main {
+.home-page .poster-main,
+.home-page .poster-frame {
   min-width: 0;
   max-width: 100%;
 }
@@ -2542,6 +2636,29 @@ ol {
   }
 }
 
+@media (min-width: 768px) and (max-width: 1099.98px) {
+  .home-page .poster-stack {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    min-height: clamp(340px, 46vw, 460px);
+    max-height: 500px;
+    gap: 0.85rem;
+  }
+
+  .home-page .poster-stack > .poster-main,
+  .home-page .poster-side .poster-main {
+    aspect-ratio: auto;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .home-page .poster-side {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    min-height: 0;
+  }
+}
+
 @media (max-width: 767.98px) {
   .home-page .hero {
     padding: 2rem 0 2.8rem;
@@ -2715,13 +2832,13 @@ ol {
   }
 
   .home-page .hero-visual {
-    min-height: 420px;
+    min-height: clamp(520px, 43vw, 620px);
   }
 
   .home-page .poster-stack {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.9fr);
-    min-height: 420px;
-    gap: 0.85rem;
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    min-height: clamp(520px, 43vw, 620px);
+    gap: 1rem;
     overflow: visible;
   }
 
@@ -2734,7 +2851,6 @@ ol {
   .home-page .poster-stack > .poster-main {
     position: relative;
     z-index: 2;
-    transform: rotate(-0.7deg);
   }
 
   .home-page .poster-side {
@@ -2742,16 +2858,7 @@ ol {
     z-index: 1;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 0.75rem;
-    transform: translateX(-6px);
-  }
-
-  .home-page .poster-side .poster-main:first-child {
-    transform: translateY(-4px) rotate(0.7deg);
-  }
-
-  .home-page .poster-side .poster-main:last-child {
-    transform: translateY(4px) rotate(-0.45deg);
+    gap: 1rem;
   }
 
   .home-page .section {
@@ -2945,5 +3052,147 @@ ol {
     transform: none;
     filter: none;
     transition: none;
+  }
+}
+
+/* =========================================================
+   Hero posters final polish
+   - Mantiene formato original: 1 poster grande + 2 posters chicos
+   - Posters derechos independientes
+   - Marco animado visible con paleta Retro Remeras
+   ========================================================= */
+@keyframes posterFrameSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.home-page .poster-frame {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 0;
+  background: #0d0d0d;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+.home-page .poster-frame::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 165%;
+  height: 165%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(244, 197, 66, 0) 0deg,
+    rgba(244, 197, 66, 0.98) 42deg,
+    rgba(200, 47, 47, 0.95) 92deg,
+    rgba(244, 197, 66, 0.98) 146deg,
+    rgba(244, 197, 66, 0) 210deg,
+    rgba(244, 197, 66, 0) 360deg
+  );
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: center;
+  animation: posterFrameSpin 4.8s linear infinite;
+  opacity: 0.92;
+}
+
+.home-page .poster-frame::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 5px;
+  border-radius: calc(var(--radius) - 6px);
+  background: #0d0d0d;
+  pointer-events: none;
+}
+
+.home-page .poster-frame > img {
+  position: absolute;
+  z-index: 2;
+  inset: 5px;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  border-radius: calc(var(--radius) - 8px);
+  object-fit: cover;
+}
+
+.home-page .poster-frame > .poster-badge {
+  z-index: 3;
+  bottom: 1.1rem;
+  left: 1.1rem;
+  right: 1.1rem;
+  color: #f8f5ef;
+  background: rgba(10, 10, 10, 0.88);
+  border-color: rgba(244, 197, 66, 0.36);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+}
+
+.home-page .poster-frame:hover {
+  transform: none;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.42);
+}
+
+@media (min-width: 1100px) {
+  .home-page .hero-grid {
+    grid-template-columns: minmax(0, 0.92fr) minmax(560px, 1.08fr);
+    gap: clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .home-page .hero-visual {
+    min-height: clamp(540px, 44vw, 660px);
+  }
+
+  .home-page .poster-stack {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    min-height: clamp(540px, 44vw, 660px);
+    gap: 1rem;
+    overflow: visible;
+  }
+
+  .home-page .poster-side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    transform: none;
+  }
+
+  .home-page .poster-stack > .poster-main,
+  .home-page .poster-side .poster-main {
+    height: 100%;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+}
+
+@media (min-width: 1440px) {
+  .home-page .hero > .container {
+    width: min(1440px, calc(100% - (var(--container-pad) * 2)));
+  }
+
+  .home-page .hero-visual,
+  .home-page .poster-stack {
+    min-height: clamp(620px, 42vw, 720px);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .home-page .poster-frame::after {
+    inset: 4px;
+  }
+
+  .home-page .poster-frame > img {
+    inset: 4px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+  }
+
+  .home-page .poster-frame > .poster-badge {
+    bottom: 0.85rem;
+    left: 0.85rem;
+    right: 0.85rem;
+    font-size: 0.76rem;
   }
 }
