@@ -1,0 +1,64 @@
+{
+  "id": "remera-atari",
+  "nombre": "Remera Atari",
+  "slug": "remera-atari",
+  "categoria": "Videojuegos",
+  "precio": 21000,
+  "descripcion": "Diseño Atari vintage",
+  "imagen": "https://firebasestorage.googleapis.com/v0/b/PROJECT_ID.appspot.com/o/products%2Fremera-atari%2Fmain%2Fatari-negra.png?alt=media",
+  "imagenesPorColor": {
+    "Negro": "https://firebasestorage.googleapis.com/v0/b/PROJECT_ID.appspot.com/o/products%2Fremera-atari%2Fcolors%2Fnegro%2Fatari-negra.png?alt=media",
+    "Blanco": "https://firebasestorage.googleapis.com/v0/b/PROJECT_ID.appspot.com/o/products%2Fremera-atari%2Fcolors%2Fblanco%2Fatari-blanca.jpg?alt=media"
+  },
+  "galeria": [
+    "https://firebasestorage.googleapis.com/v0/b/PROJECT_ID.appspot.com/o/products%2Fremera-atari%2Fgallery%2Fatari-01.png?alt=media"
+  ],
+  "colores": ["Negro", "Blanco"],
+  "tiposRemera": ["Regular", "Oversize"],
+  "tallesPorTipo": {
+    "Regular": ["XS", "S", "M", "L", "XL", "XXL"],
+    "Oversize": ["M", "L", "XL", "XXL"]
+  },
+  "disponible": true,
+  "activo": true,
+  "destacado": true,
+  "stock": null,
+  "stockPorVariante": {
+    "Negro": {
+      "Regular": {
+        "XS": null,
+        "S": null,
+        "M": null,
+        "L": null,
+        "XL": null,
+        "XXL": null
+      },
+      "Oversize": {
+        "M": null,
+        "L": null,
+        "XL": null,
+        "XXL": null
+      }
+    },
+    "Blanco": {
+      "Regular": {
+        "XS": null,
+        "S": null,
+        "M": null,
+        "L": null,
+        "XL": null,
+        "XXL": null
+      },
+      "Oversize": {
+        "M": null,
+        "L": null,
+        "XL": null,
+        "XXL": null
+      }
+    }
+  },
+  "orden": 10,
+  "tags": ["retro", "gaming", "atari"],
+  "createdAt": "SERVER_TIMESTAMP",
+  "updatedAt": "SERVER_TIMESTAMP"
+}

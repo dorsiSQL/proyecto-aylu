@@ -1,6 +1,6 @@
 # Retro Remeras
 
-Sitio e-commerce estático para catálogo de remeras personalizadas. Funciona con HTML, CSS y JavaScript vanilla, usando `data/products.json` como fuente principal del catálogo.
+Sitio e-commerce estático para catálogo de remeras personalizadas. Funciona con HTML, CSS y JavaScript vanilla, usando Firebase Firestore como fuente remota cuando está configurado, con `data/products.json` como fallback seguro.
 
 ## Estructura principal
 
@@ -10,11 +10,14 @@ Sitio e-commerce estático para catálogo de remeras personalizadas. Funciona co
 - `carrito.html`: resumen del pedido y envío por WhatsApp.
 - `css/`: estilos generales y específicos por página.
 - `js/`: carga de datos, carrito, catálogo, producto, carrusel, navbar mobile y promo bar.
-- `data/products.json`: productos del catálogo.
+- `data/products.json`: fallback local de productos del catálogo.
+- `js/firebase-config.js`: configuración pública de Firebase Web SDK para leer productos desde Firestore.
 - `assets/catalogo/`: imágenes usadas por productos.
 - `assets/img/`: imágenes generales de la landing.
 
 ## Cómo agregar productos
+
+Mientras el panel admin no esté implementado, se mantiene el flujo manual con `products.json` como fallback:
 
 1. Subí la imagen del producto a `assets/catalogo/`.
 2. Abrí `data/products.json`.
@@ -60,8 +63,14 @@ También existe un servidor Express opcional en `server/` para pruebas locales. 
 
 ## Deploy estático
 
-Podés subir la carpeta completa a Vercel, Netlify o cualquier hosting estático. El sitio no requiere base de datos ni backend para funcionar.
+Podés subir la carpeta completa a Vercel, Netlify o cualquier hosting estático. El sitio puede funcionar como estático puro usando `products.json`, o conectado a Firebase Firestore cuando `js/firebase-config.js` tenga la configuración real.
 
 ## Actualizar catálogo
 
-Cada vez que cambies `products.json`, usá recarga dura del navegador si no ves cambios: `Ctrl + F5`. El loader usa `cache: no-store` para evitar que el navegador mantenga productos viejos.
+Cada vez que cambies `products.json`, usá recarga dura del navegador si no ves cambios: `Ctrl + F5`. El loader usa `cache: no-store` para evitar que el navegador mantenga productos viejos. Si Firebase está configurado, el sitio intentará leer primero desde Firestore y usará `products.json` solo como respaldo.
+
+## Documentación Firebase/Admin
+
+- `docs/FIREBASE_ADMIN_ETAPA_1_AUDITORIA.md`: auditoría técnica inicial para migrar productos a Firebase y crear un panel admin separado.
+- `docs/FIREBASE_ADMIN_ETAPA_2_BASE_DE_DATOS.md`: diseño de Firestore, Storage, reglas y ejemplo de producto.
+- `docs/FIREBASE_ADMIN_ETAPA_3_SITIO_MAIN.md`: adaptación del sitio público para leer productos desde Firebase con fallback seguro.
