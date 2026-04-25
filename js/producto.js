@@ -13,6 +13,19 @@ const FITS = [
   { key: 'oversize', label: 'Oversize', note: 'Más amplio y relajado' }
 ];
 
+const SIZE_GUIDES = {
+  regular: {
+    label: 'Regular',
+    src: 'assets/talles-producto/talle-regular.png',
+    alt: 'Tabla de talles para remera regular'
+  },
+  oversize: {
+    label: 'Oversize',
+    src: 'assets/talles-producto/talles-oversize.png',
+    alt: 'Tabla de talles para remera oversize'
+  }
+};
+
 const DEFAULTS = {
   color: COLORS[0],
   size: 'M',
@@ -51,6 +64,7 @@ async function initProductPage() {
     renderFitSelector();
     renderSizes();
     renderColors();
+    renderSizeGuide();
     renderCart();
     updateOrderLink();
     setupActions();
@@ -60,89 +74,34 @@ async function initProductPage() {
   }
 }
 
+/* ===============================
+   PRODUCTO
+=============================== */
+
 function setProductFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const productId = params.get('id');
 
-  if (!productId) {
-    state.selectedProduct = state.products[0] || null;
-    return;
-  }
-
   state.selectedProduct =
-    state.products.find((product) => String(product.id) === String(productId)) || null;
-}
-
-function getProductImageByColor(product, colorName) {
-  if (!product) return '';
-
-  const fallbackImage = product.imagen || '';
-  const colorImages = product.imagenesPorColor;
-
-  if (!colorImages || typeof colorImages !== 'object') {
-    return fallbackImage;
-  }
-
-  return colorImages[colorName] || fallbackImage;
-}
-
-function getSelectedProductImage() {
-  return getProductImageByColor(state.selectedProduct, state.selectedColor.name);
-}
-
-function updateProductImage() {
-  const product = state.selectedProduct;
-  const imageNode = document.querySelector('[data-product-image]');
-  if (!product || !imageNode) return;
-
-  const selectedImage = getSelectedProductImage();
-
-  imageNode.src = safeUrl(selectedImage);
-  imageNode.loading = 'eager';
-  imageNode.decoding = 'async';
-  imageNode.alt = `${product.nombre} color ${state.selectedColor.name}`;
-}
-
-function renderNotFound() {
-  const shell = document.querySelector('.product-shell');
-  if (!shell) return;
-
-  shell.innerHTML = `
-    <div class="panel product-not-found">
-      <h1 class="section-title product-not-found__title">Producto no encontrado</h1>
-      <p class="section-subtitle product-not-found__subtitle">
-        No pudimos encontrar ese diseño. Probá volviendo al catálogo.
-      </p>
-      <a class="btn btn-primary" href="catalogo.html">Volver al catálogo</a>
-    </div>
-  `;
+    state.products.find(p => String(p.id) === String(productId)) || state.products[0] || null;
 }
 
 function renderProduct() {
   const product = state.selectedProduct;
   if (!product) return;
 
-  const breadcrumb = document.querySelector('[data-product-breadcrumb]');
-  const nameNode = document.querySelector('[data-product-name]');
-  const categoryNode = document.querySelector('[data-product-category]');
-  const priceNode = document.querySelector('[data-product-price]');
-  const descNode = document.querySelector('[data-product-description]');
-
-  if (breadcrumb) breadcrumb.textContent = product.nombre;
-  if (nameNode) nameNode.textContent = product.nombre;
-  if (categoryNode) categoryNode.textContent = product.categoria;
-  if (priceNode) priceNode.textContent = formatPrice(product.precio);
-  if (descNode) descNode.textContent = product.descripcion;
+  document.querySelector('[data-product-breadcrumb]').textContent = product.nombre;
+  document.querySelector('[data-product-name]').textContent = product.nombre;
+  document.querySelector('[data-product-category]').textContent = product.categoria;
+  document.querySelector('[data-product-price]').textContent = formatPrice(product.precio);
+  document.querySelector('[data-product-description]').textContent = product.descripcion;
 
   updateProductImage();
-
-  document.title = `${product.nombre} | Retro Remeras`;
   updateProductSchema(product);
 }
 
 function updateProductSchema(product) {
   let node = document.querySelector('[data-product-schema]');
-
   if (!node) {
     node = document.createElement('script');
     node.type = 'application/ld+json';
@@ -150,91 +109,159 @@ function updateProductSchema(product) {
     document.head.appendChild(node);
   }
 
-  const schema = {
+  node.textContent = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: String(product.nombre || 'Remera personalizada'),
-    description: String(product.descripcion || 'Remera personalizada de Retro Remeras'),
+    name: product.nombre,
+    description: product.descripcion,
     image: safeUrl(getSelectedProductImage(), ''),
-    category: String(product.categoria || 'Remeras'),
+    category: product.categoria,
     offers: {
       '@type': 'Offer',
       priceCurrency: 'ARS',
       price: Number(product.precio) || 0,
       availability: product.disponible ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
     }
-  };
-
-  node.textContent = JSON.stringify(schema);
+  });
 }
+
+/* ===============================
+   IMAGEN PRODUCTO
+=============================== */
+
+function getProductImageByColor(product, colorName) {
+  const fallback = product.imagen || '';
+  const map = product.imagenesPorColor;
+  return map?.[colorName] || fallback;
+}
+
+function getSelectedProductImage() {
+  return getProductImageByColor(state.selectedProduct, state.selectedColor.name);
+}
+
+function updateProductImage() {
+  const img = document.querySelector('[data-product-image]');
+  if (!img) return;
+  img.src = safeUrl(getSelectedProductImage());
+}
+
+/* ===============================
+   FIT
+=============================== */
 
 function renderFitSelector() {
   const wrap = document.querySelector('[data-fit-selector]');
-  const valueNode = document.querySelector('[data-fit-value]');
-  if (!wrap) return;
+  const value = document.querySelector('[data-fit-value]');
 
-  if (valueNode) valueNode.textContent = getFitLabel(state.selectedFit);
+  value.textContent = getFitLabel(state.selectedFit);
 
-  wrap.innerHTML = FITS.map((fit) => `
+  wrap.innerHTML = FITS.map(fit => `
     <label class="fit-option ${state.selectedFit === fit.key ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-fit" value="${escapeHtml(fit.key)}" ${state.selectedFit === fit.key ? 'checked' : ''}>
-      <span class="fit-option-title">${escapeHtml(fit.label)}</span>
-      <span class="fit-option-note">${escapeHtml(fit.note)}</span>
+      <input type="radio" name="shirt-fit" value="${fit.key}" ${state.selectedFit === fit.key ? 'checked' : ''}>
+      <span class="fit-option-title">${fit.label}</span>
+      <span class="fit-option-note">${fit.note}</span>
     </label>
   `).join('');
 
-  wrap.querySelectorAll('input[name="shirt-fit"]').forEach((input) => {
+  wrap.querySelectorAll('input').forEach(input => {
     input.addEventListener('change', () => {
-      state.selectedFit = input.value || DEFAULTS.fit;
+      state.selectedFit = input.value;
+
+      adjustSizeForFit(); // 🔥 importante
       renderFitSelector();
+      renderSizes();
+      renderSizeGuide();
       updateOrderLink();
     });
   });
 }
 
+/* ===============================
+   TALLES (FIX REAL)
+=============================== */
+
+function getAvailableSizes() {
+  if (state.selectedFit === 'oversize') {
+    return ['M', 'L', 'XL', 'XXL'];
+  }
+  return SIZES;
+}
+
+function adjustSizeForFit() {
+  const available = getAvailableSizes();
+  if (!available.includes(state.selectedSize)) {
+    state.selectedSize = available[0];
+  }
+}
+
 function renderSizes() {
   const wrap = document.querySelector('[data-size-grid]');
-  const valueNode = document.querySelector('[data-size-value]');
-  if (!wrap) return;
+  const value = document.querySelector('[data-size-value]');
+  const available = getAvailableSizes();
 
-  if (valueNode) valueNode.textContent = state.selectedSize;
+  value.textContent = state.selectedSize;
 
-  wrap.innerHTML = SIZES.map((size) => `
+  wrap.innerHTML = available.map(size => `
     <label class="size-option ${state.selectedSize === size ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-size-choice" value="${escapeHtml(size)}" ${state.selectedSize === size ? 'checked' : ''}>
-      <span>${escapeHtml(size)}</span>
+      <input type="radio" name="shirt-size-choice" value="${size}" ${state.selectedSize === size ? 'checked' : ''}>
+      <span>${size}</span>
     </label>
   `).join('');
 
-  wrap.querySelectorAll('input[name="shirt-size-choice"]').forEach((input) => {
+  wrap.querySelectorAll('input').forEach(input => {
     input.addEventListener('change', () => {
-      state.selectedSize = input.value || DEFAULTS.size;
+      state.selectedSize = input.value;
       renderSizes();
       updateOrderLink();
     });
   });
 }
 
+/* ===============================
+   SIZE CHART
+=============================== */
+
+function renderSizeGuide() {
+  const img = document.querySelector('[data-size-chart-image]');
+  const label = document.querySelector('[data-size-chart-label]');
+  const card = document.querySelector('[data-size-chart-card]');
+
+  const guide = SIZE_GUIDES[state.selectedFit] || SIZE_GUIDES.regular;
+
+  if (label) label.textContent = guide.label;
+  if (!img) return;
+
+  card?.classList.add('is-updating');
+
+  setTimeout(() => {
+    img.src = guide.src;
+    img.alt = guide.alt;
+
+    card?.classList.remove('is-updating');
+    card?.classList.add('is-visible');
+  }, 120);
+}
+
+/* ===============================
+   COLORES
+=============================== */
+
 function renderColors() {
   const wrap = document.querySelector('[data-color-swatches]');
-  const valueNode = document.querySelector('[data-color-value]');
-  if (!wrap) return;
+  const value = document.querySelector('[data-color-value]');
 
-  if (valueNode) valueNode.textContent = state.selectedColor.name;
+  value.textContent = state.selectedColor.name;
 
-  wrap.innerHTML = COLORS.map((color) => `
+  wrap.innerHTML = COLORS.map(color => `
     <label class="swatch-card ${state.selectedColor.name === color.name ? 'is-selected' : ''}">
-      <input type="radio" name="shirt-color" value="${escapeHtml(color.name)}" ${state.selectedColor.name === color.name ? 'checked' : ''}>
-      <span class="swatch-dot-lg ${escapeHtml(color.swatchClass)}"></span>
-      <span class="swatch-name">${escapeHtml(color.name)}</span>
+      <input type="radio" name="shirt-color" value="${color.name}" ${state.selectedColor.name === color.name ? 'checked' : ''}>
+      <span class="swatch-dot-lg ${color.swatchClass}"></span>
     </label>
   `).join('');
 
-  wrap.querySelectorAll('input[name="shirt-color"]').forEach((input) => {
+  wrap.querySelectorAll('input').forEach(input => {
     input.addEventListener('change', () => {
-      const selected = COLORS.find((color) => color.name === input.value);
-      state.selectedColor = selected || DEFAULTS.color;
-
+      state.selectedColor = COLORS.find(c => c.name === input.value);
       renderColors();
       updateProductImage();
       updateProductSchema(state.selectedProduct);
@@ -243,39 +270,24 @@ function renderColors() {
   });
 }
 
+/* ===============================
+   CART
+=============================== */
+
 function setupActions() {
-  const addBtn = document.querySelector('[data-add-to-cart]');
-  const clearBtn = document.querySelector('[data-clear-cart]');
-  const list = document.querySelector('[data-cart-list]');
-
-  if (addBtn) addBtn.addEventListener('click', addCurrentSelectionToCart);
-  if (clearBtn) clearBtn.addEventListener('click', clearCart);
-
-  if (list) {
-    list.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-cart-action]');
-      if (!button) return;
-
-      const action = button.getAttribute('data-cart-action');
-      const id = button.getAttribute('data-cart-id');
-      handleCartAction(action, id);
-    });
-  }
+  document.querySelector('[data-add-to-cart]')?.addEventListener('click', addCurrentSelectionToCart);
+  document.querySelector('[data-clear-cart]')?.addEventListener('click', clearCart);
 }
 
 function addCurrentSelectionToCart() {
   const product = state.selectedProduct;
-  if (!product) return;
 
-  const selectedImage = getSelectedProductImage();
-
-  const nextItem = {
+  const item = {
     id: cart.createItemId(product.id, state.selectedColor.name, state.selectedSize, state.selectedFit),
     productId: product.id,
     productName: product.nombre,
-    category: product.categoria,
-    image: selectedImage,
-    unitPrice: Number(product.precio) || 0,
+    image: getSelectedProductImage(),
+    unitPrice: product.precio,
     color: state.selectedColor.name,
     size: state.selectedSize,
     fit: state.selectedFit,
@@ -283,25 +295,7 @@ function addCurrentSelectionToCart() {
     quantity: 1
   };
 
-  state.cart = cart.addItem(state.cart, nextItem);
-  cart.save(state.cart);
-  renderCart();
-  updateOrderLink();
-  pulseCartPanel();
-  showToast('Producto agregado al pedido');
-}
-
-function handleCartAction(action, id) {
-  if (!id) return;
-
-  if (action === 'increase') {
-    state.cart = cart.changeQuantity(state.cart, id, 1);
-  } else if (action === 'decrease') {
-    state.cart = cart.changeQuantity(state.cart, id, -1);
-  } else if (action === 'remove') {
-    state.cart = cart.removeItem(state.cart, id);
-  }
-
+  state.cart = cart.addItem(state.cart, item);
   cart.save(state.cart);
   renderCart();
   updateOrderLink();
@@ -311,80 +305,30 @@ function clearCart() {
   state.cart = cart.clear();
   renderCart();
   updateOrderLink();
-  showToast('Pedido vaciado');
 }
 
 function renderCart() {
   const list = document.querySelector('[data-cart-list]');
-  const totalNode = document.querySelector('[data-cart-total]');
-  const countNode = document.querySelector('[data-cart-count]');
+  const total = document.querySelector('[data-cart-total]');
+  const count = document.querySelector('[data-cart-count]');
 
-  if (!list || !totalNode || !countNode) return;
+  list.innerHTML = state.cart.length
+    ? cart.createListMarkup(state.cart)
+    : `<div class="cart-empty-state">Vacío</div>`;
 
-  if (!state.cart.length) {
-    list.innerHTML = `
-      <div class="cart-empty-state cart-empty-state--rich">
-        <h3>Tu pedido está vacío</h3>
-        <p>Elegí un diseño, personalizalo y sumalo acá para enviarlo todo junto por WhatsApp.</p>
-        <a class="btn btn-secondary cart-empty-state__btn" href="catalogo.html">Explorar catálogo</a>
-      </div>
-    `;
-  } else {
-    list.innerHTML = cart.createListMarkup(state.cart);
-  }
-
-  totalNode.textContent = formatPrice(cart.getTotal(state.cart));
-
-  const itemsCount = cart.getItemsCount(state.cart);
-  countNode.textContent = `${itemsCount} item${itemsCount === 1 ? '' : 's'}`;
+  total.textContent = formatPrice(cart.getTotal(state.cart));
+  count.textContent = cart.getItemsCount(state.cart) + ' items';
 }
 
 function updateOrderLink() {
-  const link = document.querySelector('[data-whatsapp-order]');
-  if (!link) return;
-
-  const message = cart.buildMessage(state.cart);
-  link.href = createWhatsAppLink(message);
-  link.target = '_blank';
-  link.rel = 'noopener';
+  document.querySelector('[data-whatsapp-order]').href =
+    createWhatsAppLink(cart.buildMessage(state.cart));
 }
 
-function getFitLabel(fitKey) {
-  const match = FITS.find((fit) => fit.key === fitKey);
-  return match ? match.label : 'Regular';
-}
+/* ===============================
+   UTILS
+=============================== */
 
-function pulseCartPanel() {
-  const panel = document.querySelector('.product-order-box');
-  if (!panel) return;
-
-  panel.classList.remove('is-pulsing');
-  void panel.offsetWidth;
-  panel.classList.add('is-pulsing');
-
-  setTimeout(() => {
-    panel.classList.remove('is-pulsing');
-  }, 650);
-}
-
-function showToast(message) {
-  let toast = document.querySelector('[data-product-toast]');
-
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.className = 'product-toast';
-    toast.setAttribute('data-product-toast', 'true');
-    document.body.appendChild(toast);
-  }
-
-  toast.textContent = message;
-  toast.classList.remove('is-visible');
-  void toast.offsetWidth;
-  toast.classList.add('is-visible');
-
-  clearTimeout(showToast._timer);
-
-  showToast._timer = setTimeout(() => {
-    toast.classList.remove('is-visible');
-  }, 2200);
+function getFitLabel(key) {
+  return FITS.find(f => f.key === key)?.label || 'Regular';
 }

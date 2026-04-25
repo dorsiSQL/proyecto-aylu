@@ -180,6 +180,16 @@
                 <strong class="config-value" data-size-value>M</strong>
               </div>
               <div class="size-grid product-size-grid" data-size-grid></div>
+
+              <div class="size-chart-card" data-size-chart-card>
+                <div class="size-chart-card__head">
+                  <span>Guía de talles</span>
+                  <strong data-size-chart-label>Regular</strong>
+                </div>
+                <div class="size-chart-card__media">
+                  <img src="assets/talles-producto/talle-regular.png" alt="Tabla de talles para remera regular" loading="lazy" decoding="async" data-size-chart-image>
+                </div>
+              </div>
             </div>
 
             <div class="config-block">
@@ -189,16 +199,6 @@
               </div>
               <div class="swatches product-swatches" data-color-swatches></div>
             </div>
-          </div>
-
-          <div class="product-actions">
-            <button class="btn btn-primary product-action-btn" type="button" data-add-to-cart>
-              Agregar al pedido
-            </button>
-
-            <a class="btn btn-secondary product-action-btn" href="#" target="_blank" rel="noopener" data-whatsapp-order>
-              Finalizar por WhatsApp
-            </a>
           </div>
 
           <div class="product-order-box">
@@ -221,9 +221,19 @@
               <strong data-cart-total>$0</strong>
             </div>
 
-            <button class="btn btn-ghost cart-clear-btn" type="button" data-clear-cart>
-              Vaciar pedido
-            </button>
+            <div class="product-actions product-order-actions" aria-label="Acciones del pedido">
+              <button class="btn btn-primary product-action-btn product-action-btn--add" type="button" data-add-to-cart>
+                Agregar al pedido
+              </button>
+
+              <a class="btn btn-secondary product-action-btn product-action-btn--whatsapp" href="#" target="_blank" rel="noopener" data-whatsapp-order>
+                Finalizar por WhatsApp
+              </a>
+
+              <button class="cart-clear-btn product-action-clear" type="button" data-clear-cart>
+                Vaciar pedido
+              </button>
+            </div>
           </div>
         </aside>
       </div>

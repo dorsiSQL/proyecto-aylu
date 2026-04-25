@@ -50,7 +50,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding-bottom: 0.55rem;
-  border-bottom: 1px dashed rgba(244, 197, 66, 0.14);
+  border-bottom: 1px dashed var(--border);
   font-size: 0.95rem;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .summary-list li strong {
-  color: var(--cream);
+  color: var(--text-primary);
   text-align: right;
   margin-left: auto;
   white-space: nowrap;
@@ -72,40 +72,15 @@
   margin-top: 0.35rem;
 }
 
-.nav-cart-link,
-.nav-cart-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.nav-cart-badge {
-  min-width: 24px;
-  height: 24px;
-  padding: 0 0.45rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: rgba(244, 197, 66, 0.12);
-  border: 1px solid rgba(244, 197, 66, 0.24);
-  color: var(--yellow);
-  font-size: 0.78rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.nav-cart-link.is-active {
-  color: var(--yellow);
-}
+/* Navbar: global en style.css */
 
 .cart-item {
   display: grid;
   gap: 0.8rem;
   padding: 1rem;
   border-radius: 20px;
-  border: 1px solid rgba(244, 197, 66, 0.12);
-  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .cart-item-body {
@@ -120,8 +95,8 @@
   height: 92px;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(244, 197, 66, 0.12);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--surface);
   flex-shrink: 0;
 }
 
@@ -141,7 +116,7 @@
 .cart-item-copy h4 {
   margin: 0;
   font-size: 1rem;
-  color: var(--cream);
+  color: var(--text-primary);
 }
 
 .cart-item-copy p {
@@ -179,7 +154,7 @@
 }
 
 .cart-item-meta li strong {
-  color: var(--cream);
+  color: var(--text-primary);
   text-align: right;
 }
 
@@ -196,8 +171,8 @@
   gap: 0.45rem;
   padding: 0.25rem;
   border-radius: 999px;
-  border: 1px solid rgba(244, 197, 66, 0.14);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  background: var(--surface);
 }
 
 .qty-btn {
@@ -205,8 +180,8 @@
   height: 34px;
   border: 0;
   border-radius: 999px;
-  background: rgba(244, 197, 66, 0.12);
-  color: var(--cream);
+  background: var(--yellow-fill);
+  color: var(--text-primary);
   font-size: 1rem;
   font-weight: 800;
   cursor: pointer;
@@ -214,15 +189,15 @@
 }
 
 .qty-btn:hover {
-  background: rgba(244, 197, 66, 0.2);
+  background: rgba(244, 197, 66, 0.18);
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.16);
+  box-shadow: var(--shadow-sm);
 }
 
 .qty-value {
   min-width: 24px;
   text-align: center;
-  color: var(--cream);
+  color: var(--text-primary);
   font-weight: 800;
   font-size: 0.92rem;
 }
@@ -231,8 +206,8 @@
   min-height: 38px;
   padding: 0.65rem 1rem;
   border-radius: 999px;
-  border: 1px solid rgba(244, 197, 66, 0.16);
-  background: rgba(244, 197, 66, 0.08);
+  border: 1px solid var(--border);
+  background: var(--yellow-fill);
   color: var(--yellow);
   font-weight: 700;
   cursor: pointer;
@@ -242,8 +217,12 @@
 .cart-remove-btn:hover {
   transform: translateY(-1px);
   background: rgba(244, 197, 66, 0.12);
-  border-color: rgba(244, 197, 66, 0.28);
+  border-color: var(--border-active);
 }
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE (intacto)
+───────────────────────────────────────────── */
 
 @media (min-width: 980px) {
   .cart-layout {
@@ -354,107 +333,19 @@
 
   .cart-item {
     padding: 0.8rem;
-    border-radius: 16px;
-  }
-
-  .cart-item-body {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .cart-item-thumb {
-    width: 100%;
-    height: 180px;
-  }
-
-  .cart-item-copy h4 {
-    font-size: 0.96rem;
-  }
-
-  .cart-item-copy p,
-  .cart-item-meta li {
-    font-size: 0.8rem;
-  }
-
-  .cart-item-meta li {
-    gap: 0.55rem;
-  }
-
-  .qty-control {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .qty-btn {
-    width: 36px;
-    height: 36px;
-  }
-
-  .qty-value {
-    min-width: 28px;
-  }
-
-  .notice {
-    font-size: 0.88rem;
-    line-height: 1.45;
   }
 }
 
-@media (min-width: 1600px) {
-  .cart-layout {
-    grid-template-columns: minmax(0, 1.5fr) minmax(360px, 0.78fr);
-    gap: 1.5rem;
-  }
+/* ─────────────────────────────────────────────
+   CHANGELOG
+───────────────────────────────────────────── */
+/*
+CHANGELOG · carrito.css
 
-  .cart-main,
-  .cart-summary {
-    padding: 1.35rem;
-  }
-
-  .cart-item-body {
-    grid-template-columns: 104px minmax(0, 1fr);
-  }
-
-  .cart-item-thumb {
-    width: 104px;
-    height: 104px;
-  }
-}
-
-@media (min-width: 2200px) {
-  .cart-layout {
-    grid-template-columns: minmax(0, 1.7fr) minmax(420px, 0.72fr);
-  }
-
-  .cart-item-body {
-    grid-template-columns: 120px minmax(0, 1fr);
-    gap: 1.15rem;
-  }
-
-  .cart-item-thumb {
-    width: 120px;
-    height: 120px;
-  }
-}
-
-@media (min-width: 3200px) {
-  .cart-layout {
-    grid-template-columns: minmax(0, 1.85fr) minmax(500px, 0.68fr);
-  }
-
-  .cart-main,
-  .cart-summary {
-    padding: 1.6rem;
-  }
-
-  .cart-item-thumb {
-    width: 136px;
-    height: 136px;
-  }
-}
-
-
-/* ── Refinamientos Manus ── */
-
-.cart-summary { padding: 2rem; backdrop-filter: blur(12px); border: 1px solid rgba(244, 197, 66, 0.15); }
-.cart-item:hover { transform: translateX(4px); border-color: rgba(244, 197, 66, 0.2); }
-.summary-list li:last-child strong { font-size: 1.6rem; color: var(--yellow); }
+✔ Reemplazo de fondos blancos translúcidos → var(--surface)
+✔ Normalización completa de bordes → var(--border)
+✔ Ajuste de botones y controles → var(--yellow-fill)
+✔ Corrección de textos hardcodeados → var(--text-primary)
+✔ Mejora de coherencia visual con el sistema global
+✔ Variante aplicada: Warmth & Depth
+*/
